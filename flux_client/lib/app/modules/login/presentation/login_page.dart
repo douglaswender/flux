@@ -4,6 +4,7 @@ import 'package:flux_client/app/core/app_images.dart';
 import 'package:flux_client/app/core/app_sizes.dart';
 import 'package:flux_client/app/shared/widgets/input_widget.dart';
 import 'package:flux_client/app/shared/widgets/primary_button_widget.dart';
+import 'package:flux_client/app/shared/widgets/secondary_button_widget.dart';
 
 import 'login_store.dart';
 
@@ -32,7 +33,10 @@ class LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset(AppImages.logo),
+                  Image.asset(
+                    AppImages.logo,
+                    height: 100,
+                  ),
                   SizedBox(
                     height: AppSizes.s16,
                   ),
@@ -53,12 +57,27 @@ class LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: AppSizes.s16,
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
+                  Column(
                     children: [
-                      Expanded(
-                          child: PrimaryButtonWidget(
-                              onPress: () {}, text: "Login")),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                              child: PrimaryButtonWidget(
+                                  onPress: () {}, text: "Login")),
+                        ],
+                      ),
+                      SizedBox(
+                        height: AppSizes.s16,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                              child: SecondaryButtonWidget(
+                                  onPress: () {}, text: "Cadastre-se")),
+                        ],
+                      ),
                     ],
                   )
                 ],
