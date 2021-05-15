@@ -64,7 +64,10 @@ class LoginPageState extends State<LoginPage> {
                         children: [
                           Expanded(
                               child: PrimaryButtonWidget(
-                                  onPress: () {}, text: "Login")),
+                                  onPress: () {
+                                    Modular.to.pushNamed('/home');
+                                  },
+                                  text: "Login")),
                         ],
                       ),
                       SizedBox(
