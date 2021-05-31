@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/core/app_colors.dart';
 import 'package:flux_client/app/core/core.dart';
 
 class SecondaryButtonWidget extends StatelessWidget {

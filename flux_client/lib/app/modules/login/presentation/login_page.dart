@@ -1,7 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/core/app_images.dart';
-import 'package:flux_client/app/core/app_sizes.dart';
+import 'package:flux_client/app/core/styles/app_images.dart';
+import 'package:flux_client/app/core/styles/app_sizes.dart';
 import 'package:flux_client/app/shared/widgets/input_widget.dart';
 import 'package:flux_client/app/shared/widgets/primary_button_widget.dart';
 import 'package:flux_client/app/shared/widgets/secondary_button_widget.dart';

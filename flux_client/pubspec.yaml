@@ -32,6 +32,13 @@ dependencies:
   mobx: ^2.0.1
   flutter_mobx: ^2.0.0
   google_fonts: ^2.0.0
+  equatable: ^2.0.2
+  connectivity: ^3.0.6
+  dartz: ^0.10.0-nullsafety.1
+  firebase_auth: ^1.2.0
+  firebase_core: ^1.2.0
+  #firebase
+  
 
 dev_dependencies:
   flutter_modular_test: ^1.0.1

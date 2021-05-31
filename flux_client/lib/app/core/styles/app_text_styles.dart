@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flux_client/app/core/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'app_colors.dart';
 
 class AppTextStyles {
   static final TextStyle heading36 = GoogleFonts.roboto(
