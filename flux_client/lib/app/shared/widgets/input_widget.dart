@@ -4,6 +4,7 @@ import 'package:flux_client/app/core/core.dart';
 class InputWidget extends StatelessWidget {
   final String label;
   final TextEditingController controller;
+  final void Function(String)? onChange;
   final String? type;
   final bool? isPassword;
 
@@ -13,6 +14,7 @@ class InputWidget extends StatelessWidget {
     required this.controller,
     this.type,
     this.isPassword = false,
+    this.onChange,
   }) : assert(['normal', 'email', 'number'].contains(type));
 
   final keyBoard = {
@@ -28,6 +30,7 @@ class InputWidget extends StatelessWidget {
     return TextField(
       keyboardType: keyboardType,
       controller: controller,
+      onChanged: onChange,
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.black, width: 2),
