@@ -24,6 +24,7 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -31,6 +32,7 @@ class LoginPageState extends State<LoginPage> {
             height: MediaQuery.of(context).size.height -
                 MediaQuery.of(context).padding.top -
                 MediaQuery.of(context).padding.bottom,
+            width: MediaQuery.of(context).size.width,
             child: Observer(
               builder: (_) => Stack(
                 children: [
@@ -86,11 +88,12 @@ class LoginPageState extends State<LoginPage> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Expanded(
-                                  child: SecondaryButtonWidget(
-                                      onPress: () {
-                                        Modular.to.pushNamed('/register');
-                                      },
-                                      text: "Cadastre-se")),
+                                child: SecondaryButtonWidget(
+                                    onPress: () {
+                                      Modular.to.pushNamed('/register');
+                                    },
+                                    text: "Cadastre-se"),
+                              ),
                             ],
                           ),
                         ],
