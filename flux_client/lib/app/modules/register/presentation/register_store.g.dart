@@ -17,18 +17,18 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
               name: '_RegisterStoreBase.fieldsNotNull'))
           .value;
 
-  final _$valueAtom = Atom(name: '_RegisterStoreBase.value');
+  final _$loadingAtom = Atom(name: '_RegisterStoreBase.loading');
 
   @override
-  int get value {
-    _$valueAtom.reportRead();
-    return super.value;
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
   }
 
   @override
-  set value(int value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
     });
   }
 
@@ -109,24 +109,17 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
     });
   }
 
-  final _$_RegisterStoreBaseActionController =
-      ActionController(name: '_RegisterStoreBase');
+  final _$registerAsyncAction = AsyncAction('_RegisterStoreBase.register');
 
   @override
-  void register() {
-    final _$actionInfo = _$_RegisterStoreBaseActionController.startAction(
-        name: '_RegisterStoreBase.register');
-    try {
-      return super.register();
-    } finally {
-      _$_RegisterStoreBaseActionController.endAction(_$actionInfo);
-    }
+  Future<dynamic> register() {
+    return _$registerAsyncAction.run(() => super.register());
   }
 
   @override
   String toString() {
     return '''
-value: ${value},
+loading: ${loading},
 email: ${email},
 name: ${name},
 password: ${password},

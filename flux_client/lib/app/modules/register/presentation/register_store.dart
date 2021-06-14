@@ -6,7 +6,7 @@ class RegisterStore = _RegisterStoreBase with _$RegisterStore;
 
 abstract class _RegisterStoreBase with Store {
   @observable
-  int value = 0;
+  bool loading = false;
 
   @observable
   String email = "";
@@ -31,8 +31,12 @@ abstract class _RegisterStoreBase with Store {
       confirmPassword.isNotEmpty;
 
   @action
-  void register() {
-    print('test');
+  Future<void> register() async {
+    loading = true;
+    print(email);
+    print(name);
+    print(password);
+    Future.delayed(Duration(seconds: 4), () => loading = false);
     if (password != confirmPassword) {
       print('please complete');
       passwordNotMatch = true;
