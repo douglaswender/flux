@@ -54,6 +54,7 @@ class RegisterPageState extends State<RegisterPage> {
                     ),
                     InputWidget(
                       label: "Email",
+                      textInputAction: TextInputAction.next,
                       onChange: (email) {
                         store.email = email;
                         print(store.email);
@@ -66,6 +67,7 @@ class RegisterPageState extends State<RegisterPage> {
                     InputWidget(
                       isCapitalization: true,
                       label: "Nome",
+                      textInputAction: TextInputAction.next,
                       onChange: (name) {
                         store.name = name;
                         print(store.name);
@@ -77,6 +79,7 @@ class RegisterPageState extends State<RegisterPage> {
                     ),
                     InputWidget(
                       label: "Senha",
+                      textInputAction: TextInputAction.next,
                       onChange: (password) {
                         store.password = password;
                         print(store.password);

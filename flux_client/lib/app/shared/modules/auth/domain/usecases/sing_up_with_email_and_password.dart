@@ -13,10 +13,12 @@ class SignUpWithEmailAndPassword {
   Future<Either<Failure, User>> call({
     required String email,
     required String password,
+    required String name,
   }) {
     return repository.signUpWithEmailAndPassword(
       email: email,
       password: password,
+      name: name,
     );
   }
 }

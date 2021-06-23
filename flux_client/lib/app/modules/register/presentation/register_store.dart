@@ -1,3 +1,8 @@
+import 'package:dartz/dartz.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_client/app/core/errors/errors.dart';
+import 'package:flux_client/app/shared/modules/auth/domain/entities/user.dart';
+import 'package:flux_client/app/shared/modules/auth/domain/usecases/usecases.dart';
 import 'package:mobx/mobx.dart';
 
 part 'register_store.g.dart';
@@ -33,10 +38,10 @@ abstract class _RegisterStoreBase with Store {
   @action
   Future<void> register() async {
     loading = true;
-    print(email);
-    print(name);
-    print(password);
-    Future.delayed(Duration(seconds: 4), () => loading = false);
+    //Future.delayed(Duration(seconds: 4), () => loading = false);
+    SignUpWithEmailAndPassword userOrFailure = Modular.get();
+    Either<Failure, User> response =
+        await userOrFailure(email: email, password: password, name: name);
     if (password != confirmPassword) {
       print('please complete');
       passwordNotMatch = true;

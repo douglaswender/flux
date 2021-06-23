@@ -8,6 +8,7 @@ class InputWidget extends StatelessWidget {
   final String? type;
   final bool? isPassword;
   final bool? isCapitalization;
+  final TextInputAction? textInputAction;
 
   InputWidget({
     Key? key,
@@ -17,6 +18,7 @@ class InputWidget extends StatelessWidget {
     this.isPassword = false,
     this.onChange,
     this.isCapitalization = false,
+    this.textInputAction = TextInputAction.done,
   }) : assert(['normal', 'email', 'number'].contains(type));
 
   final keyBoard = {
@@ -30,6 +32,7 @@ class InputWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      textInputAction: textInputAction,
       keyboardType: keyboardType,
       controller: controller,
       onChanged: onChange,
