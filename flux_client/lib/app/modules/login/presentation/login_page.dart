@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flux_client/app/core/core.dart';
 import 'package:flux_client/app/core/styles/app_images.dart';
 import 'package:flux_client/app/core/styles/app_sizes.dart';
+import 'package:flux_client/app/modules/login/presentation/widgets/social_button.dart';
 import 'package:flux_client/app/shared/widgets/default_circular_progress_indicator.dart';
 import 'package:flux_client/app/shared/widgets/input_widget.dart';
 import 'package:flux_client/app/shared/widgets/primary_button_widget.dart';
@@ -80,6 +81,22 @@ class LoginPageState extends State<LoginPage> {
                                       store.login();
                                     },
                                     text: "Login")),
+                          ],
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                                child: SocialButton(
+                                    onPress: () {
+                                      store.email = email.text;
+                                      store.password = password.text;
+                                      store.loginWithGoogle();
+                                    },
+                                    text: "Entrar com o Google")),
                           ],
                         ),
                         SizedBox(

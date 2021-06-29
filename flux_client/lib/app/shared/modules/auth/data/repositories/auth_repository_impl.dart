@@ -43,9 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, User>> signUpWithEmailAndPassword(
-      {required String email,
-      required String password,
-      required String name}) async {
+      {required String email, required String password, required String name}) async {
     return _auth(
       () => remoteDataSource.signUpWithEmailAndPassword(
         email: email,
@@ -68,5 +66,10 @@ class AuthRepositoryImpl implements AuthRepository {
     } else {
       return Left(ConnectionFailure());
     }
+  }
+
+  @override
+  Future<Either<Failure, User>> signInWithGoogle() {
+    return _auth(() => remoteDataSource.signWithGoogle());
   }
 }

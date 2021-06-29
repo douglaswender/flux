@@ -7,5 +7,6 @@ abstract class AuthRepository {
       {required String email, required String password, required String name});
   Future<Either<Failure, User>> signInWithEmailAndPassword(
       {required String email, required String password});
+  Future<Either<Failure, User>> signInWithGoogle();
   Future<Either<Failure, bool>> logout();
 }

@@ -3,12 +3,13 @@ import 'package:flux_client/app/shared/modules/auth/data/models/user_model.dart'
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class RemoteDataSource {
-  Future<UserModel> signInWithEmailandPassword(
-      {required String email, required String password});
+  Future<UserModel> signInWithEmailandPassword({required String email, required String password});
   Future<UserModel> signUpWithEmailAndPassword(
       {required String email, required String password, required String name});
+  Future<UserModel> signWithGoogle();
   Future<bool> logout();
 }
 
@@ -60,6 +61,26 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       throw ServerException(e.message!);
     } catch (_) {
       throw LogoutException();
+    }
+  }
+
+  @override
+  Future<UserModel> signWithGoogle() async {
+    GoogleSignIn _googleSignIn = GoogleSignIn(
+      scopes: [
+        'email',
+      ],
+    );
+    try {
+      final response = await _googleSignIn.signIn();
+      final user = UserModel(
+        email: response!.email,
+        name: response.displayName!,
+        photoUrl: response.photoUrl,
+      );
+      return user;
+    } catch (_) {
+      throw SignInException();
     }
   }
 }
