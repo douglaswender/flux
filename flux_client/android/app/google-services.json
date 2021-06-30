@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "396328810611-qf47n1vpvrh42jik1nqlr3dm3tcvlk85.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.dev.douglaswender.flux_client",
+            "certificate_hash": "6c5908290fd58460623927cc185c8cd09f331c16"
+          }
+        },
+        {
           "client_id": "396328810611-3gijkgivfatt91cofhvmlhcg2hcjuq19.apps.googleusercontent.com",
           "client_type": 3
         }

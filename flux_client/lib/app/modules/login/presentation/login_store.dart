@@ -1,11 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/errors/errors.dart';
-import 'package:flux_client/app/shared/modules/auth/data/models/user_model.dart';
 import 'package:flux_client/app/shared/modules/auth/domain/entities/user.dart';
 import 'package:flux_client/app/shared/modules/auth/domain/usecases/sign_in_with_google.dart';
 import 'package:flux_client/app/shared/modules/auth/domain/usecases/sing_in_with_email_and_password.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobx/mobx.dart';
 
 part 'login_store.g.dart';
@@ -30,8 +28,9 @@ abstract class _LoginStoreBase with Store {
     print(email);
     print(password);
     loading = true;
-    SignInWithEmailAndPassword userOrFailure = Modular.get();
-    Either<Failure, User> response = await userOrFailure(email: email, password: password);
+    SignInWithEmailAndPassword signInWithEmailAndPassword = Modular.get();
+    Either<Failure, User> response =
+        await signInWithEmailAndPassword(email: email, password: password);
     print(response);
     loading = false;
     if (response.isRight()) {
@@ -43,11 +42,16 @@ abstract class _LoginStoreBase with Store {
 
   @action
   Future<void> loginWithGoogle() async {
-    SignInWithGoogle authController = Modular.get();
+    SignInWithGoogle signInWithGoogle = Modular.get();
 
     try {
-      final response = await authController();
+      Either<Failure, User> response = await signInWithGoogle();
       print(response);
+      if (response.isRight()) {
+        Modular.to.navigate('/home');
+      } else {
+        error = true;
+      }
     } catch (error) {
       print(error);
     }

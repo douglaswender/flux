@@ -30,18 +30,22 @@ class RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          key: safeAreaKey,
-          child: Container(
-            padding: EdgeInsets.all(AppSizes.s16),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height -
-                MediaQuery.of(context).padding.top -
-                MediaQuery.of(context).padding.bottom,
-            child: Stack(
-              children: [
-                Column(
+      appBar: AppBar(
+        title: Text(
+          "Registro",
+          style: AppTextStyles.titleSecondary,
+        ),
+        centerTitle: true,
+        leading: BackButton(),
+      ),
+      body: LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(AppSizes.s16),
+                height: constraints.maxHeight,
+                child: Column(
                   children: <Widget>[
                     Expanded(
                       child: Image.asset(
@@ -129,23 +133,23 @@ class RegisterPageState extends State<RegisterPage> {
                     )
                   ],
                 ),
-                Observer(
-                  builder: (_) {
-                    if (store.loading) {
-                      return Align(
-                        child: DefaultProgressIndicator(),
-                        alignment: Alignment.topRight,
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
+            Observer(
+              builder: (_) {
+                if (store.loading) {
+                  return Align(
+                    child: DefaultProgressIndicator(),
+                    alignment: Alignment.topRight,
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ],
+        );
+      }),
     );
   }
 }

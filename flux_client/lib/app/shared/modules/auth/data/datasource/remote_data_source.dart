@@ -72,14 +72,22 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       ],
     );
     try {
-      final response = await _googleSignIn.signIn();
-      final user = UserModel(
-        email: response!.email,
-        name: response.displayName!,
-        photoUrl: response.photoUrl,
-      );
-      return user;
-    } catch (_) {
+      GoogleSignInAccount? response = await _googleSignIn.signIn();
+
+      if (response == null) {
+        print('response: null');
+        return UserModel(email: 'error');
+      } else {
+        final user = UserModel(
+          email: response.email,
+          name: response.displayName,
+          photoUrl: response.photoUrl,
+        );
+        print(user.email);
+        return user;
+      }
+    } catch (e) {
+      print(e);
       throw SignInException();
     }
   }

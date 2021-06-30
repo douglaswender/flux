@@ -112,7 +112,7 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
   final _$registerAsyncAction = AsyncAction('_RegisterStoreBase.register');
 
   @override
-  Future<dynamic> register() {
+  Future<void> register() {
     return _$registerAsyncAction.run(() => super.register());
   }
 
