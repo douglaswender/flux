@@ -39,19 +39,27 @@ mixin _$MapWidgetStore on MapWidgetStoreBase, Store {
     });
   }
 
-  final _$controllerMapAtom = Atom(name: 'MapWidgetStoreBase.controllerMap');
+  final _$kTestAtom = Atom(name: 'MapWidgetStoreBase.kTest');
 
   @override
-  GoogleMapController get controllerMap {
-    _$controllerMapAtom.reportRead();
-    return super.controllerMap;
+  CameraPosition get kTest {
+    _$kTestAtom.reportRead();
+    return super.kTest;
   }
 
   @override
-  set controllerMap(GoogleMapController value) {
-    _$controllerMapAtom.reportWrite(value, super.controllerMap, () {
-      super.controllerMap = value;
+  set kTest(CameraPosition value) {
+    _$kTestAtom.reportWrite(value, super.kTest, () {
+      super.kTest = value;
     });
+  }
+
+  final _$goToTheLakeAsyncAction =
+      AsyncAction('MapWidgetStoreBase.goToTheLake');
+
+  @override
+  Future<void> goToTheLake() {
+    return _$goToTheLakeAsyncAction.run(() => super.goToTheLake());
   }
 
   @override
@@ -59,7 +67,7 @@ mixin _$MapWidgetStore on MapWidgetStoreBase, Store {
     return '''
 controller: ${controller},
 kLake: ${kLake},
-controllerMap: ${controllerMap}
+kTest: ${kTest}
     ''';
   }
 }

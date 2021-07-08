@@ -14,8 +14,9 @@ class AppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flux',
-      theme: ThemeData(primaryColor: AppColors.black),
+      theme: ThemeData(primaryColor: AppColors.white),
     ).modular();
   }
 }
