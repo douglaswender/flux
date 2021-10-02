@@ -17,7 +17,17 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flux'),
+        centerTitle: true,
+        title: Image.asset(
+          AppImages.logoLine,
+          height: AppSizes.s32,
+        ),
+        leading: GestureDetector(
+          onTap: () {/* Write listener code here */},
+          child: Icon(
+            Icons.menu,
+          ),
+        ),
       ),
       body: SafeArea(
         child: Stack(

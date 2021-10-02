@@ -9,6 +9,14 @@ part of 'map_widget_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MapWidgetStore on MapWidgetStoreBase, Store {
+  Computed<Future<LocationData>>? _$setLocationComputed;
+
+  @override
+  Future<LocationData> get setLocation => (_$setLocationComputed ??=
+          Computed<Future<LocationData>>(() => super.setLocation,
+              name: 'MapWidgetStoreBase.setLocation'))
+      .value;
+
   final _$controllerAtom = Atom(name: 'MapWidgetStoreBase.controller');
 
   @override
@@ -21,21 +29,6 @@ mixin _$MapWidgetStore on MapWidgetStoreBase, Store {
   set controller(Completer<GoogleMapController> value) {
     _$controllerAtom.reportWrite(value, super.controller, () {
       super.controller = value;
-    });
-  }
-
-  final _$kLakeAtom = Atom(name: 'MapWidgetStoreBase.kLake');
-
-  @override
-  CameraPosition get kLake {
-    _$kLakeAtom.reportRead();
-    return super.kLake;
-  }
-
-  @override
-  set kLake(CameraPosition value) {
-    _$kLakeAtom.reportWrite(value, super.kLake, () {
-      super.kLake = value;
     });
   }
 
@@ -66,8 +59,8 @@ mixin _$MapWidgetStore on MapWidgetStoreBase, Store {
   String toString() {
     return '''
 controller: ${controller},
-kLake: ${kLake},
-kTest: ${kTest}
+kTest: ${kTest},
+setLocation: ${setLocation}
     ''';
   }
 }
