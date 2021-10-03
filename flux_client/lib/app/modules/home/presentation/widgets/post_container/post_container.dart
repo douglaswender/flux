@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/shared/widgets/input_widget.dart';
-import 'package:flux_client/app/shared/widgets/secondary_button_widget.dart';
+import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
+import 'package:flux_client/app/shared/widgets/secondary_button/secondary_button_widget.dart';
 
 class PostContainer extends StatefulWidget {
   const PostContainer({Key? key}) : super(key: key);
@@ -28,7 +28,8 @@ class _PostContainerState extends State<PostContainer> {
               height: 2,
               width: MediaQuery.of(context).size.width * 0.5,
               decoration: BoxDecoration(
-                  color: AppColors.grey, borderRadius: BorderRadius.all(Radius.circular(35))),
+                  color: AppColors.grey,
+                  borderRadius: BorderRadius.all(Radius.circular(35))),
             ),
           ),
           SizedBox(

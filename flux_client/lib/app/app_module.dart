@@ -1,13 +1,16 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/network/network_info.dart';
+import 'package:flux_client/app/modules/config/presentation/config_page.dart';
 import 'package:flux_client/app/modules/login/login_module.dart';
+import 'package:flux_client/app/modules/menu/presentation/menu_page.dart';
 import 'package:flux_client/app/modules/register/register_module.dart';
 import 'package:flux_client/app/shared/modules/auth/data/datasource/remote_data_source.dart';
 import 'package:flux_client/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
 import 'package:flux_client/app/shared/modules/auth/domain/usecases/usecases.dart';
 
 import 'modules/home/home_module.dart';
+import 'modules/order/presentation/order_module.dart';
 
 class AppModule extends Module {
   @override
@@ -33,6 +36,9 @@ class AppModule extends Module {
     ModuleRoute('/login', module: LoginModule()),
     ModuleRoute('/login', module: LoginModule()),
     ModuleRoute('/', module: HomeModule()),
-    ModuleRoute('/register', module: RegisterModule())
+    ModuleRoute('/register', module: RegisterModule()),
+    ChildRoute('/menu', child: (context, args) => MenuPage()),
+    ChildRoute('/config', child: (context, args) => ConfigPage()),
+    ModuleRoute('/order', module: OrderModule()),
   ];
 }

@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/core.dart';
 import 'package:flux_client/app/modules/home/presentation/widgets/map_widget/map_widget.dart';
 import 'package:flux_client/app/modules/home/presentation/widgets/post_container/post_container.dart';
+import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
 import 'home_store.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,18 +17,10 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Image.asset(
-          AppImages.logoLine,
-          height: AppSizes.s32,
-        ),
-        leading: GestureDetector(
-          onTap: () {/* Write listener code here */},
-          child: Icon(
-            Icons.menu,
-          ),
-        ),
+      appBar: AppBarDefault(
+        onTap: () {
+          Modular.to.pushNamed('/menu');
+        },
       ),
       body: SafeArea(
         child: Stack(

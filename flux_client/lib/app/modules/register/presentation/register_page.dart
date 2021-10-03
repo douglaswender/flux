@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flux_client/app/core/core.dart';
 import 'package:flux_client/app/core/styles/app_keyboards.dart';
 import 'package:flux_client/app/modules/register/presentation/register_store.dart';
-import 'package:flux_client/app/shared/widgets/default_circular_progress_indicator.dart';
-import 'package:flux_client/app/shared/widgets/input_widget.dart';
-import 'package:flux_client/app/shared/widgets/primary_button_widget.dart';
+import 'package:flux_client/app/shared/widgets/default_circular_progress_indicator/default_circular_progress_indicator.dart';
+import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
+import 'package:flux_client/app/shared/widgets/primary_button/primary_button_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   final String title;
@@ -163,6 +163,7 @@ class RegisterPageState extends State<RegisterPage> {
                 return Expanded(
                   child: PrimaryButtonWidget(
                     text: "Registre-se",
+                    onPress: () {},
                   ),
                 );
               }
