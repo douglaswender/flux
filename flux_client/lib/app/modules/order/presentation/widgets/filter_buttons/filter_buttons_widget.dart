@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_client/app/core/core.dart';
 import 'package:flux_client/app/shared/widgets/soft_button/soft_button_model.dart';
 import 'package:flux_client/app/shared/widgets/soft_button/soft_button_widget.dart';
 
@@ -17,7 +18,7 @@ class FilterButtons extends StatefulWidget {
     required this.softButtonsModels,
     this.currentIndex = 0,
     this.iconButtonAction,
-    this.icon,
+    this.icon = Icons.clear,
   }) : super(key: key);
 
   @override
@@ -30,24 +31,38 @@ class _FilterButtonsState extends State<FilterButtons> {
     final FilterButtonStore store = Modular.get();
 
     return Observer(
-      builder: (_) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      builder: (_) => Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          ...widget.softButtonsModels.map(
-            (e) => SoftButtonWidget(
-              selected: store.index == widget.softButtonsModels.indexOf(e),
-              onPress: () {
-                store.setIndex(widget.softButtonsModels.indexOf(e));
-                if (e.onTap != null) {
-                  e.onTap!();
-                }
-              },
-              text: e.label!,
-            ),
-          ),
           if (widget.iconButtonAction != null)
-            IconButton(
-                onPressed: widget.iconButtonAction, icon: Icon(widget.icon))
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      store.clearIndex();
+                      widget.iconButtonAction!;
+                    },
+                    icon: Icon(widget.icon)),
+              ],
+            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ...widget.softButtonsModels.map(
+                (e) => SoftButtonWidget(
+                  selected: store.index == widget.softButtonsModels.indexOf(e),
+                  onPress: () {
+                    store.setIndex(widget.softButtonsModels.indexOf(e));
+                    if (e.onTap != null) {
+                      e.onTap!();
+                    }
+                  },
+                  text: e.label!,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

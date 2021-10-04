@@ -3,6 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flux_client/app/modules/order/presentation/widgets/filter_buttons/filter_buttons_widget.dart';
+import 'package:flux_client/app/modules/order/presentation/widgets/order_item/order_item_widget.dart';
 
 import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
 import 'package:flux_client/app/shared/widgets/soft_button/soft_button_model.dart';
@@ -26,15 +27,13 @@ class OrderPageState extends State<OrderPage> {
         isBackButton: true,
         onTap: () => Modular.to.pop(),
       ),
-      body: Column(
-        children: <Widget>[
-          SizedBox(
-            height: AppSizes.s24,
-          ),
-          Observer(
-            builder: (_) => Padding(
-              padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
-              child: FilterButtons(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
+        child: Column(
+          children: <Widget>[
+            Observer(
+              builder: (_) => FilterButtons(
+                iconButtonAction: () {},
                 softButtonsModels: [
                   SoftButtonModel(
                       label: 'entregue',
@@ -46,8 +45,9 @@ class OrderPageState extends State<OrderPage> {
                 ],
               ),
             ),
-          ),
-        ],
+            OrderItemWidget()
+          ],
+        ),
       ),
     );
   }
