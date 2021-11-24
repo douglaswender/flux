@@ -20,6 +20,15 @@ class OrderPage extends StatefulWidget {
 class OrderPageState extends State<OrderPage> {
   final OrderStore store = Modular.get();
   int currentIndex = 0;
+
+  final listOrderItens = [
+    OrderItemWidget(),
+    OrderItemWidget(),
+    OrderItemWidget(),
+    OrderItemWidget(),
+    OrderItemWidget(),
+    OrderItemWidget(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,26 +36,50 @@ class OrderPageState extends State<OrderPage> {
         isBackButton: true,
         onTap: () => Modular.to.pop(),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
-        child: Column(
-          children: <Widget>[
-            Observer(
-              builder: (_) => FilterButtons(
-                iconButtonAction: () {},
-                softButtonsModels: [
-                  SoftButtonModel(
-                      label: 'entregue',
-                      onTap: () {
-                        print("olá, vim do model");
-                      }),
-                  SoftButtonModel(label: 'publicado'),
-                  SoftButtonModel(label: 'enviado'),
-                ],
-              ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
+          child: Observer(
+            builder: (_) => Column(
+              children: <Widget>[
+                FilterButtons(
+                  iconButtonAction: () {},
+                  softButtonsModels: [
+                    SoftButtonModel(
+                        label: 'entregue',
+                        onTap: () {
+                          print("olá, vim do model");
+                        }),
+                    SoftButtonModel(label: 'publicado'),
+                    SoftButtonModel(label: 'enviado'),
+                  ],
+                ),
+                SizedBox(
+                  height: AppSizes.s16,
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      child: Column(
+                        children: [
+                          for (OrderItemWidget item in listOrderItens)
+                            Column(
+                              children: [
+                                SizedBox(
+                                  height: AppSizes.s16,
+                                ),
+                                item
+                              ],
+                            )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            OrderItemWidget()
-          ],
+          ),
         ),
       ),
     );

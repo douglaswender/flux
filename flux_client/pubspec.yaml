@@ -10,6 +10,7 @@ environment:
 
 scripts: 
   watch: 'flutter pub run build_runner watch'
+  delete: 'flutter pub run build_runner build --delete-conflicting-outputs'
 
 dependencies:
   flutter:
@@ -33,6 +34,8 @@ dependencies:
   permission_handler: ^8.1.2
   flutter_dotenv: ^5.0.0
   location: ^4.3.0
+  geolocator: ^7.6.2
+  dio: ^4.0.1
   
 
 dev_dependencies:

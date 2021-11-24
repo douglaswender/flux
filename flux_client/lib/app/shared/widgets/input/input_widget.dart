@@ -9,6 +9,8 @@ class InputWidget extends StatelessWidget {
   final bool? isPassword;
   final bool? isCapitalization;
   final TextInputAction? textInputAction;
+  final VoidCallback? onTap;
+  final FocusNode? focusNode;
 
   InputWidget({
     Key? key,
@@ -19,6 +21,8 @@ class InputWidget extends StatelessWidget {
     this.onChange,
     this.isCapitalization = false,
     this.textInputAction = TextInputAction.done,
+    this.onTap,
+    this.focusNode,
   }) : assert(['normal', 'email', 'number'].contains(type));
 
   final keyBoard = {
@@ -32,6 +36,8 @@ class InputWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      focusNode: focusNode,
+      onTap: onTap,
       textInputAction: textInputAction,
       keyboardType: keyboardType,
       controller: controller,

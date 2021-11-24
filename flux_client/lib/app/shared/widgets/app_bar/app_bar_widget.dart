@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/styles/app_images.dart';
 import 'package:flux_client/app/core/styles/app_sizes.dart';
 
 class AppBarDefault extends StatelessWidget implements PreferredSizeWidget {
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool isBackButton;
   const AppBarDefault({
     Key? key,
-    required this.onTap,
+    this.onTap,
     this.isBackButton = false,
   }) : super(key: key);
 
@@ -20,7 +21,7 @@ class AppBarDefault extends StatelessWidget implements PreferredSizeWidget {
         height: AppSizes.s32,
       ),
       leading: GestureDetector(
-        onTap: onTap,
+        onTap: isBackButton ? () => Modular.to.pop() : onTap,
         child: Icon(
           isBackButton ? Icons.arrow_back_ios_new : Icons.menu,
         ),

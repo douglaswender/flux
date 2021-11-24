@@ -25,9 +25,6 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
       body: SafeArea(
         child: Stack(
           children: [
-            // Observer(
-            //   builder: (context) => ,
-            // ),
             MapWidget(),
             DraggableScrollableSheet(
               maxChildSize: 0.7,
@@ -48,12 +45,6 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                 );
               },
             ),
-            // Container(
-            //   child: Positioned(
-            //     bottom: 0,
-            //     child: PostContainer(),
-            //   ),
-            // ),
           ],
         ),
       ),
