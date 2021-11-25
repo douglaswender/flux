@@ -24,6 +24,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$destinationPlacesAtom = Atom(name: 'HomeStoreBase.destinationPlaces');
+
+  @override
+  List<PlaceModel> get destinationPlaces {
+    _$destinationPlacesAtom.reportRead();
+    return super.destinationPlaces;
+  }
+
+  @override
+  set destinationPlaces(List<PlaceModel> value) {
+    _$destinationPlacesAtom.reportWrite(value, super.destinationPlaces, () {
+      super.destinationPlaces = value;
+    });
+  }
+
   final _$HomeStoreBaseActionController =
       ActionController(name: 'HomeStoreBase');
 
@@ -39,9 +54,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
+  void updateDestinationPlaces(List<PlaceModel> updatedList) {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.updateDestinationPlaces');
+    try {
+      return super.updateDestinationPlaces(updatedList);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-pickupAddress: ${pickupAddress}
+pickupAddress: ${pickupAddress},
+destinationPlaces: ${destinationPlaces}
     ''';
   }
 }

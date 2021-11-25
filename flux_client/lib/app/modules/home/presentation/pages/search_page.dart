@@ -3,8 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/core.dart';
 import 'package:flux_client/app/core/helpers/request_helper.dart';
+import 'package:flux_client/app/core/styles/app_text_styles.dart';
 import 'package:flux_client/app/modules/home/data/models/place_model.dart';
 import 'package:flux_client/app/modules/home/presentation/home_store.dart';
+import 'package:flux_client/app/modules/home/presentation/widgets/place_item_widget/place_item_widget.dart';
 import 'package:flux_client/app/shared/preferences/config.dart';
 import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
 import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
@@ -17,6 +19,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  HomeStore homeStore = Modular.get<HomeStore>();
   TextEditingController pickupController = TextEditingController(
     text: Modular.get<HomeStore>().pickupAddress.placeName,
   );
@@ -43,10 +46,13 @@ class _SearchPageState extends State<SearchPage> {
             .toList();
 
         print(list.first.secondaryText);
+        homeStore.updateDestinationPlaces(list);
       }
-      print(response);
+      print(homeStore.destinationPlaces);
     }
   }
+
+  List<PlaceModel> destinationPlaces = [];
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +100,25 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                 ),
               ),
-            )
+            ),
+            SizedBox(
+              height: AppSizes.s16,
+            ),
+            if (homeStore.destinationPlaces.length > 0)
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
+                  child: ListView.separated(
+                    physics: ClampingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return PlaceItemWidget(
+                          place: homeStore.destinationPlaces[index]);
+                    },
+                    separatorBuilder: (context, index) => Divider(),
+                    itemCount: homeStore.destinationPlaces.length,
+                  ),
+                ),
+              ),
           ],
         ),
       )),
