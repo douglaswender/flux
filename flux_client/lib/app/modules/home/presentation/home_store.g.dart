@@ -9,18 +9,18 @@ part of 'home_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$HomeStore on HomeStoreBase, Store {
-  final _$pickupAddressAtom = Atom(name: 'HomeStoreBase.pickupAddress');
+  final _$originAddressAtom = Atom(name: 'HomeStoreBase.originAddress');
 
   @override
-  AddressModel get pickupAddress {
-    _$pickupAddressAtom.reportRead();
-    return super.pickupAddress;
+  AddressModel get originAddress {
+    _$originAddressAtom.reportRead();
+    return super.originAddress;
   }
 
   @override
-  set pickupAddress(AddressModel value) {
-    _$pickupAddressAtom.reportWrite(value, super.pickupAddress, () {
-      super.pickupAddress = value;
+  set originAddress(AddressModel value) {
+    _$originAddressAtom.reportWrite(value, super.originAddress, () {
+      super.originAddress = value;
     });
   }
 
@@ -37,6 +37,36 @@ mixin _$HomeStore on HomeStoreBase, Store {
   set destinationAddress(AddressModel value) {
     _$destinationAddressAtom.reportWrite(value, super.destinationAddress, () {
       super.destinationAddress = value;
+    });
+  }
+
+  final _$loadingAtom = Atom(name: 'HomeStoreBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$directionAtom = Atom(name: 'HomeStoreBase.direction');
+
+  @override
+  DirectionModel get direction {
+    _$directionAtom.reportRead();
+    return super.direction;
+  }
+
+  @override
+  set direction(DirectionModel value) {
+    _$directionAtom.reportWrite(value, super.direction, () {
+      super.direction = value;
     });
   }
 
@@ -66,9 +96,16 @@ mixin _$HomeStore on HomeStoreBase, Store {
       AsyncAction('HomeStoreBase.getPlaceDetails');
 
   @override
-  Future getPlaceDetails(String placeId) {
+  Future getPlaceDetails(String placeId, AddressInputType addressInputType) {
     return _$getPlaceDetailsAsyncAction
-        .run(() => super.getPlaceDetails(placeId));
+        .run(() => super.getPlaceDetails(placeId, addressInputType));
+  }
+
+  final _$getDirectionAsyncAction = AsyncAction('HomeStoreBase.getDirection');
+
+  @override
+  Future<void> getDirection() {
+    return _$getDirectionAsyncAction.run(() => super.getDirection());
   }
 
   final _$HomeStoreBaseActionController =
@@ -99,8 +136,10 @@ mixin _$HomeStore on HomeStoreBase, Store {
   @override
   String toString() {
     return '''
-pickupAddress: ${pickupAddress},
+originAddress: ${originAddress},
 destinationAddress: ${destinationAddress},
+loading: ${loading},
+direction: ${direction},
 destinationPlaces: ${destinationPlaces}
     ''';
   }

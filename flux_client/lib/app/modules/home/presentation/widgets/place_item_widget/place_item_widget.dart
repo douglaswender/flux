@@ -6,20 +6,20 @@ import 'package:flux_client/app/modules/home/presentation/home_store.dart';
 
 class PlaceItemWidget extends StatelessWidget {
   final PlaceModel place;
+  final AddressInputType? addressInputType;
 
-  const PlaceItemWidget({Key? key, required this.place}) : super(key: key);
+  const PlaceItemWidget({
+    Key? key,
+    required this.place,
+    this.addressInputType = AddressInputType.destination,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     HomeStore homeStore = Modular.get<HomeStore>();
-    return GestureDetector(
-      onTap: () {
-        //TODO: implementar lógica pro loading ser através do controller
-        // showDialog(
-        //     context: context,
-        //     builder: (context) => ProgressDialog(status: "Aguarde..."));
-        homeStore.getPlaceDetails(place.placeId);
-        // Navigator.pop(context);
+    return TextButton(
+      onPressed: () {
+        homeStore.getPlaceDetails(place.placeId, addressInputType!);
       },
       child: Row(
         children: [

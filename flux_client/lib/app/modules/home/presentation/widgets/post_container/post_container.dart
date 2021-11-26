@@ -54,22 +54,38 @@ class _PostContainerState extends State<PostContainer> {
               height: AppSizes.s16,
             ),
             InputWidget(
+              readOnly: true,
               onTap: () {
-                Modular.to.pushNamed('/search_page');
+                Modular.to.pushNamed(
+                  '/search_page',
+                  arguments: {
+                    "addressInputType": AddressInputType.origin,
+                  },
+                );
               },
               label: "Endereço de origem",
               controller: TextEditingController(
-                text: homeStore.pickupAddress.placeName ?? "",
+                text: homeStore.originAddress.placeName ?? "",
               ),
             ),
             SizedBox(
               height: AppSizes.s16,
             ),
             InputWidget(
-                onTap: () {
-                  Modular.to.pushNamed('/search_page');
-                },
-                label: "Endereço de destino"),
+              readOnly: true,
+              onTap: () {
+                Modular.to.pushNamed(
+                  '/search_page',
+                  arguments: {
+                    "addressInputType": AddressInputType.destination,
+                  },
+                );
+              },
+              label: "Endereço de destino",
+              controller: TextEditingController(
+                text: homeStore.destinationAddress.placeName ?? "",
+              ),
+            ),
             SizedBox(
               height: AppSizes.s16,
             ),

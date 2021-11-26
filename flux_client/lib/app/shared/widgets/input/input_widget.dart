@@ -11,6 +11,7 @@ class InputWidget extends StatelessWidget {
   final TextInputAction? textInputAction;
   final VoidCallback? onTap;
   final FocusNode? focusNode;
+  final bool readOnly;
 
   InputWidget({
     Key? key,
@@ -23,6 +24,7 @@ class InputWidget extends StatelessWidget {
     this.textInputAction = TextInputAction.done,
     this.onTap,
     this.focusNode,
+    this.readOnly = false,
   }) : assert(['normal', 'email', 'number'].contains(type));
 
   final keyBoard = {
@@ -56,6 +58,7 @@ class InputWidget extends StatelessWidget {
         labelStyle: AppTextStyles.body,
       ),
       obscureText: isPassword ?? false,
+      readOnly: readOnly,
     );
   }
 }

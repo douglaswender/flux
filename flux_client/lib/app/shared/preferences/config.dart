@@ -1,4 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Config {
   static String mapKey = _get('MAP_KEY');
@@ -15,4 +16,7 @@ class Config {
 
   static String placeDetailsUrl(String placeId) =>
       "https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=$globalMapKey";
+
+  static String directionsUrl(LatLng origin, LatLng destination) =>
+      "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}&destination=${destination.latitude},${destination.longitude}&mode=driving&key=$globalMapKey";
 }

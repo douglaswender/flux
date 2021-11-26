@@ -14,6 +14,9 @@ class HomeModule extends Module {
   @override
   final List<ModularRoute> routes = [
     ChildRoute(Modular.initialRoute, child: (context, args) => HomePage()),
-    ChildRoute('/search_page', child: (context, args) => SearchPage()),
+    ChildRoute('/search_page',
+        child: (context, args) => SearchPage(
+              addressInputType: args.data['addressInputType'],
+            )),
   ];
 }

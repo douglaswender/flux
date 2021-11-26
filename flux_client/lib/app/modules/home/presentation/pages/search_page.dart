@@ -7,9 +7,12 @@ import 'package:flux_client/app/modules/home/presentation/home_store.dart';
 import 'package:flux_client/app/modules/home/presentation/widgets/place_item_widget/place_item_widget.dart';
 import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
 import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
+import 'package:flux_client/app/shared/widgets/progress_dialog/progress_dialog_widget.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  final AddressInputType addressInputType;
+  const SearchPage({Key? key, required this.addressInputType})
+      : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -18,7 +21,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   HomeStore homeStore = Modular.get<HomeStore>();
   TextEditingController pickupController = TextEditingController(
-    text: Modular.get<HomeStore>().pickupAddress.placeName,
+    text: Modular.get<HomeStore>().originAddress.placeName,
   );
 
   TextEditingController destinationController = TextEditingController();
@@ -31,6 +34,15 @@ class _SearchPageState extends State<SearchPage> {
 
   List<PlaceModel> destinationPlaces = [];
 
+  AddressInputType? addressInputType;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    addressInputType = widget.addressInputType;
+  }
+
   @override
   Widget build(BuildContext context) {
     setFocus();
@@ -40,61 +52,86 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: SafeArea(
           child: Observer(
-        builder: (_) => Column(
+        builder: (_) => Stack(
           children: [
-            Container(
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 5.0,
-                    spreadRadius: 0.5,
-                    offset: Offset(0.7, 0.7),
+            Column(
+              children: [
+                Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 5.0,
+                        spreadRadius: 0.5,
+                        offset: Offset(0.7, 0.7),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(AppSizes.s16),
-                child: Column(
-                  children: [
-                    InputWidget(
-                      label: "Endereço de origem",
-                      controller: pickupController,
+                  child: Padding(
+                    padding: EdgeInsets.all(AppSizes.s16),
+                    child: Column(
+                      children: [
+                        InputWidget(
+                          onTap: () {
+                            addressInputType = AddressInputType.origin;
+                          },
+                          onChange: (value) {
+                            homeStore.searchPlace(value);
+                          },
+                          label: "Endereço de origem",
+                          controller: pickupController,
+                          focusNode: addressInputType == AddressInputType.origin
+                              ? focusDestination
+                              : null,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          onTap: () {
+                            addressInputType = AddressInputType.destination;
+                          },
+                          onChange: (value) {
+                            homeStore.searchPlace(value);
+                          },
+                          focusNode:
+                              addressInputType == AddressInputType.destination
+                                  ? focusDestination
+                                  : null,
+                          label: "Endereço de destino",
+                          controller: destinationController,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: AppSizes.s16,
-                    ),
-                    InputWidget(
-                      onChange: (value) {
-                        homeStore.searchPlace(value);
-                      },
-                      focusNode: focusDestination,
-                      label: "Endereço de entrega",
-                      controller: destinationController,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: AppSizes.s16,
-            ),
-            if (homeStore.destinationPlaces.length > 0)
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
-                  child: ListView.separated(
-                    physics: ClampingScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return PlaceItemWidget(
-                          place: homeStore.destinationPlaces[index]);
-                    },
-                    separatorBuilder: (context, index) => Divider(),
-                    itemCount: homeStore.destinationPlaces.length,
                   ),
                 ),
+                SizedBox(
+                  height: AppSizes.s16,
+                ),
+                if (homeStore.destinationPlaces.length > 0)
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: AppSizes.s16),
+                      child: ListView.separated(
+                        physics: ClampingScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return PlaceItemWidget(
+                            place: homeStore.destinationPlaces[index],
+                            addressInputType: addressInputType,
+                          );
+                        },
+                        separatorBuilder: (context, index) => Divider(),
+                        itemCount: homeStore.destinationPlaces.length,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            if (homeStore.loading)
+              ProgressDialog(
+                status: "Aguarde...",
               ),
           ],
         ),
