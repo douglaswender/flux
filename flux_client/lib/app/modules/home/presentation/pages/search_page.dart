@@ -24,7 +24,9 @@ class _SearchPageState extends State<SearchPage> {
     text: Modular.get<HomeStore>().originAddress.placeName,
   );
 
-  TextEditingController destinationController = TextEditingController();
+  TextEditingController destinationController = TextEditingController(
+    text: Modular.get<HomeStore>().destinationAddress.placeName,
+  );
 
   FocusNode focusDestination = FocusNode();
 
