@@ -11,5 +11,8 @@ class Config {
   static String globalMapKey = "AIzaSyAvE2HpMTWBmsImwO33L-e7yudiTlzLJLg";
 
   static String placeUrl(String placeName) =>
-      "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=AIzaSyAvE2HpMTWBmsImwO33L-e7yudiTlzLJLg&sessiontoken=123254251&components=country:BR&location=-10.7278833,-62.2509347&radius=20000&language=pt-BR";
+      "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$globalMapKey&sessiontoken=123254251&components=country:BR&location=-10.7278833,-62.2509347&radius=20000&language=pt-BR";
+
+  static String placeDetailsUrl(String placeId) =>
+      "https://maps.googleapis.com/maps/api/place/details/json?placeid=$placeId&key=$globalMapKey";
 }

@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/core/helpers/request_helper.dart';
-import 'package:flux_client/app/core/styles/app_text_styles.dart';
 import 'package:flux_client/app/modules/home/data/models/place_model.dart';
 import 'package:flux_client/app/modules/home/presentation/home_store.dart';
 import 'package:flux_client/app/modules/home/presentation/widgets/place_item_widget/place_item_widget.dart';
-import 'package:flux_client/app/shared/preferences/config.dart';
 import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
 import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
 
@@ -30,26 +27,6 @@ class _SearchPageState extends State<SearchPage> {
 
   void setFocus() {
     FocusScope.of(context).requestFocus(focusDestination);
-  }
-
-  void searchPlace(String placeName) async {
-    if (placeName.length > 2) {
-      var response = await RequestHelper.getRequest(Config.placeUrl(placeName));
-
-      if (response == "failed") {
-        return;
-      }
-
-      if (response['status'] == 'OK') {
-        List<PlaceModel> list = (response['predictions'] as List)
-            .map((e) => PlaceModel.fromJson(e))
-            .toList();
-
-        print(list.first.secondaryText);
-        homeStore.updateDestinationPlaces(list);
-      }
-      print(homeStore.destinationPlaces);
-    }
   }
 
   List<PlaceModel> destinationPlaces = [];
@@ -91,7 +68,7 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     InputWidget(
                       onChange: (value) {
-                        searchPlace(value);
+                        homeStore.searchPlace(value);
                       },
                       focusNode: focusDestination,
                       label: "Endereço de entrega",

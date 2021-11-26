@@ -24,6 +24,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$destinationAddressAtom =
+      Atom(name: 'HomeStoreBase.destinationAddress');
+
+  @override
+  AddressModel get destinationAddress {
+    _$destinationAddressAtom.reportRead();
+    return super.destinationAddress;
+  }
+
+  @override
+  set destinationAddress(AddressModel value) {
+    _$destinationAddressAtom.reportWrite(value, super.destinationAddress, () {
+      super.destinationAddress = value;
+    });
+  }
+
   final _$destinationPlacesAtom = Atom(name: 'HomeStoreBase.destinationPlaces');
 
   @override
@@ -37,6 +53,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
     _$destinationPlacesAtom.reportWrite(value, super.destinationPlaces, () {
       super.destinationPlaces = value;
     });
+  }
+
+  final _$searchPlaceAsyncAction = AsyncAction('HomeStoreBase.searchPlace');
+
+  @override
+  Future searchPlace(String placeName) {
+    return _$searchPlaceAsyncAction.run(() => super.searchPlace(placeName));
+  }
+
+  final _$getPlaceDetailsAsyncAction =
+      AsyncAction('HomeStoreBase.getPlaceDetails');
+
+  @override
+  Future getPlaceDetails(String placeId) {
+    return _$getPlaceDetailsAsyncAction
+        .run(() => super.getPlaceDetails(placeId));
   }
 
   final _$HomeStoreBaseActionController =
@@ -54,7 +86,7 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
-  void updateDestinationPlaces(List<PlaceModel> updatedList) {
+  dynamic updateDestinationPlaces(List<PlaceModel> updatedList) {
     final _$actionInfo = _$HomeStoreBaseActionController.startAction(
         name: 'HomeStoreBase.updateDestinationPlaces');
     try {
@@ -68,6 +100,7 @@ mixin _$HomeStore on HomeStoreBase, Store {
   String toString() {
     return '''
 pickupAddress: ${pickupAddress},
+destinationAddress: ${destinationAddress},
 destinationPlaces: ${destinationPlaces}
     ''';
   }

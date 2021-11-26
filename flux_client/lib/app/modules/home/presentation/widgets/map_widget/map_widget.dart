@@ -22,7 +22,7 @@ class MapWidgetState extends State<MapWidget> {
 
   late CameraPosition cp;
 
-  static LatLng? _initialPosition;
+  late LatLng _initialPosition;
 
   GoogleMapController? mapController;
 
@@ -33,7 +33,7 @@ class MapWidgetState extends State<MapWidget> {
       _initialPosition = LatLng(position.latitude, position.longitude);
     });
     mapController?.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialPosition!, zoom: 15)));
+        CameraPosition(target: _initialPosition, zoom: 15)));
 
     AddressModel address = await HelperMethods.findCordinateAddress(position);
 
@@ -58,7 +58,7 @@ class MapWidgetState extends State<MapWidget> {
         myLocationButtonEnabled: true,
         myLocationEnabled: true,
         initialCameraPosition:
-            CameraPosition(target: _initialPosition!, zoom: 14),
+            CameraPosition(target: _initialPosition, zoom: 14),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
           mapController = controller;
