@@ -21,9 +21,7 @@ class MapWidgetState extends ModularState<MapWidget, HomeStore> {
 
   late CameraPosition cp;
 
-  late LatLng _initialPosition;
-
-  GoogleMapController? mapController;
+  LatLng? _initialPosition;
 
   void _getUserLocation() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -31,43 +29,44 @@ class MapWidgetState extends ModularState<MapWidget, HomeStore> {
     setState(() {
       _initialPosition = LatLng(position.latitude, position.longitude);
     });
-    mapController?.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialPosition, zoom: 15)));
+    controller.mapController?.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: _initialPosition!, zoom: 15)));
 
     AddressModel address = await HelperMethods.findCordinateAddress(position);
 
     controller.updatePickupAddress(address);
-
-    print(address.placeName);
   }
 
   @override
   void initState() {
     super.initState();
+    controller.loading = true;
     _getUserLocation();
   }
 
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (BuildContext context) => GoogleMap(
-        zoomControlsEnabled: true,
-        zoomGesturesEnabled: true,
-        polylines: controller.polylines,
-        mapType: MapType.normal,
-        myLocationButtonEnabled: true,
-        myLocationEnabled: true,
-        initialCameraPosition:
-            CameraPosition(target: _initialPosition, zoom: 14),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-          mapController = controller;
+      builder: (BuildContext context) => !controller.loading
+          ? GoogleMap(
+              zoomControlsEnabled: true,
+              zoomGesturesEnabled: true,
+              polylines: controller.polylines,
+              mapType: MapType.normal,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              initialCameraPosition:
+                  CameraPosition(target: _initialPosition!, zoom: 14),
+              onMapCreated: (GoogleMapController thisController) {
+                _controller.complete(thisController);
+                controller.mapController = thisController;
 
-          setState(() {});
+                setState(() {});
 
-          //_getUserLocation();
-        },
-      ),
+                //_getUserLocation();
+              },
+            )
+          : Container(),
     );
   }
 }

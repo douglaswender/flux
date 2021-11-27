@@ -116,6 +116,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$mapControllerAtom = Atom(name: 'HomeStoreBase.mapController');
+
+  @override
+  GoogleMapController? get mapController {
+    _$mapControllerAtom.reportRead();
+    return super.mapController;
+  }
+
+  @override
+  set mapController(GoogleMapController? value) {
+    _$mapControllerAtom.reportWrite(value, super.mapController, () {
+      super.mapController = value;
+    });
+  }
+
   final _$searchPlaceAsyncAction = AsyncAction('HomeStoreBase.searchPlace');
 
   @override
@@ -173,7 +188,8 @@ loading: ${loading},
 direction: ${direction},
 polylineCoordinates: ${polylineCoordinates},
 destinationPlaces: ${destinationPlaces},
-polylines: ${polylines}
+polylines: ${polylines},
+mapController: ${mapController}
     ''';
   }
 }

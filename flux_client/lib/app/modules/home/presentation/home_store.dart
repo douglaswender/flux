@@ -37,7 +37,9 @@ abstract class HomeStoreBase with Store {
 
   @action
   void updatePickupAddress(AddressModel pickup) {
+    loading = true;
     originAddress = pickup;
+    loading = false;
   }
 
   @observable
@@ -47,6 +49,9 @@ abstract class HomeStoreBase with Store {
 
   @observable
   Set<Polyline> polylines = {};
+
+  @observable
+  GoogleMapController? mapController;
 
   @action
   updateDestinationPlaces(List<PlaceModel> updatedList) {
@@ -144,5 +149,55 @@ abstract class HomeStoreBase with Store {
     thisPolylines.add(polyline!);
 
     polylines = thisPolylines;
+
+    LatLngBounds bounds;
+
+    if (originAddress.latitude! > destinationAddress.latitude! &&
+        originAddress.longitude! > destinationAddress.longitude!) {
+      bounds = LatLngBounds(
+        southwest: LatLng(
+          destinationAddress.latitude!,
+          destinationAddress.longitude!,
+        ),
+        northeast: LatLng(
+          originAddress.latitude!,
+          originAddress.longitude!,
+        ),
+      );
+    } else if (originAddress.longitude! > destinationAddress.longitude!) {
+      bounds = LatLngBounds(
+        southwest: LatLng(
+          originAddress.latitude!,
+          destinationAddress.longitude!,
+        ),
+        northeast: LatLng(
+          destinationAddress.latitude!,
+          originAddress.longitude!,
+        ),
+      );
+    } else if (originAddress.latitude! > destinationAddress.latitude!) {
+      bounds = LatLngBounds(
+        southwest: LatLng(
+          destinationAddress.latitude!,
+          originAddress.longitude!,
+        ),
+        northeast: LatLng(
+          originAddress.latitude!,
+          destinationAddress.longitude!,
+        ),
+      );
+    } else {
+      bounds = LatLngBounds(
+        southwest: LatLng(
+          originAddress.latitude!,
+          originAddress.longitude!,
+        ),
+        northeast: LatLng(
+          destinationAddress.latitude!,
+          destinationAddress.longitude!,
+        ),
+      );
+    }
+    mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 70));
   }
 }
