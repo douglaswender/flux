@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/helpers/helper_methods.dart';
 import 'package:flux_client/app/modules/home/data/models/address_model.dart';
@@ -13,9 +14,7 @@ class MapWidget extends StatefulWidget {
   State<MapWidget> createState() => MapWidgetState();
 }
 
-class MapWidgetState extends State<MapWidget> {
-  HomeStore homeStore = Modular.get<HomeStore>();
-
+class MapWidgetState extends ModularState<MapWidget, HomeStore> {
   Completer<GoogleMapController> _controller = Completer();
 
   late Position currentPosition;
@@ -37,7 +36,7 @@ class MapWidgetState extends State<MapWidget> {
 
     AddressModel address = await HelperMethods.findCordinateAddress(position);
 
-    homeStore.updatePickupAddress(address);
+    controller.updatePickupAddress(address);
 
     print(address.placeName);
   }
@@ -50,10 +49,11 @@ class MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GoogleMap(
+    return Observer(
+      builder: (BuildContext context) => GoogleMap(
         zoomControlsEnabled: true,
         zoomGesturesEnabled: true,
+        polylines: controller.polylines,
         mapType: MapType.normal,
         myLocationButtonEnabled: true,
         myLocationEnabled: true,

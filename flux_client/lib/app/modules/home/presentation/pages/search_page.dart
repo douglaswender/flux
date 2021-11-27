@@ -40,7 +40,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     addressInputType = widget.addressInputType;
   }

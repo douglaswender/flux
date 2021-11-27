@@ -70,6 +70,22 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$polylineCoordinatesAtom =
+      Atom(name: 'HomeStoreBase.polylineCoordinates');
+
+  @override
+  List<LatLng> get polylineCoordinates {
+    _$polylineCoordinatesAtom.reportRead();
+    return super.polylineCoordinates;
+  }
+
+  @override
+  set polylineCoordinates(List<LatLng> value) {
+    _$polylineCoordinatesAtom.reportWrite(value, super.polylineCoordinates, () {
+      super.polylineCoordinates = value;
+    });
+  }
+
   final _$destinationPlacesAtom = Atom(name: 'HomeStoreBase.destinationPlaces');
 
   @override
@@ -82,6 +98,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
   set destinationPlaces(List<PlaceModel> value) {
     _$destinationPlacesAtom.reportWrite(value, super.destinationPlaces, () {
       super.destinationPlaces = value;
+    });
+  }
+
+  final _$polylinesAtom = Atom(name: 'HomeStoreBase.polylines');
+
+  @override
+  Set<Polyline> get polylines {
+    _$polylinesAtom.reportRead();
+    return super.polylines;
+  }
+
+  @override
+  set polylines(Set<Polyline> value) {
+    _$polylinesAtom.reportWrite(value, super.polylines, () {
+      super.polylines = value;
     });
   }
 
@@ -140,7 +171,9 @@ originAddress: ${originAddress},
 destinationAddress: ${destinationAddress},
 loading: ${loading},
 direction: ${direction},
-destinationPlaces: ${destinationPlaces}
+polylineCoordinates: ${polylineCoordinates},
+destinationPlaces: ${destinationPlaces},
+polylines: ${polylines}
     ''';
   }
 }

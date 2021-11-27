@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flux_client/app/core/helpers/helper_methods.dart';
 import 'package:flux_client/app/core/helpers/request_helper.dart';
 import 'package:flux_client/app/modules/home/data/models/address_model.dart';
@@ -30,6 +32,9 @@ abstract class HomeStoreBase with Store {
   @observable
   DirectionModel direction = DirectionModel();
 
+  @observable
+  List<LatLng> polylineCoordinates = [];
+
   @action
   void updatePickupAddress(AddressModel pickup) {
     originAddress = pickup;
@@ -37,6 +42,11 @@ abstract class HomeStoreBase with Store {
 
   @observable
   List<PlaceModel> destinationPlaces = [];
+
+  Polyline? polyline;
+
+  @observable
+  Set<Polyline> polylines = {};
 
   @action
   updateDestinationPlaces(List<PlaceModel> updatedList) {
@@ -109,5 +119,30 @@ abstract class HomeStoreBase with Store {
     loading = false;
 
     print(direction.encondedPoints);
+
+    PolylinePoints polylinePoints = PolylinePoints();
+    List<PointLatLng> results =
+        polylinePoints.decodePolyline(direction.encondedPoints!);
+
+    if (results.isNotEmpty) {
+      results.forEach((point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    Set<Polyline> thisPolylines = {};
+    polylines.clear();
+    polyline = Polyline(
+      polylineId: PolylineId('id'),
+      color: Color.fromARGB(255, 95, 109, 237),
+      points: polylineCoordinates,
+      jointType: JointType.round,
+      width: 3,
+      startCap: Cap.roundCap,
+      endCap: Cap.roundCap,
+    );
+
+    thisPolylines.add(polyline!);
+
+    polylines = thisPolylines;
   }
 }
