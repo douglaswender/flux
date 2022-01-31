@@ -52,13 +52,15 @@ class MapWidgetState extends ModularState<MapWidget, HomeStore> {
               zoomControlsEnabled: true,
               zoomGesturesEnabled: true,
               polylines: controller.polylines,
+              markers: controller.markers,
+              circles: controller.circles,
               mapType: MapType.normal,
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               initialCameraPosition:
                   CameraPosition(target: _initialPosition!, zoom: 14),
               onMapCreated: (GoogleMapController thisController) {
-                _controller.complete(thisController);
+                //_controller.complete(thisController);
                 controller.mapController = thisController;
 
                 setState(() {});

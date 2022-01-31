@@ -15,6 +15,7 @@ class AppBarDefault extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: Colors.white,
       centerTitle: true,
       title: Image.asset(
         AppImages.logoLine,
@@ -24,6 +25,7 @@ class AppBarDefault extends StatelessWidget implements PreferredSizeWidget {
         onTap: isBackButton ? () => Modular.to.pop() : onTap,
         child: Icon(
           isBackButton ? Icons.arrow_back_ios_new : Icons.menu,
+          color: Colors.black,
         ),
       ),
     );

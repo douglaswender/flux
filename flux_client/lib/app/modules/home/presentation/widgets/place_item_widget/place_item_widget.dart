@@ -7,10 +7,12 @@ import 'package:flux_client/app/modules/home/presentation/home_store.dart';
 class PlaceItemWidget extends StatelessWidget {
   final PlaceModel place;
   final AddressInputType? addressInputType;
+  final Function() onPressed;
 
   const PlaceItemWidget({
     Key? key,
     required this.place,
+    required this.onPressed,
     this.addressInputType = AddressInputType.destination,
   }) : super(key: key);
 
@@ -19,7 +21,8 @@ class PlaceItemWidget extends StatelessWidget {
     HomeStore homeStore = Modular.get<HomeStore>();
     return TextButton(
       onPressed: () {
-        homeStore.getPlaceDetails(place.placeId, addressInputType!);
+        onPressed();
+        Modular.to.pop();
       },
       child: Row(
         children: [

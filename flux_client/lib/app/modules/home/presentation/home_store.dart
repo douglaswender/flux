@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flux_client/app/core/helpers/helper_methods.dart';
@@ -34,6 +35,12 @@ abstract class HomeStoreBase with Store {
 
   @observable
   List<LatLng> polylineCoordinates = [];
+
+  @observable
+  Set<Marker> markers = {};
+
+  @observable
+  Set<Circle> circles = {};
 
   @action
   void updatePickupAddress(AddressModel pickup) {
@@ -110,6 +117,7 @@ abstract class HomeStoreBase with Store {
         originAddress.latitude != null &&
         originAddress.longitude != null) {
       await getDirection();
+      updateDestinationPlaces([]);
       Modular.to.pop();
     }
   }
@@ -135,7 +143,7 @@ abstract class HomeStoreBase with Store {
       });
     }
     Set<Polyline> thisPolylines = {};
-    polylines.clear();
+    polylines = {};
     polyline = Polyline(
       polylineId: PolylineId('id'),
       color: Color.fromARGB(255, 95, 109, 237),
@@ -198,6 +206,65 @@ abstract class HomeStoreBase with Store {
         ),
       );
     }
+
     mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 70));
+
+    Marker originMarker = Marker(
+      markerId: MarkerId('origin'),
+      position: LatLng(originAddress.latitude!, originAddress.longitude!),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      infoWindow: InfoWindow(
+        title: originAddress.placeName,
+        snippet: originAddress.placeFormattedAddress,
+      ),
+    );
+
+    Marker destinationMarker = Marker(
+      markerId: MarkerId('destination'),
+      position: LatLng(
+        destinationAddress.latitude!,
+        destinationAddress.longitude!,
+      ),
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      infoWindow: InfoWindow(
+        title: destinationAddress.placeName,
+        snippet: destinationAddress.placeFormattedAddress,
+      ),
+    );
+
+    markers.clear();
+    markers = {};
+
+    markers.add(originMarker);
+    markers.add(destinationMarker);
+
+    markers = markers;
+
+    Circle originCircle = Circle(
+      circleId: CircleId('origin'),
+      strokeColor: Colors.black,
+      strokeWidth: 3,
+      radius: 12,
+      center: LatLng(originAddress.latitude!, originAddress.longitude!),
+      fillColor: Colors.black38,
+    );
+
+    Circle destinationCircle = Circle(
+      circleId: CircleId('derstination'),
+      strokeColor: Colors.black,
+      strokeWidth: 3,
+      radius: 12,
+      center:
+          LatLng(destinationAddress.latitude!, destinationAddress.longitude!),
+      fillColor: Colors.black38,
+    );
+
+    circles.clear();
+    circles = {};
+
+    circles.add(originCircle);
+    circles.add(destinationCircle);
+
+    circles = circles;
   }
 }

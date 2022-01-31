@@ -55,14 +55,14 @@ class _PostContainerState extends State<PostContainer> {
             ),
             InputWidget(
               readOnly: true,
-              onTap: () async {
-                await Modular.to.pushNamed(
+              onTap: () {
+                Modular.to.pushNamed(
                   '/search_page',
                   arguments: {
                     "addressInputType": AddressInputType.origin,
                   },
                 );
-                setState(() {});
+                //setState(() {});
               },
               label: "Endereço de origem",
               controller: TextEditingController(
@@ -74,8 +74,8 @@ class _PostContainerState extends State<PostContainer> {
             ),
             InputWidget(
               readOnly: true,
-              onTap: () async {
-                await Modular.to.pushNamed(
+              onTap: () {
+                Modular.to.pushNamed(
                   '/search_page',
                   arguments: {
                     "addressInputType": AddressInputType.destination,

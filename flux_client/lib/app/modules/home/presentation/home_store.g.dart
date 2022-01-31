@@ -86,6 +86,36 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$markersAtom = Atom(name: 'HomeStoreBase.markers');
+
+  @override
+  Set<Marker> get markers {
+    _$markersAtom.reportRead();
+    return super.markers;
+  }
+
+  @override
+  set markers(Set<Marker> value) {
+    _$markersAtom.reportWrite(value, super.markers, () {
+      super.markers = value;
+    });
+  }
+
+  final _$circlesAtom = Atom(name: 'HomeStoreBase.circles');
+
+  @override
+  Set<Circle> get circles {
+    _$circlesAtom.reportRead();
+    return super.circles;
+  }
+
+  @override
+  set circles(Set<Circle> value) {
+    _$circlesAtom.reportWrite(value, super.circles, () {
+      super.circles = value;
+    });
+  }
+
   final _$destinationPlacesAtom = Atom(name: 'HomeStoreBase.destinationPlaces');
 
   @override
@@ -187,6 +217,8 @@ destinationAddress: ${destinationAddress},
 loading: ${loading},
 direction: ${direction},
 polylineCoordinates: ${polylineCoordinates},
+markers: ${markers},
+circles: ${circles},
 destinationPlaces: ${destinationPlaces},
 polylines: ${polylines},
 mapController: ${mapController}
