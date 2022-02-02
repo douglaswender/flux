@@ -118,11 +118,9 @@ abstract class HomeStoreBase with Store {
         originAddress.longitude != null) {
       await getDirection();
       updateDestinationPlaces([]);
-      Modular.to.pop();
     }
   }
 
-  @action
   Future<void> getDirection() async {
     loading = true;
     DirectionModel direction = await HelperMethods.getDirectionDetails(
@@ -250,7 +248,7 @@ abstract class HomeStoreBase with Store {
     );
 
     Circle destinationCircle = Circle(
-      circleId: CircleId('derstination'),
+      circleId: CircleId('destination'),
       strokeColor: Colors.black,
       strokeWidth: 3,
       radius: 12,

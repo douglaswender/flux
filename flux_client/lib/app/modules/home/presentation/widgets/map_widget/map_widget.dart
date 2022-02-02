@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -15,8 +14,6 @@ class MapWidget extends StatefulWidget {
 }
 
 class MapWidgetState extends ModularState<MapWidget, HomeStore> {
-  Completer<GoogleMapController> _controller = Completer();
-
   late Position currentPosition;
 
   late CameraPosition cp;
@@ -60,12 +57,11 @@ class MapWidgetState extends ModularState<MapWidget, HomeStore> {
               initialCameraPosition:
                   CameraPosition(target: _initialPosition!, zoom: 14),
               onMapCreated: (GoogleMapController thisController) {
-                //_controller.complete(thisController);
                 controller.mapController = thisController;
 
                 setState(() {});
 
-                //_getUserLocation();
+                _getUserLocation();
               },
             )
           : Container(),

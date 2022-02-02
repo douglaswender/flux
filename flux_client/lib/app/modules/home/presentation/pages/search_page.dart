@@ -130,9 +130,12 @@ class _SearchPageState extends State<SearchPage> {
                           return PlaceItemWidget(
                             place: homeStore.destinationPlaces[index],
                             addressInputType: addressInputType,
-                            onPressed: () => homeStore.getPlaceDetails(
-                                homeStore.destinationPlaces[index].placeId,
-                                addressInputType!),
+                            onPressed: () async {
+                              await homeStore.getPlaceDetails(
+                                  homeStore.destinationPlaces[index].placeId,
+                                  addressInputType!);
+                              Modular.to.pop();
+                            },
                           );
                         },
                         separatorBuilder: (context, index) => Divider(),

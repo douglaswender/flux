@@ -177,13 +177,6 @@ mixin _$HomeStore on HomeStoreBase, Store {
         .run(() => super.getPlaceDetails(placeId, addressInputType));
   }
 
-  final _$getDirectionAsyncAction = AsyncAction('HomeStoreBase.getDirection');
-
-  @override
-  Future<void> getDirection() {
-    return _$getDirectionAsyncAction.run(() => super.getDirection());
-  }
-
   final _$HomeStoreBaseActionController =
       ActionController(name: 'HomeStoreBase');
 

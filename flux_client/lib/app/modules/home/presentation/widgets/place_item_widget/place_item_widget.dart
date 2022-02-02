@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/core.dart';
 import 'package:flux_client/app/modules/home/data/models/place_model.dart';
 import 'package:flux_client/app/modules/home/presentation/home_store.dart';
@@ -7,7 +6,7 @@ import 'package:flux_client/app/modules/home/presentation/home_store.dart';
 class PlaceItemWidget extends StatelessWidget {
   final PlaceModel place;
   final AddressInputType? addressInputType;
-  final Function() onPressed;
+  final VoidCallback onPressed;
 
   const PlaceItemWidget({
     Key? key,
@@ -18,12 +17,8 @@ class PlaceItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HomeStore homeStore = Modular.get<HomeStore>();
     return TextButton(
-      onPressed: () {
-        onPressed();
-        Modular.to.pop();
-      },
+      onPressed: onPressed,
       child: Row(
         children: [
           Expanded(
