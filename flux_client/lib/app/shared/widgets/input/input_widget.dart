@@ -12,6 +12,7 @@ class InputWidget extends StatelessWidget {
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final bool readOnly;
+  final String? Function(String?)? validator;
 
   InputWidget({
     Key? key,
@@ -25,6 +26,7 @@ class InputWidget extends StatelessWidget {
     this.onTap,
     this.focusNode,
     this.readOnly = false,
+    this.validator,
   }) : assert(['normal', 'email', 'number'].contains(type));
 
   final keyBoard = {
@@ -37,7 +39,8 @@ class InputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: validator,
       focusNode: focusNode,
       onTap: onTap,
       textInputAction: textInputAction,
@@ -52,6 +55,15 @@ class InputWidget extends StatelessWidget {
           borderSide: BorderSide(color: AppColors.black, width: 2),
         ),
         enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.black, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.black, width: 2),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: AppColors.black, width: 2),
+        ),
+        disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.black, width: 2),
         ),
         labelText: label,

@@ -31,7 +31,7 @@ abstract class HomeStoreBase with Store {
   bool loading = false;
 
   @observable
-  DirectionModel direction = DirectionModel();
+  DirectionModel? direction;
 
   @observable
   List<LatLng> polylineCoordinates = [];
@@ -41,6 +41,12 @@ abstract class HomeStoreBase with Store {
 
   @observable
   Set<Circle> circles = {};
+
+  @observable
+  double postContainerHeight = 0.5;
+
+  @observable
+  int? valueOfRun;
 
   @action
   void updatePickupAddress(AddressModel pickup) {
@@ -84,7 +90,6 @@ abstract class HomeStoreBase with Store {
         print(list.first.secondaryText);
         updateDestinationPlaces(list);
       }
-      print(destinationPlaces);
     }
   }
 
@@ -116,24 +121,30 @@ abstract class HomeStoreBase with Store {
         destinationAddress.longitude != null &&
         originAddress.latitude != null &&
         originAddress.longitude != null) {
-      await getDirection();
+      getDirection();
       updateDestinationPlaces([]);
     }
+    Modular.to.pop();
   }
 
   Future<void> getDirection() async {
     loading = true;
-    DirectionModel direction = await HelperMethods.getDirectionDetails(
+
+    //limpa todas as coordenadas das linhas.
+    polylineCoordinates.clear();
+
+    //limpa direções
+    direction = null;
+    DirectionModel thisDirection = await HelperMethods.getDirectionDetails(
       LatLng(originAddress.latitude!, originAddress.longitude!),
       LatLng(destinationAddress.latitude!, destinationAddress.longitude!),
     );
+    direction = thisDirection;
     loading = false;
-
-    print(direction.encondedPoints);
 
     PolylinePoints polylinePoints = PolylinePoints();
     List<PointLatLng> results =
-        polylinePoints.decodePolyline(direction.encondedPoints!);
+        polylinePoints.decodePolyline(thisDirection.encondedPoints!);
 
     if (results.isNotEmpty) {
       results.forEach((point) {
@@ -141,7 +152,7 @@ abstract class HomeStoreBase with Store {
       });
     }
     Set<Polyline> thisPolylines = {};
-    polylines = {};
+    polylines.clear();
     polyline = Polyline(
       polylineId: PolylineId('id'),
       color: Color.fromARGB(255, 95, 109, 237),
@@ -231,7 +242,6 @@ abstract class HomeStoreBase with Store {
     );
 
     markers.clear();
-    markers = {};
 
     markers.add(originMarker);
     markers.add(destinationMarker);
@@ -258,11 +268,12 @@ abstract class HomeStoreBase with Store {
     );
 
     circles.clear();
-    circles = {};
 
     circles.add(originCircle);
     circles.add(destinationCircle);
 
     circles = circles;
+
+    valueOfRun = HelperMethods.estimateFares(direction!);
   }
 }

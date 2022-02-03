@@ -9,9 +9,9 @@ class DirectionModel extends Direction {
     String? encodedPoints,
   }) : super(
           distanceText: distanceText,
-          distanceValue: durationValue,
+          distanceValue: distanceValue,
           durationText: durationText,
-          durationValue: distanceValue,
+          durationValue: durationValue,
           encondedPoints: encodedPoints,
         );
 }

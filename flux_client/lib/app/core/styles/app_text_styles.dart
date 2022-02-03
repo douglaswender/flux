@@ -23,4 +23,7 @@ class AppTextStyles {
 
   static final TextStyle bodySecondary = GoogleFonts.roboto(
       color: AppColors.grey, fontSize: 14, fontWeight: FontWeight.w400);
+
+  static final TextStyle bodyMarker = GoogleFonts.roboto(
+      color: AppColors.darkGreen, fontSize: 14, fontWeight: FontWeight.bold);
 }

@@ -15,7 +15,7 @@ class HelperMethods {
 
     if (connectivityResult != ConnectivityResult.mobile &&
         connectivityResult != ConnectivityResult.wifi) {
-      return Future.value(null);
+      return Future.value(AddressModel());
     }
 
     String url =
@@ -31,7 +31,7 @@ class HelperMethods {
           placeName: placeAddress);
       return pickupAddress;
     } else {
-      return Future.value(null);
+      return Future.value(AddressModel());
     }
   }
 
@@ -42,7 +42,7 @@ class HelperMethods {
         Config.directionsUrl(origin, destination));
 
     if (response == 'failure') {
-      return Future.value(null);
+      return Future.value(DirectionModel());
     }
 
     DirectionModel direction = DirectionModel(
@@ -58,5 +58,34 @@ class HelperMethods {
             response['routes'][0]['overview_polyline']['points'] ?? "");
 
     return direction;
+  }
+
+  static int estimateFares(DirectionModel direction) {
+    double minutes = (direction.durationValue! / 60);
+
+    double? totalFare;
+
+    // se distância for menor ou igual que 10 km
+    // taxa = 10
+    // km = 0.8
+    // min = 0.5
+    // se distância for maior que 10 km
+    // taxa = 20
+    // km = 0.6
+    // min = 0.6
+
+    if (direction.distanceValue! / 1000 <= 10) {
+      double baseFare = 10;
+      double distanceFare = (direction.distanceValue! / 1000) * 0.8;
+      double timeFare = minutes * 0.5;
+      totalFare = baseFare + distanceFare + timeFare;
+    } else {
+      double baseFare = 20;
+      double distanceFare = (direction.distanceValue! / 1000) * 0.4;
+      double timeFare = minutes * 0.25;
+      totalFare = baseFare + distanceFare + timeFare;
+    }
+
+    return totalFare.truncate() * 100;
   }
 }

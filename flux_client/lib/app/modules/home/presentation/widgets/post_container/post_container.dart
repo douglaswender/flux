@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/core/core.dart';
+import 'package:flux_client/app/modules/home/presentation/home_store.dart';
 import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
 import 'package:flux_client/app/shared/widgets/secondary_button/secondary_button_widget.dart';
-
-import '../../home_store.dart';
+import 'package:flux_client/app/shared/shared.dart';
 
 class PostContainer extends StatefulWidget {
-  const PostContainer({Key? key}) : super(key: key);
+  final ScrollController? scrollController;
+  const PostContainer({Key? key, this.scrollController}) : super(key: key);
 
   @override
   _PostContainerState createState() => _PostContainerState();
@@ -16,6 +17,7 @@ class PostContainer extends StatefulWidget {
 
 class _PostContainerState extends State<PostContainer> {
   HomeStore homeStore = Modular.get<HomeStore>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -27,83 +29,170 @@ class _PostContainerState extends State<PostContainer> {
     return Padding(
       padding: EdgeInsets.all(AppSizes.s16),
       child: Observer(
-        builder: (_) => Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Center(
-              child: Container(
-                height: 2,
-                width: MediaQuery.of(context).size.width * 0.5,
-                decoration: BoxDecoration(
-                    color: AppColors.grey,
-                    borderRadius: BorderRadius.all(Radius.circular(35))),
-              ),
-            ),
-            SizedBox(
-              height: AppSizes.s16,
-            ),
-            Row(
-              children: [
-                Text(
-                  "Olá Douglas, vai de Flux?",
-                  style: AppTextStyles.body,
+        builder: (_) => Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Center(
+                child: Container(
+                  height: 2,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  decoration: BoxDecoration(
+                      color: AppColors.grey,
+                      borderRadius: BorderRadius.all(Radius.circular(35))),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: AppSizes.s16,
-            ),
-            InputWidget(
-              readOnly: true,
-              onTap: () async {
-                await Modular.to.pushNamed(
-                  '/search_page',
-                  arguments: {
-                    "addressInputType": AddressInputType.origin,
-                  },
-                );
-                //setState(() {});
-              },
-              label: "Endereço de origem",
-              controller: TextEditingController(
-                text: homeStore.originAddress.placeName ?? "",
               ),
-            ),
-            SizedBox(
-              height: AppSizes.s16,
-            ),
-            InputWidget(
-              readOnly: true,
-              onTap: () async {
-                await Modular.to.pushNamed(
-                  '/search_page',
-                  arguments: {
-                    "addressInputType": AddressInputType.destination,
-                  },
-                );
-              },
-              label: "Endereço de destino",
-              controller: TextEditingController(
-                text: homeStore.destinationAddress.placeName ?? "",
+              SizedBox(
+                height: AppSizes.s16,
               ),
-            ),
-            SizedBox(
-              height: AppSizes.s16,
-            ),
-            InputWidget(label: "Descrição da encomenda"),
-            SizedBox(
-              height: AppSizes.s16,
-            ),
-            InputWidget(label: "Destinatário"),
-            SizedBox(
-              height: AppSizes.s16,
-            ),
-            InputWidget(label: "Motorista"),
-            SizedBox(
-              height: AppSizes.s16,
-            ),
-            SecondaryButtonWidget(onPress: () {}, text: "Publicar")
-          ],
+              Row(
+                children: [
+                  Text(
+                    "Olá Douglas, vai de Flux?",
+                    style: AppTextStyles.body,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: AppSizes.s16,
+              ),
+              InputWidget(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor informe um endereço de origem';
+                  }
+                  return null;
+                },
+                readOnly: true,
+                onTap: () async {
+                  await Modular.to.pushNamed(
+                    '/search_page',
+                    arguments: {
+                      "addressInputType": AddressInputType.origin,
+                    },
+                  );
+                  widget.scrollController!.animateTo(
+                      widget.scrollController!.position.minScrollExtent,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.elasticOut);
+                  setState(() {});
+                },
+                label: "Endereço de origem",
+                controller: TextEditingController(
+                  text: homeStore.originAddress.placeName ?? "",
+                ),
+              ),
+              SizedBox(
+                height: AppSizes.s16,
+              ),
+              InputWidget(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor informe um endereço de destino';
+                  }
+                  return null;
+                },
+                readOnly: true,
+                onTap: () async {
+                  await Modular.to.pushNamed(
+                    '/search_page',
+                    arguments: {
+                      "addressInputType": AddressInputType.destination,
+                    },
+                  );
+                  widget.scrollController!.animateTo(
+                      widget.scrollController!.position.minScrollExtent,
+                      duration: Duration(milliseconds: 300),
+                      curve: Curves.elasticOut);
+                },
+                label: "Endereço de destino",
+                controller: TextEditingController(
+                  text: homeStore.destinationAddress.placeName ?? "",
+                ),
+              ),
+              SizedBox(
+                height: AppSizes.s16,
+              ),
+              if (homeStore.valueOfRun != null && homeStore.direction != null)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                          text: "A distância da entrega é: ",
+                          style: AppTextStyles.body,
+                          children: [
+                            TextSpan(
+                              text:
+                                  "${homeStore.direction!.distanceValue!.quilometers()}",
+                              style: AppTextStyles.bodyMarker,
+                            )
+                          ]),
+                    ),
+                    SizedBox(
+                      height: AppSizes.s8,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                          text: "O tempo estimado da entrega é: ",
+                          style: AppTextStyles.body,
+                          children: [
+                            TextSpan(
+                              text: "${homeStore.direction!.durationText!}",
+                              style: AppTextStyles.bodyMarker,
+                            )
+                          ]),
+                    ),
+                    SizedBox(
+                      height: AppSizes.s8,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                          text: "O valor dessa entrega é: ",
+                          style: AppTextStyles.body,
+                          children: [
+                            TextSpan(
+                              text: "${homeStore.valueOfRun.reais()}",
+                              style: AppTextStyles.bodyMarker,
+                            ),
+                          ]),
+                    ),
+                    SizedBox(
+                      height: AppSizes.s16,
+                    ),
+                  ],
+                ),
+              InputWidget(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor informe uma descrição da encomenda';
+                    }
+                    return null;
+                  },
+                  label: "Descrição da encomenda"),
+              SizedBox(
+                height: AppSizes.s16,
+              ),
+              InputWidget(label: "Destinatário"),
+              SizedBox(
+                height: AppSizes.s16,
+              ),
+              InputWidget(label: "Motorista"),
+              SizedBox(
+                height: AppSizes.s16,
+              ),
+              Container(
+                  child: SecondaryButtonWidget(
+                      onPress: () {
+                        if (_formKey.currentState!.validate()) {
+                          print('passou');
+                        }
+                      },
+                      text: "Publicar"))
+            ],
+          ),
         ),
       ),
     );

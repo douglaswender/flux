@@ -58,13 +58,13 @@ mixin _$HomeStore on HomeStoreBase, Store {
   final _$directionAtom = Atom(name: 'HomeStoreBase.direction');
 
   @override
-  DirectionModel get direction {
+  DirectionModel? get direction {
     _$directionAtom.reportRead();
     return super.direction;
   }
 
   @override
-  set direction(DirectionModel value) {
+  set direction(DirectionModel? value) {
     _$directionAtom.reportWrite(value, super.direction, () {
       super.direction = value;
     });
@@ -113,6 +113,37 @@ mixin _$HomeStore on HomeStoreBase, Store {
   set circles(Set<Circle> value) {
     _$circlesAtom.reportWrite(value, super.circles, () {
       super.circles = value;
+    });
+  }
+
+  final _$postContainerHeightAtom =
+      Atom(name: 'HomeStoreBase.postContainerHeight');
+
+  @override
+  double get postContainerHeight {
+    _$postContainerHeightAtom.reportRead();
+    return super.postContainerHeight;
+  }
+
+  @override
+  set postContainerHeight(double value) {
+    _$postContainerHeightAtom.reportWrite(value, super.postContainerHeight, () {
+      super.postContainerHeight = value;
+    });
+  }
+
+  final _$valueOfRunAtom = Atom(name: 'HomeStoreBase.valueOfRun');
+
+  @override
+  int? get valueOfRun {
+    _$valueOfRunAtom.reportRead();
+    return super.valueOfRun;
+  }
+
+  @override
+  set valueOfRun(int? value) {
+    _$valueOfRunAtom.reportWrite(value, super.valueOfRun, () {
+      super.valueOfRun = value;
     });
   }
 
@@ -212,6 +243,8 @@ direction: ${direction},
 polylineCoordinates: ${polylineCoordinates},
 markers: ${markers},
 circles: ${circles},
+postContainerHeight: ${postContainerHeight},
+valueOfRun: ${valueOfRun},
 destinationPlaces: ${destinationPlaces},
 polylines: ${polylines},
 mapController: ${mapController}

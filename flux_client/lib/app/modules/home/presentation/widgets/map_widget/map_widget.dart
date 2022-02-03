@@ -31,7 +31,9 @@ class MapWidgetState extends ModularState<MapWidget, HomeStore> {
 
     AddressModel address = await HelperMethods.findCordinateAddress(position);
 
-    controller.updatePickupAddress(address);
+    if (controller.originAddress.placeName == null) {
+      controller.updatePickupAddress(address);
+    }
   }
 
   @override

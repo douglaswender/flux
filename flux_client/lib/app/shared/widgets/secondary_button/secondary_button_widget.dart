@@ -12,6 +12,7 @@ class SecondaryButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
+      width: double.maxFinite,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             primary: AppColors.lightWhite,

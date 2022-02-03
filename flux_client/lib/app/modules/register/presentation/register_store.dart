@@ -45,6 +45,7 @@ abstract class _RegisterStoreBase with Store {
     if (password != confirmPassword) {
       print('please complete');
       passwordNotMatch = true;
+      print(response);
     } else {
       print('hello');
     }

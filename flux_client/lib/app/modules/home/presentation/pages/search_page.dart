@@ -9,11 +9,6 @@ import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
 import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
 import 'package:flux_client/app/shared/widgets/progress_dialog/progress_dialog_widget.dart';
 
-enum SearchType {
-  destination,
-  origin,
-}
-
 class SearchPage extends StatefulWidget {
   final AddressInputType addressInputType;
   const SearchPage({Key? key, required this.addressInputType})
@@ -42,8 +37,6 @@ class _SearchPageState extends State<SearchPage> {
   List<PlaceModel> destinationPlaces = [];
 
   AddressInputType? addressInputType;
-
-  SearchType? searchType;
 
   @override
   void initState() {
@@ -86,7 +79,6 @@ class _SearchPageState extends State<SearchPage> {
                             addressInputType = AddressInputType.origin;
                           },
                           onChange: (value) {
-                            searchType = SearchType.origin;
                             homeStore.searchPlace(value);
                           },
                           label: "Endereço de origem",
@@ -103,7 +95,6 @@ class _SearchPageState extends State<SearchPage> {
                             addressInputType = AddressInputType.destination;
                           },
                           onChange: (value) {
-                            searchType = SearchType.destination;
                             homeStore.searchPlace(value);
                           },
                           focusNode:
@@ -130,11 +121,10 @@ class _SearchPageState extends State<SearchPage> {
                           return PlaceItemWidget(
                             place: homeStore.destinationPlaces[index],
                             addressInputType: addressInputType,
-                            onPressed: () async {
-                              await homeStore.getPlaceDetails(
+                            onPressed: () {
+                              homeStore.getPlaceDetails(
                                   homeStore.destinationPlaces[index].placeId,
                                   addressInputType!);
-                              Modular.to.pop();
                             },
                           );
                         },
