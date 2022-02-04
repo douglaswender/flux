@@ -8,8 +8,10 @@ import 'package:flux_client/app/modules/home/data/models/address_model.dart';
 import 'package:flux_client/app/modules/home/data/models/direction_model.dart';
 import 'package:flux_client/app/modules/home/data/models/place_model.dart';
 import 'package:flux_client/app/shared/preferences/config.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'dart:async';
 
 part 'home_store.g.dart';
 
@@ -25,7 +27,13 @@ abstract class HomeStoreBase with Store {
   AddressModel originAddress = AddressModel();
 
   @observable
+  LatLng? originLatLng;
+
+  @observable
   AddressModel destinationAddress = AddressModel();
+
+  @observable
+  LatLng? destinationLatLng;
 
   @observable
   bool loading = false;
@@ -48,6 +56,9 @@ abstract class HomeStoreBase with Store {
   @observable
   int? valueOfRun;
 
+  @observable
+  bool mapInitialized = false;
+
   @action
   void updatePickupAddress(AddressModel pickup) {
     loading = true;
@@ -66,9 +77,23 @@ abstract class HomeStoreBase with Store {
   @observable
   GoogleMapController? mapController;
 
+  Completer<GoogleMapController> _mapController = Completer();
+
   @action
   updateDestinationPlaces(List<PlaceModel> updatedList) {
     destinationPlaces = updatedList;
+  }
+
+  @action
+  setMapController(GoogleMapController thisMapController) {
+    _mapController.complete(thisMapController);
+    mapInitialized = true;
+  }
+
+  @action
+  Future<void> goToLocationMap(LatLngBounds target) async {
+    final GoogleMapController controller = await _mapController.future;
+    controller.animateCamera(CameraUpdate.newLatLngBounds(target, 40));
   }
 
   @action
@@ -87,7 +112,6 @@ abstract class HomeStoreBase with Store {
             .map((e) => PlaceModel.fromJson(e))
             .toList();
 
-        print(list.first.secondaryText);
         updateDestinationPlaces(list);
       }
     }
@@ -127,9 +151,9 @@ abstract class HomeStoreBase with Store {
     Modular.to.pop();
   }
 
+  @action
   Future<void> getDirection() async {
     loading = true;
-
     //limpa todas as coordenadas das linhas.
     polylineCoordinates.clear();
 
@@ -140,7 +164,9 @@ abstract class HomeStoreBase with Store {
       LatLng(destinationAddress.latitude!, destinationAddress.longitude!),
     );
     direction = thisDirection;
-    loading = false;
+
+    //seta valor da origem
+    originLatLng = LatLng(originAddress.latitude!, originAddress.longitude!);
 
     PolylinePoints polylinePoints = PolylinePoints();
     List<PointLatLng> results =
@@ -216,7 +242,9 @@ abstract class HomeStoreBase with Store {
       );
     }
 
-    mapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 70));
+    final target = calculateCenterBounds(bounds);
+    originLatLng = target;
+    await goToLocationMap(bounds);
 
     Marker originMarker = Marker(
       markerId: MarkerId('origin'),
@@ -275,5 +303,27 @@ abstract class HomeStoreBase with Store {
     circles = circles;
 
     valueOfRun = HelperMethods.estimateFares(direction!);
+
+    loading = false;
+  }
+
+  @action
+  getUserLocation() async {
+    loading = true;
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    originLatLng = LatLng(position.latitude, position.longitude);
+
+    if (originAddress.placeName == null) {
+      AddressModel address = await HelperMethods.findCordinateAddress(position);
+      updatePickupAddress(address);
+    }
+    loading = false;
+  }
+
+  LatLng calculateCenterBounds(LatLngBounds bounds) {
+    return LatLng((bounds.northeast.latitude + bounds.southwest.latitude) / 2,
+        (bounds.northeast.longitude + bounds.southwest.longitude) / 2);
   }
 }

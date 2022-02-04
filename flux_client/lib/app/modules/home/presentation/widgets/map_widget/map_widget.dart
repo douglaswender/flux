@@ -14,59 +14,33 @@ class MapWidget extends StatefulWidget {
 }
 
 class MapWidgetState extends ModularState<MapWidget, HomeStore> {
-  late Position currentPosition;
-
-  late CameraPosition cp;
-
-  LatLng? _initialPosition;
-
-  void _getUserLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    setState(() {
-      _initialPosition = LatLng(position.latitude, position.longitude);
-    });
-    controller.mapController?.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: _initialPosition!, zoom: 15)));
-
-    AddressModel address = await HelperMethods.findCordinateAddress(position);
-
-    if (controller.originAddress.placeName == null) {
-      controller.updatePickupAddress(address);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    controller.loading = true;
-    _getUserLocation();
+    controller.getUserLocation();
   }
 
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (BuildContext context) => !controller.loading
-          ? GoogleMap(
-              zoomControlsEnabled: true,
-              zoomGesturesEnabled: true,
-              polylines: controller.polylines,
-              markers: controller.markers,
-              circles: controller.circles,
-              mapType: MapType.normal,
-              myLocationButtonEnabled: true,
-              myLocationEnabled: true,
-              initialCameraPosition:
-                  CameraPosition(target: _initialPosition!, zoom: 14),
-              onMapCreated: (GoogleMapController thisController) {
-                controller.mapController = thisController;
-
-                setState(() {});
-
-                _getUserLocation();
-              },
-            )
-          : Container(),
-    );
+        builder: (BuildContext context) => !controller.loading
+            ? GoogleMap(
+                zoomControlsEnabled: false,
+                zoomGesturesEnabled: true,
+                polylines: controller.polylines,
+                markers: controller.markers,
+                circles: controller.circles,
+                mapType: MapType.normal,
+                myLocationButtonEnabled: false,
+                myLocationEnabled: false,
+                initialCameraPosition:
+                    CameraPosition(target: controller.originLatLng!, zoom: 14),
+                onMapCreated: (GoogleMapController thisController) {
+                  if (!controller.mapInitialized) {
+                    controller.setMapController(thisController);
+                  }
+                },
+              )
+            : Container());
   }
 }

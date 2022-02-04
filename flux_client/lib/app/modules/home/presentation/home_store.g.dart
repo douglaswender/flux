@@ -24,6 +24,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$originLatLngAtom = Atom(name: 'HomeStoreBase.originLatLng');
+
+  @override
+  LatLng? get originLatLng {
+    _$originLatLngAtom.reportRead();
+    return super.originLatLng;
+  }
+
+  @override
+  set originLatLng(LatLng? value) {
+    _$originLatLngAtom.reportWrite(value, super.originLatLng, () {
+      super.originLatLng = value;
+    });
+  }
+
   final _$destinationAddressAtom =
       Atom(name: 'HomeStoreBase.destinationAddress');
 
@@ -37,6 +52,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
   set destinationAddress(AddressModel value) {
     _$destinationAddressAtom.reportWrite(value, super.destinationAddress, () {
       super.destinationAddress = value;
+    });
+  }
+
+  final _$destinationLatLngAtom = Atom(name: 'HomeStoreBase.destinationLatLng');
+
+  @override
+  LatLng? get destinationLatLng {
+    _$destinationLatLngAtom.reportRead();
+    return super.destinationLatLng;
+  }
+
+  @override
+  set destinationLatLng(LatLng? value) {
+    _$destinationLatLngAtom.reportWrite(value, super.destinationLatLng, () {
+      super.destinationLatLng = value;
     });
   }
 
@@ -192,6 +222,15 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$goToLocationMapAsyncAction =
+      AsyncAction('HomeStoreBase.goToLocationMap');
+
+  @override
+  Future<void> goToLocationMap(LatLngBounds target) {
+    return _$goToLocationMapAsyncAction
+        .run(() => super.goToLocationMap(target));
+  }
+
   final _$searchPlaceAsyncAction = AsyncAction('HomeStoreBase.searchPlace');
 
   @override
@@ -206,6 +245,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
   Future getPlaceDetails(String placeId, AddressInputType addressInputType) {
     return _$getPlaceDetailsAsyncAction
         .run(() => super.getPlaceDetails(placeId, addressInputType));
+  }
+
+  final _$getDirectionAsyncAction = AsyncAction('HomeStoreBase.getDirection');
+
+  @override
+  Future<void> getDirection() {
+    return _$getDirectionAsyncAction.run(() => super.getDirection());
+  }
+
+  final _$getUserLocationAsyncAction =
+      AsyncAction('HomeStoreBase.getUserLocation');
+
+  @override
+  Future getUserLocation() {
+    return _$getUserLocationAsyncAction.run(() => super.getUserLocation());
   }
 
   final _$HomeStoreBaseActionController =
@@ -234,10 +288,23 @@ mixin _$HomeStore on HomeStoreBase, Store {
   }
 
   @override
+  dynamic setMapController(GoogleMapController thisMapController) {
+    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
+        name: 'HomeStoreBase.setMapController');
+    try {
+      return super.setMapController(thisMapController);
+    } finally {
+      _$HomeStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 originAddress: ${originAddress},
+originLatLng: ${originLatLng},
 destinationAddress: ${destinationAddress},
+destinationLatLng: ${destinationLatLng},
 loading: ${loading},
 direction: ${direction},
 polylineCoordinates: ${polylineCoordinates},
