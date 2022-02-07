@@ -22,9 +22,15 @@ class _SoftButtonWidgetState extends State<SoftButtonWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.selected) {
-      return PrimaryButtonWidget(onPress: widget.onPress, text: widget.text);
+      return PrimaryButtonWidget(
+        onPress: widget.onPress,
+        text: widget.text,
+      );
     } else {
-      return SecondaryButtonWidget(onPress: widget.onPress, text: widget.text);
+      return SecondaryButtonWidget(
+        onPress: widget.onPress,
+        text: widget.text,
+      );
     }
   }
 }

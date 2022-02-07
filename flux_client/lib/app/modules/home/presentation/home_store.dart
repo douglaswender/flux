@@ -242,8 +242,8 @@ abstract class HomeStoreBase with Store {
       );
     }
 
-    final target = calculateCenterBounds(bounds);
-    originLatLng = target;
+    // final target = calculateCenterBounds(bounds);
+    // originLatLng = target;
     await goToLocationMap(bounds);
 
     Marker originMarker = Marker(

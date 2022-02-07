@@ -4,16 +4,19 @@ import 'package:flux_client/app/core/core.dart';
 class PrimaryButtonWidget extends StatelessWidget {
   final VoidCallback? onPress;
   final String text;
+  final double? width;
 
   const PrimaryButtonWidget({
     Key? key,
     required this.onPress,
     required this.text,
+    this.width,
   }) : super(key: key);
 
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
+      width: width ?? double.maxFinite,
       child: (onPress != null)
           ? ElevatedButton(
               style: ElevatedButton.styleFrom(

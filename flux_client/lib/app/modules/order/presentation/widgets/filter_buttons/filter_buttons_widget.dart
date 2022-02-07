@@ -49,15 +49,18 @@ class _FilterButtonsState extends State<FilterButtons> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ...widget.softButtonsModels.map(
-                (e) => SoftButtonWidget(
-                  selected: store.index == widget.softButtonsModels.indexOf(e),
-                  onPress: () {
-                    store.setIndex(widget.softButtonsModels.indexOf(e));
-                    if (e.onTap != null) {
-                      e.onTap!();
-                    }
-                  },
-                  text: e.label!,
+                (e) => Expanded(
+                  child: SoftButtonWidget(
+                    selected:
+                        store.index == widget.softButtonsModels.indexOf(e),
+                    onPress: () {
+                      store.setIndex(widget.softButtonsModels.indexOf(e));
+                      if (e.onTap != null) {
+                        e.onTap!();
+                      }
+                    },
+                    text: e.label!,
+                  ),
                 ),
               ),
             ],
