@@ -1,12 +1,13 @@
-import 'package:flux_client/app/core/errors/exceptions.dart';
-import 'package:flux_client/app/shared/modules/auth/data/models/user_model.dart';
+import '../../../../../core/errors/exceptions.dart';
+import '../models/user_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class RemoteDataSource {
-  Future<UserModel> signInWithEmailandPassword({required String email, required String password});
+  Future<UserModel> signInWithEmailandPassword(
+      {required String email, required String password});
   Future<UserModel> signUpWithEmailAndPassword(
       {required String email, required String password, required String name});
   Future<UserModel> signWithGoogle();

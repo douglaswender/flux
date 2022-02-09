@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/styles/app_images.dart';
-import 'package:flux_client/app/core/styles/app_sizes.dart';
+import '../../../core/styles/app_images.dart';
+import '../../../core/styles/app_sizes.dart';
 
 class AppBarDefault extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onTap;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/shared/widgets/soft_button/soft_button_model.dart';
-import 'package:flux_client/app/shared/widgets/soft_button/soft_button_widget.dart';
+import '../../../../../shared/widgets/soft_button/soft_button_model.dart';
+import '../../../../../shared/widgets/soft_button/soft_button_widget.dart';
 
 import 'filter_buttons_store.dart';
 

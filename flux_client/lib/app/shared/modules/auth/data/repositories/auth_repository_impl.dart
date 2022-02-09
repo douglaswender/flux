@@ -1,12 +1,12 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flux_client/app/core/errors/exceptions.dart';
-import 'package:flux_client/app/core/errors/failure.dart';
-import 'package:flux_client/app/core/network/network_info.dart';
-import 'package:flux_client/app/shared/modules/auth/data/datasource/remote_data_source.dart';
-import 'package:flux_client/app/shared/modules/auth/data/models/user_model.dart';
-import 'package:flux_client/app/shared/modules/auth/domain/entities/user.dart';
-import 'package:flux_client/app/shared/modules/auth/domain/repositories/auth_repository.dart';
+import '../../../../../core/errors/exceptions.dart';
+import '../../../../../core/errors/failure.dart';
+import '../../../../../core/network/network_info.dart';
+import '../datasource/remote_data_source.dart';
+import '../models/user_model.dart';
+import '../../domain/entities/user.dart';
+import '../../domain/repositories/auth_repository.dart';
 
 typedef Future<UserModel> _GetUserModel();
 
@@ -43,7 +43,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, User>> signUpWithEmailAndPassword(
-      {required String email, required String password, required String name}) async {
+      {required String email,
+      required String password,
+      required String name}) async {
     return _auth(
       () => remoteDataSource.signUpWithEmailAndPassword(
         email: email,

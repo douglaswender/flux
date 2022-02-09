@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/errors/errors.dart';
-import 'package:flux_client/app/shared/modules/auth/domain/entities/user.dart';
-import 'package:flux_client/app/shared/modules/auth/domain/usecases/usecases.dart';
+import '../../../core/errors/errors.dart';
+import '../../../shared/modules/auth/domain/entities/user.dart';
+import '../../../shared/modules/auth/domain/usecases/usecases.dart';
 import 'package:mobx/mobx.dart';
 
 part 'register_store.g.dart';

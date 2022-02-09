@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/core/core.dart';
+import '../../../../core/core.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SocialButton extends StatelessWidget {

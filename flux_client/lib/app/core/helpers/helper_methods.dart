@@ -1,8 +1,8 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:flux_client/app/core/helpers/request_helper.dart';
-import 'package:flux_client/app/modules/home/data/models/address_model.dart';
-import 'package:flux_client/app/modules/home/data/models/direction_model.dart';
-import 'package:flux_client/app/shared/preferences/config.dart';
+import 'request_helper.dart';
+import '../../modules/home/data/models/address_model.dart';
+import '../../modules/home/data/models/direction_model.dart';
+import '../../shared/preferences/config.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 

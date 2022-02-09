@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:flux_client/app/core/errors/failure.dart';
-import 'package:flux_client/app/shared/modules/auth/domain/entities/user.dart';
+import '../../../../../core/errors/failure.dart';
+import '../entities/user.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, User>> signUpWithEmailAndPassword(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
-import 'package:flux_client/app/shared/widgets/secondary_button/secondary_button_widget.dart';
+import '../../../core/core.dart';
+import '../../../shared/widgets/app_bar/app_bar_widget.dart';
+import '../../../shared/widgets/secondary_button/secondary_button_widget.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);

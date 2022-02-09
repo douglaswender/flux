@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/modules/home/data/models/place_model.dart';
-import 'package:flux_client/app/modules/home/presentation/home_store.dart';
+import '../../../../../core/core.dart';
+import '../../../data/models/place_model.dart';
+import '../../home_store.dart';
 
 class PlaceItemWidget extends StatelessWidget {
   final PlaceModel place;

@@ -1,12 +1,12 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/core.dart';
+import '../../../core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/modules/order/presentation/widgets/filter_buttons/filter_buttons_widget.dart';
-import 'package:flux_client/app/modules/order/presentation/widgets/order_item/order_item_widget.dart';
+import 'widgets/filter_buttons/filter_buttons_widget.dart';
+import 'widgets/order_item/order_item_widget.dart';
 
-import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
-import 'package:flux_client/app/shared/widgets/soft_button/soft_button_model.dart';
+import '../../../shared/widgets/app_bar/app_bar_widget.dart';
+import '../../../shared/widgets/soft_button/soft_button_model.dart';
 
 import 'order_store.dart';
 

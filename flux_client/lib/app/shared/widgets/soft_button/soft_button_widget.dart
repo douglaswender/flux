@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/shared/widgets/primary_button/primary_button_widget.dart';
-import 'package:flux_client/app/shared/widgets/secondary_button/secondary_button_widget.dart';
+import '../primary_button/primary_button_widget.dart';
+import '../secondary_button/secondary_button_widget.dart';
 
 class SoftButtonWidget extends StatefulWidget {
   final bool selected;

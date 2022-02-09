@@ -1,4 +1,4 @@
-import 'package:flux_client/app/modules/home/domain/entities/address.dart';
+import '../../domain/entities/address.dart';
 
 class AddressModel extends Address {
   AddressModel({

@@ -1,4 +1,4 @@
-import 'package:flux_client/app/modules/home/domain/entities/place.dart';
+import '../../domain/entities/place.dart';
 
 class PlaceModel extends Place {
   PlaceModel({

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/modules/home/presentation/home_store.dart';
-import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
-import 'package:flux_client/app/shared/widgets/secondary_button/secondary_button_widget.dart';
-import 'package:flux_client/app/shared/shared.dart';
+import '../../../../../core/core.dart';
+import '../../home_store.dart';
+import '../../../../../shared/widgets/input/input_widget.dart';
+import '../../../../../shared/widgets/secondary_button/secondary_button_widget.dart';
+import '../../../../../shared/shared.dart';
 
 class PostContainer extends StatefulWidget {
   final ScrollController? scrollController;

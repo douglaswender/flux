@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/modules/home/data/models/place_model.dart';
-import 'package:flux_client/app/modules/home/presentation/home_store.dart';
-import 'package:flux_client/app/modules/home/presentation/widgets/place_item_widget/place_item_widget.dart';
-import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
-import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
-import 'package:flux_client/app/shared/widgets/progress_dialog/progress_dialog_widget.dart';
+import '../../../../core/core.dart';
+import '../../data/models/place_model.dart';
+import '../home_store.dart';
+import '../widgets/place_item_widget/place_item_widget.dart';
+import '../../../../shared/widgets/app_bar/app_bar_widget.dart';
+import '../../../../shared/widgets/input/input_widget.dart';
+import '../../../../shared/widgets/progress_dialog/progress_dialog_widget.dart';
 
 class SearchPage extends StatefulWidget {
   final AddressInputType addressInputType;

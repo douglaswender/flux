@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/shared/preferences/config.dart';
+import '../../../../../core/core.dart';
+import '../../../../../shared/preferences/config.dart';
 
 class OrderItemWidget extends StatefulWidget {
   const OrderItemWidget({Key? key}) : super(key: key);

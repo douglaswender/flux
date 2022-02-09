@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/core/core.dart';
+import '../../../core/core.dart';
 
 class ProgressDialog extends StatelessWidget {
   final String status;

@@ -1,12 +1,12 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
-import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/core/styles/app_keyboards.dart';
-import 'package:flux_client/app/modules/register/presentation/register_store.dart';
-import 'package:flux_client/app/shared/widgets/default_circular_progress_indicator/default_circular_progress_indicator.dart';
-import 'package:flux_client/app/shared/widgets/input/input_widget.dart';
-import 'package:flux_client/app/shared/widgets/primary_button/primary_button_widget.dart';
+import '../../../core/core.dart';
+import '../../../core/styles/app_keyboards.dart';
+import 'register_store.dart';
+import '../../../shared/widgets/default_circular_progress_indicator/default_circular_progress_indicator.dart';
+import '../../../shared/widgets/input/input_widget.dart';
+import '../../../shared/widgets/primary_button/primary_button_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   final String title;

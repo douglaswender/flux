@@ -1,4 +1,4 @@
-import 'package:flux_client/app/modules/home/domain/entities/direction.dart';
+import '../../domain/entities/direction.dart';
 
 class DirectionModel extends Direction {
   DirectionModel({

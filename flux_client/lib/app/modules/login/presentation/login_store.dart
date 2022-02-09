@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/errors/errors.dart';
-import 'package:flux_client/app/shared/modules/auth/domain/entities/user.dart';
-import 'package:flux_client/app/shared/modules/auth/domain/usecases/sign_in_with_google.dart';
-import 'package:flux_client/app/shared/modules/auth/domain/usecases/sing_in_with_email_and_password.dart';
+import '../../../core/errors/errors.dart';
+import '../../../shared/modules/auth/domain/entities/user.dart';
+import '../../../shared/modules/auth/domain/usecases/sign_in_with_google.dart';
+import '../../../shared/modules/auth/domain/usecases/sing_in_with_email_and_password.dart';
 import 'package:mobx/mobx.dart';
 
 part 'login_store.g.dart';

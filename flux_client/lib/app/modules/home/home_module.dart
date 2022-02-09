@@ -1,7 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/modules/home/presentation/home_page.dart';
-import 'package:flux_client/app/modules/home/presentation/home_store.dart';
-import 'package:flux_client/app/modules/home/presentation/pages/search_page.dart';
+import 'presentation/home_page.dart';
+import 'presentation/home_store.dart';
+import 'presentation/pages/search_page.dart';
 
 class HomeModule extends Module {
   @override

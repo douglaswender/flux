@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/modules/home/presentation/widgets/map_widget/map_widget.dart';
-import 'package:flux_client/app/modules/home/presentation/widgets/post_container/post_container.dart';
-import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
+import '../../../core/core.dart';
+import 'widgets/map_widget/map_widget.dart';
+import 'widgets/post_container/post_container.dart';
+import '../../../shared/widgets/app_bar/app_bar_widget.dart';
 import 'home_store.dart';
 
 class HomePage extends StatefulWidget {

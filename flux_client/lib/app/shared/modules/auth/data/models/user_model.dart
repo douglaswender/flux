@@ -1,4 +1,4 @@
-import 'package:flux_client/app/shared/modules/auth/domain/entities/user.dart';
+import '../../domain/entities/user.dart';
 
 class UserModel extends User {
   final String email;
