@@ -1,4 +1,7 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flux_client/app/shared/modules/auth/data/models/user_model.dart';
 import 'request_helper.dart';
 import '../../modules/home/data/models/address_model.dart';
 import '../../modules/home/data/models/direction_model.dart';
@@ -7,6 +10,27 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HelperMethods {
+  static Future<UserModel?> getCurrentUserInfo() async {
+    User? currentUser = FirebaseAuth.instance.currentUser!;
+    UserModel? currentUserInfo;
+    String userId = currentUser.uid;
+
+    DatabaseReference userRef =
+        FirebaseDatabase.instance.ref().child('users/$userId');
+
+    final snapshot = await userRef.get();
+
+    if (snapshot.exists) {
+      currentUserInfo = UserModel(
+        email: snapshot.child('email').value.toString(),
+        id: userId,
+        name: snapshot.child('name').value.toString(),
+        phoneNumber: snapshot.child('phoneNumber').value.toString(),
+      );
+    }
+    return currentUserInfo;
+  }
+
   static Future<AddressModel> findCordinateAddress(Position position) async {
     String placeAddress = '';
 

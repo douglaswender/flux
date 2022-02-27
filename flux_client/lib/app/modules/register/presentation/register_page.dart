@@ -1,6 +1,8 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
+import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../../core/core.dart';
 import '../../../core/styles/app_keyboards.dart';
 import 'register_store.dart';
@@ -17,6 +19,7 @@ class RegisterPage extends StatefulWidget {
 
 class RegisterPageState extends State<RegisterPage> {
   final RegisterStore store = Modular.get();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -24,15 +27,15 @@ class RegisterPageState extends State<RegisterPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-          AppImages.logoLine,
-          height: 50,
-        ),
-        centerTitle: true,
-        leading: BackButton(),
+      appBar: AppBarDefault(
+        isBackButton: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -41,87 +44,122 @@ class RegisterPageState extends State<RegisterPage> {
               children: [
                 Padding(
                   padding: EdgeInsets.all(AppSizes.s16),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: AppSizes.s16,
-                      ),
-                      InputWidget(
-                        label: "Email",
-                        textInputAction: TextInputAction.next,
-                        onChange: (email) {
-                          store.email = email;
-                          print(store.email);
-                        },
-                        type: AppKeyboards.email,
-                      ),
-                      SizedBox(
-                        height: AppSizes.s16,
-                      ),
-                      InputWidget(
-                        isCapitalization: true,
-                        label: "Nome",
-                        textInputAction: TextInputAction.next,
-                        onChange: (name) {
-                          store.name = name;
-                          print(store.name);
-                        },
-                        type: AppKeyboards.normal,
-                      ),
-                      SizedBox(
-                        height: AppSizes.s16,
-                      ),
-                      InputWidget(
-                        label: "Senha",
-                        textInputAction: TextInputAction.next,
-                        onChange: (password) {
-                          store.password = password;
-                          print(store.password);
-                        },
-                        type: AppKeyboards.normal,
-                        isPassword: true,
-                      ),
-                      SizedBox(
-                        height: AppSizes.s16,
-                      ),
-                      InputWidget(
-                        label: "Confirmar senha",
-                        onChange: (confirmPassword) {
-                          store.confirmPassword = confirmPassword;
-                          print(store.confirmPassword);
-                        },
-                        type: AppKeyboards.normal,
-                        isPassword: true,
-                      ),
-                      SizedBox(
-                        height: AppSizes.s16,
-                      ),
-                      // Row(
-                      //   mainAxisSize: MainAxisSize.max,
-                      //   children: [
-                      //     Observer(
-                      //       builder: (_) {
-                      //         if (store.fieldsNotNull) {
-                      //           return Expanded(
-                      //             child: PrimaryButtonWidget(
-                      //               onPress: () {
-                      //                 store.register();
-                      //               },
-                      //               text: "Registre-se",
-                      //             ),
-                      //           );
-                      //         } else {
-                      //           return Expanded(
-                      //             child: PrimaryButtonWidget(
-                      //               text: "Registre-se",
-                      //             ),
-                      //           );
-                      //         }
-                      //       },
-                      //     ),
-                      //   ],
-                      // )
-                    ],
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          label: "Email",
+                          textInputAction: TextInputAction.next,
+                          onChange: (email) {
+                            store.email = email;
+                            print(store.email);
+                          },
+                          type: AppKeyboards.email,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          isCapitalization: true,
+                          label: "Nome",
+                          textInputAction: TextInputAction.next,
+                          onChange: (name) {
+                            store.name = name;
+                            print(store.name);
+                          },
+                          type: AppKeyboards.normal,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          maskFormatter: [
+                            MaskTextInputFormatter(
+                                mask: '(##) #####-####',
+                                filter: {"#": RegExp(r'[0-9]')})
+                          ],
+                          isCapitalization: true,
+                          label: "Telefone",
+                          textInputAction: TextInputAction.next,
+                          onChange: (phoneNumber) {
+                            store.phoneNumber = phoneNumber;
+                            print(store.phoneNumber);
+                          },
+                          type: AppKeyboards.number,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor, informe a senha!';
+                            }
+                            return null;
+                          },
+                          label: "Senha",
+                          textInputAction: TextInputAction.next,
+                          onChange: (password) {
+                            store.password = password;
+                            print(store.password);
+                          },
+                          type: AppKeyboards.normal,
+                          isPassword: true,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Por favor, informe a senha!';
+                            } else if (value != store.password) {
+                              return 'Senhas não conferem, por favor, verifique a senha!';
+                            }
+                            return null;
+                          },
+                          label: "Confirmar senha",
+                          onChange: (confirmPassword) {
+                            store.confirmPassword = confirmPassword;
+                            print(store.confirmPassword);
+                          },
+                          type: AppKeyboards.normal,
+                          isPassword: true,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        // Row(
+                        //   mainAxisSize: MainAxisSize.max,
+                        //   children: [
+                        //     Observer(
+                        //       builder: (_) {
+                        //         if (store.fieldsNotNull) {
+                        //           return Expanded(
+                        //             child: PrimaryButtonWidget(
+                        //               onPress: () {
+                        //                 store.register();
+                        //               },
+                        //               text: "Registre-se",
+                        //             ),
+                        //           );
+                        //         } else {
+                        //           return Expanded(
+                        //             child: PrimaryButtonWidget(
+                        //               text: "Registre-se",
+                        //             ),
+                        //           );
+                        //         }
+                        //       },
+                        //     ),
+                        //   ],
+                        // )
+                      ],
+                    ),
                   ),
                 ),
                 Observer(
@@ -141,7 +179,7 @@ class RegisterPageState extends State<RegisterPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Row(
+      bottomSheet: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           Observer(
@@ -150,7 +188,10 @@ class RegisterPageState extends State<RegisterPage> {
                 return Expanded(
                   child: PrimaryButtonWidget(
                     onPress: () {
-                      store.register();
+                      if (_formKey.currentState!.validate()) {
+                        print('passou');
+                        store.register();
+                      }
                     },
                     text: "Registre-se",
                   ),
@@ -159,7 +200,7 @@ class RegisterPageState extends State<RegisterPage> {
                 return Expanded(
                   child: PrimaryButtonWidget(
                     text: "Registre-se",
-                    onPress: () {},
+                    onPress: null,
                   ),
                 );
               }
@@ -167,6 +208,32 @@ class RegisterPageState extends State<RegisterPage> {
           ),
         ],
       ),
+      // bottomNavigationBar: Row(
+      //   mainAxisSize: MainAxisSize.max,
+      //   children: [
+      //     Observer(
+      //       builder: (_) {
+      //         if (store.fieldsNotNull) {
+      //           return Expanded(
+      //             child: PrimaryButtonWidget(
+      //               onPress: () {
+      //                 store.register();
+      //               },
+      //               text: "Registre-se",
+      //             ),
+      //           );
+      //         } else {
+      //           return Expanded(
+      //             child: PrimaryButtonWidget(
+      //               text: "Registre-se",
+      //               onPress: null,
+      //             ),
+      //           );
+      //         }
+      //       },
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

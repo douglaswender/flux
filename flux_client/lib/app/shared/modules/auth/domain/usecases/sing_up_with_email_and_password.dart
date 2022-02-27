@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flux_client/app/shared/modules/auth/data/models/user_model.dart';
 import '../../../../../core/errors/failure.dart';
 import '../entities/user.dart';
 import '../repositories/auth_repository.dart';
@@ -11,14 +12,12 @@ class SignUpWithEmailAndPassword {
   });
 
   Future<Either<Failure, User>> call({
-    required String email,
     required String password,
-    required String name,
+    required UserModel user,
   }) {
     return repository.signUpWithEmailAndPassword(
-      email: email,
       password: password,
-      name: name,
+      user: user,
     );
   }
 }

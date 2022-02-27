@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_client/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
 import '../../../../../core/core.dart';
 import '../../home_store.dart';
 import '../../../../../shared/widgets/input/input_widget.dart';
@@ -17,10 +18,13 @@ class PostContainer extends StatefulWidget {
 
 class _PostContainerState extends State<PostContainer> {
   HomeStore homeStore = Modular.get<HomeStore>();
+  AuthRepositoryImpl authRepository = Modular.get<AuthRepositoryImpl>();
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
+    print(authRepository);
     super.initState();
   }
 
@@ -50,7 +54,7 @@ class _PostContainerState extends State<PostContainer> {
               Row(
                 children: [
                   Text(
-                    "Olá Douglas, vai de Flux?",
+                    "Olá ${authRepository.userModel!.name!.firstName()}, vai de Flux?",
                     style: AppTextStyles.body,
                   ),
                 ],
@@ -68,7 +72,7 @@ class _PostContainerState extends State<PostContainer> {
                 readOnly: true,
                 onTap: () async {
                   await Modular.to.pushNamed(
-                    '/search_page',
+                    '/home/search_page',
                     arguments: {
                       "addressInputType": AddressInputType.origin,
                     },
@@ -97,7 +101,7 @@ class _PostContainerState extends State<PostContainer> {
                 readOnly: true,
                 onTap: () async {
                   await Modular.to.pushNamed(
-                    '/search_page',
+                    '/home/search_page',
                     arguments: {
                       "addressInputType": AddressInputType.destination,
                     },
@@ -175,7 +179,25 @@ class _PostContainerState extends State<PostContainer> {
               SizedBox(
                 height: AppSizes.s16,
               ),
-              InputWidget(label: "Destinatário"),
+              InputWidget(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor informe um destinatário da encomenda';
+                    }
+                    return null;
+                  },
+                  label: "Destinatário"),
+              SizedBox(
+                height: AppSizes.s16,
+              ),
+              InputWidget(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor informe um documento do destinatário (CPF ou RG)';
+                    }
+                    return null;
+                  },
+                  label: "CPF ou RG do destinatário"),
               SizedBox(
                 height: AppSizes.s16,
               ),

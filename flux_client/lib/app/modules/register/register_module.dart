@@ -14,6 +14,6 @@ class RegisterModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (_, args) => RegisterPage()),
+    ChildRoute('/', child: (_, __) => RegisterPage()),
   ];
 }

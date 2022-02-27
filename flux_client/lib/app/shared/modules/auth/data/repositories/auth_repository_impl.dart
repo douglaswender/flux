@@ -1,5 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dartz/dartz.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../core/errors/exceptions.dart';
 import '../../../../../core/errors/failure.dart';
 import '../../../../../core/network/network_info.dart';
@@ -14,6 +15,8 @@ class AuthRepositoryImpl implements AuthRepository {
   final RemoteDataSource remoteDataSource;
   final NetworkInfo networkInfo;
 
+  UserModel? userModel;
+
   AuthRepositoryImpl({
     required this.remoteDataSource,
     required this.networkInfo,
@@ -22,6 +25,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, bool>> logout() async {
     try {
       final result = await remoteDataSource.logout();
+      // Obtain shared preferences.
+      final prefs = await SharedPreferences.getInstance();
+
+      // Remove data for the 'email' key.
+      await prefs.remove('email');
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
@@ -43,14 +51,11 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, User>> signUpWithEmailAndPassword(
-      {required String email,
-      required String password,
-      required String name}) async {
+      {required String password, required UserModel user}) async {
     return _auth(
       () => remoteDataSource.signUpWithEmailAndPassword(
-        email: email,
         password: password,
-        name: name,
+        user: user,
       ),
     );
   }
@@ -59,6 +64,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (await networkInfo.isConnected != ConnectivityResult.none) {
       try {
         final result = await getUserModel();
+        this.userModel = result;
         return Right(result);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.message));
@@ -73,5 +79,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, User>> signInWithGoogle() {
     return _auth(() => remoteDataSource.signWithGoogle());
+  }
+
+  @override
+  Future<Either<Failure, User?>> getUser() async {
+    return Right(userModel);
   }
 }

@@ -1,3 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flux_client/app/core/helpers/helper_methods.dart';
+
 import '../../../../../core/errors/exceptions.dart';
 import '../models/user_model.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,7 +12,7 @@ abstract class RemoteDataSource {
   Future<UserModel> signInWithEmailandPassword(
       {required String email, required String password});
   Future<UserModel> signUpWithEmailAndPassword(
-      {required String email, required String password, required String name});
+      {required String password, required UserModel user});
   Future<UserModel> signWithGoogle();
   Future<bool> logout();
 }
@@ -25,7 +28,15 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         email: email,
         password: password,
       );
-      return UserModel(email: result.user!.email!, id: result.user!.uid);
+      final infos = await HelperMethods.getCurrentUserInfo();
+
+      print(infos!.phoneNumber);
+      return UserModel(
+        email: result.user!.email!,
+        id: result.user!.uid,
+        phoneNumber: infos.phoneNumber!,
+        name: infos.name!,
+      );
     } on FirebaseException catch (exception) {
       throw ServerException(exception.message!);
     } catch (_) {
@@ -35,17 +46,32 @@ class RemoteDataSourceImpl implements RemoteDataSource {
 
   @override
   Future<UserModel> signUpWithEmailAndPassword({
-    required String email,
     required String password,
-    required String name,
+    required UserModel user,
   }) async {
     try {
-      final result = await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      User? result = (await _auth
+              .createUserWithEmailAndPassword(
+                email: user.email!,
+                password: password,
+              )
+              .catchError((ex) {}))
+          .user;
 
-      return UserModel(email: result.user!.email!, id: result.user!.uid);
+      if (result != null) {
+        DatabaseReference newUser =
+            FirebaseDatabase.instance.ref().child('users/${result.uid}');
+
+        Map userMap = {
+          'name': user.name,
+          'email': user.email,
+          'phoneNumber': user.phoneNumber
+        };
+
+        newUser.set(userMap);
+      }
+
+      return UserModel(email: result!.email!, id: result.uid);
     } on FirebaseException catch (e) {
       throw ServerException(e.message!);
     } catch (_) {

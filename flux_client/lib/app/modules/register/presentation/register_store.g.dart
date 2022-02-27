@@ -62,6 +62,21 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
     });
   }
 
+  final _$phoneNumberAtom = Atom(name: '_RegisterStoreBase.phoneNumber');
+
+  @override
+  String get phoneNumber {
+    _$phoneNumberAtom.reportRead();
+    return super.phoneNumber;
+  }
+
+  @override
+  set phoneNumber(String value) {
+    _$phoneNumberAtom.reportWrite(value, super.phoneNumber, () {
+      super.phoneNumber = value;
+    });
+  }
+
   final _$passwordAtom = Atom(name: '_RegisterStoreBase.password');
 
   @override
@@ -122,6 +137,7 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
 loading: ${loading},
 email: ${email},
 name: ${name},
+phoneNumber: ${phoneNumber},
 password: ${password},
 confirmPassword: ${confirmPassword},
 passwordNotMatch: ${passwordNotMatch},

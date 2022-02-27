@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import '../../../shared/modules/auth/data/repositories/auth_repository_impl.dart';
 import '../../../core/core.dart';
 import '../../../shared/widgets/app_bar/app_bar_widget.dart';
 import '../../../shared/widgets/input/input_widget.dart';
@@ -14,6 +15,8 @@ class ConfigPage extends StatefulWidget {
 }
 
 class _ConfigPageState extends State<ConfigPage> {
+  final _formKey = GlobalKey<FormState>();
+  AuthRepositoryImpl authRepository = Modular.get<AuthRepositoryImpl>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,36 +41,42 @@ class _ConfigPageState extends State<ConfigPage> {
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: NetworkImage(
-                            "https://avatars.githubusercontent.com/u/13887472?v=4"))),
-              ),
-              SizedBox(
-                height: AppSizes.s8,
-              ),
-              Text(
-                "Douglas Wender",
-                style: AppTextStyles.heading36,
+                            "https://conteudo.imguol.com.br/c/noticias/41/2021/11/11/11nov2021---o-ex-presidente-luiz-inacio-lula-da-silva-pt-em-berlim-na-alemanha-1636644440404_v2_450x337.jpg"))),
               ),
               SizedBox(
                 height: AppSizes.s24,
               ),
-              InputWidget(label: "Nome completo"),
+              InputWidget(
+                label: "Nome completo",
+                controller:
+                    TextEditingController(text: authRepository.userModel!.name),
+              ),
               SizedBox(
                 height: AppSizes.s24,
               ),
-              InputWidget(label: "CPF"),
+              InputWidget(
+                label: "Telefone",
+                controller: TextEditingController(
+                    text: authRepository.userModel!.phoneNumber),
+              ),
               SizedBox(
                 height: AppSizes.s24,
               ),
-              InputWidget(label: "Email"),
+              InputWidget(
+                label: "Email",
+                controller: TextEditingController(
+                  text: authRepository.userModel!.email,
+                ),
+              ),
               SizedBox(
                 height: AppSizes.s24,
               ),
               Row(
                 children: [
                   Expanded(
-                      child: PrimaryButtonWidget(
-                    text: 'Alterar Senha',
-                    onPress: () {},
+                      child: SecondaryButtonWidget(
+                    text: 'Salvar',
+                    onPress: null,
                   )),
                 ],
               )
@@ -80,7 +89,13 @@ class _ConfigPageState extends State<ConfigPage> {
         child: Row(
           children: [
             Expanded(
-              child: SecondaryButtonWidget(onPress: () {}, text: "Salvar"),
+              child: PrimaryButtonWidget(
+                  onPress: () {
+                    //TODO: limpar os dados armazenados localmente
+                    authRepository.logout();
+                    Modular.to.navigate('/');
+                  },
+                  text: "Sair"),
             ),
           ],
         ),

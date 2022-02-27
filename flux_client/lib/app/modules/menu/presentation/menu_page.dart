@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_client/app/shared/modules/auth/data/models/user_model.dart';
+import 'package:flux_client/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
 import '../../../core/core.dart';
 import '../../../shared/widgets/app_bar/app_bar_widget.dart';
 import '../../../shared/widgets/secondary_button/secondary_button_widget.dart';
+import '../../../shared/shared.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -12,6 +15,15 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  AuthRepositoryImpl authRepository = Modular.get<AuthRepositoryImpl>();
+
+  UserModel? user;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,14 +48,15 @@ class _MenuPageState extends State<MenuPage> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         fit: BoxFit.fill,
+                        //TODO: ajustar imagem para quando for null e pegar do usuário.
                         image: NetworkImage(
-                            "https://avatars.githubusercontent.com/u/13887472?v=4"))),
+                            "https://conteudo.imguol.com.br/c/noticias/41/2021/11/11/11nov2021---o-ex-presidente-luiz-inacio-lula-da-silva-pt-em-berlim-na-alemanha-1636644440404_v2_450x337.jpg"))),
               ),
               SizedBox(
                 height: AppSizes.s8,
               ),
               Text(
-                "Douglas Wender",
+                authRepository.userModel!.name!.secondName(),
                 style: AppTextStyles.heading36,
               ),
               SizedBox(

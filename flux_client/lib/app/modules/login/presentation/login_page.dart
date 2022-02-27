@@ -1,6 +1,7 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/core.dart';
 import '../../../core/styles/app_images.dart';
 import '../../../core/styles/app_sizes.dart';
@@ -25,6 +26,24 @@ class LoginPageState extends State<LoginPage> {
   final LoginStore store = Modular.get();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    verifyUserLogged();
+  }
+
+  verifyUserLogged() async {
+    // Obtain shared preferences.
+    final prefs = await SharedPreferences.getInstance();
+    final String? email = prefs.getString('email');
+    final String? password = prefs.getString('password');
+
+    if (email!.isNotEmpty && password!.isNotEmpty) {
+      store.login();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

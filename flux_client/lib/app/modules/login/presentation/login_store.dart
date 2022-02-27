@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/errors/errors.dart';
 import '../../../shared/modules/auth/domain/entities/user.dart';
 import '../../../shared/modules/auth/domain/usecases/sign_in_with_google.dart';
@@ -27,14 +28,27 @@ abstract class _LoginStoreBase with Store {
   Future<void> login() async {
     print(email);
     print(password);
+    final prefs = await SharedPreferences.getInstance();
+
     loading = true;
     SignInWithEmailAndPassword signInWithEmailAndPassword = Modular.get();
-    Either<Failure, User> response =
-        await signInWithEmailAndPassword(email: email, password: password);
-    print(response);
+
+    Either<Failure, User> response;
+    if (prefs.getString('email') == null) {
+      response =
+          await signInWithEmailAndPassword(email: email, password: password);
+      prefs.setString('email', email);
+      prefs.setString('password', password);
+    } else {
+      response = await signInWithEmailAndPassword(
+          email: prefs.getString('email')!,
+          password: prefs.getString('password')!);
+    }
+
     loading = false;
+
     if (response.isRight()) {
-      Modular.to.navigate('/home');
+      Modular.to.navigate('/home/');
     } else {
       error = true;
     }
@@ -48,7 +62,7 @@ abstract class _LoginStoreBase with Store {
       Either<Failure, User> response = await signInWithGoogle();
       print(response);
       if (response.isRight()) {
-        Modular.to.navigate('/home');
+        Modular.to.navigate('/home/');
       } else {
         error = true;
       }

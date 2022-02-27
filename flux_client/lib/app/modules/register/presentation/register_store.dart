@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_client/app/shared/modules/auth/data/models/user_model.dart';
 import '../../../core/errors/errors.dart';
 import '../../../shared/modules/auth/domain/entities/user.dart';
 import '../../../shared/modules/auth/domain/usecases/usecases.dart';
@@ -20,6 +21,9 @@ abstract class _RegisterStoreBase with Store {
   String name = "";
 
   @observable
+  String phoneNumber = "";
+
+  @observable
   String password = "";
 
   @observable
@@ -38,16 +42,20 @@ abstract class _RegisterStoreBase with Store {
   @action
   Future<void> register() async {
     loading = true;
-    //Future.delayed(Duration(seconds: 4), () => loading = false);
     SignUpWithEmailAndPassword userOrFailure = Modular.get();
-    Either<Failure, User> response =
-        await userOrFailure(email: email, password: password, name: name);
+    UserModel user =
+        UserModel(email: email, name: name, phoneNumber: phoneNumber);
+
     if (password != confirmPassword) {
       print('please complete');
       passwordNotMatch = true;
-      print(response);
+      loading = false;
     } else {
-      print('hello');
+      Either<Failure, User> response =
+          await userOrFailure(password: password, user: user);
+      print(response);
+
+      Modular.to.pop();
     }
   }
 }
