@@ -1,6 +1,5 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-
 import 'core/network/network_info.dart';
 import 'modules/config/presentation/config_page.dart';
 import 'modules/home/home_module.dart';
@@ -25,7 +24,10 @@ class AppModule extends Module {
     Bind((i) => RemoteDataSourceImpl()),
 
     //* Repository
-    Bind((i) => AuthRepositoryImpl(networkInfo: i(), remoteDataSource: i())),
+    Bind((i) => AuthRepositoryImpl(
+          networkInfo: i(),
+          remoteDataSource: i(),
+        )),
 
     //? UseCases
     Bind((i) => LogoutUser(repository: i())),
@@ -33,9 +35,9 @@ class AppModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
+    ModuleRoute('/', module: LoginModule()),
     ModuleRoute('/login', module: LoginModule()),
-    ModuleRoute('/login', module: LoginModule()),
-    ModuleRoute('/', module: HomeModule()),
+    ModuleRoute('/home', module: HomeModule()),
     ModuleRoute('/register', module: RegisterModule()),
     ChildRoute('/menu', child: (context, args) => MenuPage()),
     ChildRoute('/config', child: (context, args) => ConfigPage()),

@@ -14,10 +14,12 @@ class AppWidget extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
       debugShowCheckedModeBanner: false,
       title: 'Flux',
       theme: ThemeData(primaryColor: AppColors.white),
-    ).modular();
+    );
   }
 }
