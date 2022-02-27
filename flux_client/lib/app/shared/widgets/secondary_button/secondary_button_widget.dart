@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/core.dart';
 
 class SecondaryButtonWidget extends StatelessWidget {
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
   final String text;
   final double? width;
 

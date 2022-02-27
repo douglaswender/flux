@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../../../core/core.dart';
 
 class InputWidget extends StatelessWidget {
@@ -13,6 +14,7 @@ class InputWidget extends StatelessWidget {
   final FocusNode? focusNode;
   final bool readOnly;
   final String? Function(String?)? validator;
+  final List<MaskTextInputFormatter>? maskFormatter;
 
   InputWidget({
     Key? key,
@@ -27,6 +29,7 @@ class InputWidget extends StatelessWidget {
     this.focusNode,
     this.readOnly = false,
     this.validator,
+    this.maskFormatter,
   }) : assert(['normal', 'email', 'number'].contains(type));
 
   final keyBoard = {
@@ -40,6 +43,7 @@ class InputWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: maskFormatter,
       validator: validator,
       focusNode: focusNode,
       onTap: onTap,

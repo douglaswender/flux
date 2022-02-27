@@ -177,6 +177,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$mapInitializedAtom = Atom(name: 'HomeStoreBase.mapInitialized');
+
+  @override
+  bool get mapInitialized {
+    _$mapInitializedAtom.reportRead();
+    return super.mapInitialized;
+  }
+
+  @override
+  set mapInitialized(bool value) {
+    _$mapInitializedAtom.reportWrite(value, super.mapInitialized, () {
+      super.mapInitialized = value;
+    });
+  }
+
   final _$destinationPlacesAtom = Atom(name: 'HomeStoreBase.destinationPlaces');
 
   @override
@@ -312,6 +327,7 @@ markers: ${markers},
 circles: ${circles},
 postContainerHeight: ${postContainerHeight},
 valueOfRun: ${valueOfRun},
+mapInitialized: ${mapInitialized},
 destinationPlaces: ${destinationPlaces},
 polylines: ${polylines},
 mapController: ${mapController}
