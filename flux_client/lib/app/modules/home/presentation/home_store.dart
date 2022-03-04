@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flux_client/app/shared/modules/delivery/domain/usecases/publish_delivery.dart';
 import '../../../core/helpers/helper_methods.dart';
 import '../../../core/helpers/request_helper.dart';
 import '../data/models/address_model.dart';
@@ -325,5 +326,22 @@ abstract class HomeStoreBase with Store {
   LatLng calculateCenterBounds(LatLngBounds bounds) {
     return LatLng((bounds.northeast.latitude + bounds.southwest.latitude) / 2,
         (bounds.northeast.longitude + bounds.southwest.longitude) / 2);
+  }
+
+  @action
+  publishDelivery(
+      {required String phoneNumber, required String userName}) async {
+    loading = true;
+
+    final publish = Modular.get<PublishDelivery>();
+
+    await publish(
+      originAddreess: originAddress,
+      destinationAddreess: destinationAddress,
+      phoneNumber: phoneNumber,
+      userName: userName,
+    );
+
+    loading = false;
   }
 }

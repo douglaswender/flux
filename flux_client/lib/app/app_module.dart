@@ -1,5 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_client/app/shared/modules/delivery/data/datasource/delivery_datasource.dart';
+import 'package:flux_client/app/shared/modules/delivery/data/repositories/delivery_repository_impl.dart';
 import 'core/network/network_info.dart';
 import 'modules/config/presentation/config_page.dart';
 import 'modules/home/home_module.dart';
@@ -17,16 +19,21 @@ class AppModule extends Module {
     //* External
     Bind((i) => Connectivity()),
 
-    //!Core
+    //! Core
     Bind((i) => NetworkInfoImpl(i())),
 
     //! DataSource
     Bind((i) => RemoteDataSourceImpl()),
+    Bind((i) => DeliveryDatasourceImpl()),
 
     //* Repository
     Bind((i) => AuthRepositoryImpl(
           networkInfo: i(),
           remoteDataSource: i(),
+        )),
+    Bind((i) => DeliveryRepositoryImpl(
+          datasource: i(),
+          networkInfo: i(),
         )),
 
     //? UseCases

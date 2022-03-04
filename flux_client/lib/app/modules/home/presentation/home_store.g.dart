@@ -277,6 +277,16 @@ mixin _$HomeStore on HomeStoreBase, Store {
     return _$getUserLocationAsyncAction.run(() => super.getUserLocation());
   }
 
+  final _$publishDeliveryAsyncAction =
+      AsyncAction('HomeStoreBase.publishDelivery');
+
+  @override
+  Future publishDelivery(
+      {required String phoneNumber, required String userName}) {
+    return _$publishDeliveryAsyncAction.run(() =>
+        super.publishDelivery(phoneNumber: phoneNumber, userName: userName));
+  }
+
   final _$HomeStoreBaseActionController =
       ActionController(name: 'HomeStoreBase');
 

@@ -30,11 +30,10 @@ class RemoteDataSourceImpl implements RemoteDataSource {
       );
       final infos = await HelperMethods.getCurrentUserInfo();
 
-      print(infos!.phoneNumber);
       return UserModel(
         email: result.user!.email!,
         id: result.user!.uid,
-        phoneNumber: infos.phoneNumber!,
+        phoneNumber: infos!.phoneNumber!,
         name: infos.name!,
       );
     } on FirebaseException catch (exception) {

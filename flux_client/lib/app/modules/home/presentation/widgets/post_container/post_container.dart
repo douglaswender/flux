@@ -210,6 +210,10 @@ class _PostContainerState extends State<PostContainer> {
                       onPress: () {
                         if (_formKey.currentState!.validate()) {
                           print('passou');
+                          homeStore.publishDelivery(
+                            phoneNumber: authRepository.userModel!.phoneNumber!,
+                            userName: authRepository.userModel!.name!,
+                          );
                         }
                       },
                       text: "Publicar"))
