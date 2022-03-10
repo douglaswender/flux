@@ -169,50 +169,57 @@ class _PostContainerState extends State<PostContainer> {
                   ],
                 ),
               InputWidget(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor informe uma descrição da encomenda';
-                    }
-                    return null;
-                  },
-                  label: "Descrição da encomenda"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor informe uma descrição da encomenda';
+                  }
+                  return null;
+                },
+                label: "Descrição da encomenda",
+                textInputAction: TextInputAction.next,
+              ),
               SizedBox(
                 height: AppSizes.s16,
               ),
               InputWidget(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor informe um destinatário da encomenda';
-                    }
-                    return null;
-                  },
-                  label: "Destinatário"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor informe um destinatário da encomenda';
+                  }
+                  return null;
+                },
+                label: "Destinatário",
+                textInputAction: TextInputAction.next,
+              ),
               SizedBox(
                 height: AppSizes.s16,
               ),
               InputWidget(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor informe um documento do destinatário (CPF ou RG)';
-                    }
-                    return null;
-                  },
-                  label: "CPF ou RG do destinatário"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor informe um documento do destinatário (CPF ou RG)';
+                  }
+                  return null;
+                },
+                label: "CPF ou RG do destinatário",
+                textInputAction: TextInputAction.next,
+              ),
               SizedBox(
                 height: AppSizes.s16,
               ),
-              InputWidget(label: "Motorista"),
-              SizedBox(
-                height: AppSizes.s16,
-              ),
+              // InputWidget(label: "Motorista"),
+              // SizedBox(
+              //   height: AppSizes.s16,
+              // ),
               Container(
                   child: SecondaryButtonWidget(
                       onPress: () {
                         if (_formKey.currentState!.validate()) {
-                          print('passou');
                           homeStore.publishDelivery(
                             phoneNumber: authRepository.userModel!.phoneNumber!,
                             userName: authRepository.userModel!.name!,
+                            userId: authRepository.userModel!.id!,
+                            valueOfRun: homeStore.valueOfRun!,
                           );
                         }
                       },

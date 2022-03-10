@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flux_client/app/shared/modules/delivery/data/models/delivery_model.dart';
 import '../../../../../core/core.dart';
 import '../../../../../shared/preferences/config.dart';
 
 class OrderItemWidget extends StatefulWidget {
-  const OrderItemWidget({Key? key}) : super(key: key);
+  final DeliveryModel delivery;
+  const OrderItemWidget({Key? key, required this.delivery}) : super(key: key);
 
   @override
   _OrderItemWidgetState createState() => _OrderItemWidgetState();

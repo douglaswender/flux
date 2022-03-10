@@ -282,9 +282,15 @@ mixin _$HomeStore on HomeStoreBase, Store {
 
   @override
   Future publishDelivery(
-      {required String phoneNumber, required String userName}) {
-    return _$publishDeliveryAsyncAction.run(() =>
-        super.publishDelivery(phoneNumber: phoneNumber, userName: userName));
+      {required String phoneNumber,
+      required String userName,
+      required String userId,
+      required int valueOfRun}) {
+    return _$publishDeliveryAsyncAction.run(() => super.publishDelivery(
+        phoneNumber: phoneNumber,
+        userName: userName,
+        userId: userId,
+        valueOfRun: valueOfRun));
   }
 
   final _$HomeStoreBaseActionController =

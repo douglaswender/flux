@@ -80,7 +80,7 @@ class _MenuPageState extends State<MenuPage> {
                       children: [
                         Expanded(
                           child: SecondaryButtonWidget(
-                              onPress: () => Modular.to.pushNamed('/order'),
+                              onPress: () => Modular.to.pushNamed('/orders/'),
                               text: "Minhas Encomendas"),
                         ),
                       ],

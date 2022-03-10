@@ -24,24 +24,50 @@ mixin _$OrderStore on _OrderStoreBase, Store {
     });
   }
 
-  final _$_OrderStoreBaseActionController =
-      ActionController(name: '_OrderStoreBase');
+  final _$listOrderItensAtom = Atom(name: '_OrderStoreBase.listOrderItens');
 
   @override
-  void setIndex(int newIndex) {
-    final _$actionInfo = _$_OrderStoreBaseActionController.startAction(
-        name: '_OrderStoreBase.setIndex');
-    try {
-      return super.setIndex(newIndex);
-    } finally {
-      _$_OrderStoreBaseActionController.endAction(_$actionInfo);
-    }
+  List<DeliveryModel>? get listOrderItens {
+    _$listOrderItensAtom.reportRead();
+    return super.listOrderItens;
+  }
+
+  @override
+  set listOrderItens(List<DeliveryModel>? value) {
+    _$listOrderItensAtom.reportWrite(value, super.listOrderItens, () {
+      super.listOrderItens = value;
+    });
+  }
+
+  final _$loadingAtom = Atom(name: '_OrderStoreBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$getUserDeliveriesAsyncAction =
+      AsyncAction('_OrderStoreBase.getUserDeliveries');
+
+  @override
+  Future getUserDeliveries() {
+    return _$getUserDeliveriesAsyncAction.run(() => super.getUserDeliveries());
   }
 
   @override
   String toString() {
     return '''
-index: ${index}
+index: ${index},
+listOrderItens: ${listOrderItens},
+loading: ${loading}
     ''';
   }
 }

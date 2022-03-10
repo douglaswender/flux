@@ -329,19 +329,30 @@ abstract class HomeStoreBase with Store {
   }
 
   @action
-  publishDelivery(
-      {required String phoneNumber, required String userName}) async {
+  publishDelivery({
+    required String phoneNumber,
+    required String userName,
+    required String userId,
+    required int valueOfRun,
+  }) async {
     loading = true;
 
     final publish = Modular.get<PublishDelivery>();
 
-    await publish(
+    final orderId = await publish(
       originAddreess: originAddress,
       destinationAddreess: destinationAddress,
       phoneNumber: phoneNumber,
       userName: userName,
+      userId: userId,
+      valueOfRun: valueOfRun,
     );
 
     loading = false;
+
+    orderId.fold(
+        (l) => null,
+        (r) =>
+            Modular.to.pushNamed('/orders/order', arguments: {"order_id": r}));
   }
 }

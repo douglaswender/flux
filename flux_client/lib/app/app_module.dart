@@ -48,6 +48,6 @@ class AppModule extends Module {
     ModuleRoute('/register', module: RegisterModule()),
     ChildRoute('/menu', child: (context, args) => MenuPage()),
     ChildRoute('/config', child: (context, args) => ConfigPage()),
-    ModuleRoute('/order', module: OrderModule()),
+    ModuleRoute('/orders/', module: OrderModule()),
   ];
 }

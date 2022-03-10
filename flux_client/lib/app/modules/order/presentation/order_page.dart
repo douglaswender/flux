@@ -1,5 +1,8 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_client/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
+import 'package:flux_client/app/shared/modules/delivery/data/models/delivery_model.dart';
+import 'package:flux_client/app/shared/modules/delivery/domain/usecases/get_deliveries.dart';
 import '../../../core/core.dart';
 import 'package:flutter/material.dart';
 import 'widgets/filter_buttons/filter_buttons_widget.dart';
@@ -17,18 +20,22 @@ class OrderPage extends StatefulWidget {
   OrderPageState createState() => OrderPageState();
 }
 
-class OrderPageState extends State<OrderPage> {
-  final OrderStore store = Modular.get();
-  int currentIndex = 0;
+class OrderPageState extends ModularState<OrderPage, OrderStore> {
+  // final listOrderItens = [
+  //   OrderItemWidget(),
+  //   OrderItemWidget(),
+  //   OrderItemWidget(),
+  //   OrderItemWidget(),
+  //   OrderItemWidget(),
+  //   OrderItemWidget(),
+  // ];
 
-  final listOrderItens = [
-    OrderItemWidget(),
-    OrderItemWidget(),
-    OrderItemWidget(),
-    OrderItemWidget(),
-    OrderItemWidget(),
-    OrderItemWidget(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    controller.getUserDeliveries();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,40 +50,42 @@ class OrderPageState extends State<OrderPage> {
           child: Observer(
             builder: (_) => Column(
               children: <Widget>[
-                FilterButtons(
-                  iconButtonAction: () {},
-                  softButtonsModels: [
-                    SoftButtonModel(
-                        label: 'entregue',
-                        onTap: () {
-                          print("olá, vim do model");
-                        }),
-                    SoftButtonModel(label: 'publicado'),
-                    SoftButtonModel(label: 'enviado'),
-                  ],
-                ),
+                // FilterButtons(
+                //   iconButtonAction: () {},
+                //   softButtonsModels: [
+                //     SoftButtonModel(
+                //         label: '✅',
+                //         onTap: () {
+                //           print("olá, vim do model");
+                //         }),
+                //     SoftButtonModel(label: '🏠'),
+                //     SoftButtonModel(label: '🚗'),
+                //   ],
+                // ),
                 SizedBox(
                   height: AppSizes.s16,
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      child: Column(
-                        children: [
-                          for (OrderItemWidget item in listOrderItens)
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: AppSizes.s16,
-                                ),
-                                item
-                              ],
-                            )
-                        ],
+                if (!controller.loading)
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            for (DeliveryModel item
+                                in controller.listOrderItens!)
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: AppSizes.s16,
+                                  ),
+                                  OrderItemWidget(delivery: item)
+                                ],
+                              )
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
               ],
             ),
           ),

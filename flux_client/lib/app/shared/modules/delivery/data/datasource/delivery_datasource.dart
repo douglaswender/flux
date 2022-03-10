@@ -1,37 +1,51 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_client/app/modules/home/data/models/address_model.dart';
 import 'package:flux_client/app/modules/home/domain/entities/address.dart';
+import 'package:flux_client/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
+import 'package:flux_client/app/shared/modules/delivery/data/models/delivery_model.dart';
 
 abstract class DeliveryDatasource {
-  Future<bool> publishDelivery({
-    required Address originAddreess,
+  Future<String> publishDelivery({
+    required Address originAddress,
     required Address destinationAddress,
     required String phoneNumber,
+    required String userId,
     required String userName,
+    required int valueOfRun,
+  });
+  Future<DeliveryModel> getDelivery({
+    required String deliveryId,
+    required String userId,
+  });
+  Future<List<DeliveryModel>> getDeliveries({
+    required String userId,
   });
 }
 
 class DeliveryDatasourceImpl implements DeliveryDatasource {
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   @override
-  Future<bool> publishDelivery({
-    required Address originAddreess,
+  Future<String> publishDelivery({
+    required Address originAddress,
     required Address destinationAddress,
     required String phoneNumber,
+    required String userId,
     required String userName,
+    required int valueOfRun,
   }) async {
-    // TODO: implement publishDelivery
     try {
-      final ref = _database.ref().child('delivery').push();
+      final ref = _database.ref().child('delivery/$userId/').push();
 
       Map deliveryMap = {
         'created_at': DateTime.now().toString(),
         'request_user_name': userName,
         'request_phone_number': phoneNumber,
-        'origin_address': originAddreess.placeName,
+        'origin_address': originAddress.placeName,
         'destination_address': destinationAddress.placeName,
         'origin_location': {
-          'latitude': originAddreess.latitude,
-          'longitude': originAddreess.longitude,
+          'latitude': originAddress.latitude,
+          'longitude': originAddress.longitude,
         },
         'destination_location': {
           'latitude': destinationAddress.latitude,
@@ -39,13 +53,105 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
         },
         'payment_method': 'card',
         'driver_id': 'waiting',
+        'request_user_id': userId,
+        'value_of_run': valueOfRun,
       };
 
       ref.set(deliveryMap);
 
-      return true;
+      print(ref.key);
+
+      return ref.key!;
     } catch (e) {
-      return false;
+      return 'error';
     }
+  }
+
+  @override
+  Future<DeliveryModel> getDelivery(
+      {required String deliveryId, required String userId}) async {
+    DeliveryModel? delivery;
+    DatabaseReference userRef =
+        FirebaseDatabase.instance.ref().child('delivery/$userId/$deliveryId');
+
+    final snapshot = await userRef.get();
+
+    if (snapshot.exists) {
+      delivery = DeliveryModel(
+        createdAt: snapshot.child('created_at').value.toString(),
+        deliveryId: deliveryId,
+        destinationAddress:
+            snapshot.child('destination_address').value.toString(),
+        destinationLocation: AddressModel(
+          latitude: double.parse(
+              snapshot.child('destination_location/latitude').value.toString()),
+          longitude: double.parse(snapshot
+              .child('destination_location/longitude')
+              .value
+              .toString()),
+        ),
+        driverId: snapshot.child('driver_id').value.toString(),
+        originAddress: snapshot.child('origin_address').value.toString(),
+        originLocation: AddressModel(
+          latitude: double.parse(
+              snapshot.child('origin_location/latitude').value.toString()),
+          longitude: double.parse(
+              snapshot.child('origin_location/longitude').value.toString()),
+        ),
+        userId: snapshot.child('request_user_id').value.toString(),
+        userName: snapshot.child('request_user_name').value.toString(),
+        valueOfRun: int.parse(snapshot.child('value_of_run').value.toString()),
+        phoneNumber: snapshot.child('request_phone_number').value.toString(),
+      );
+    }
+
+    print(delivery.toString());
+    return delivery!;
+  }
+
+  @override
+  Future<List<DeliveryModel>> getDeliveries({required String userId}) async {
+    List<DeliveryModel> deliveries = [];
+    DatabaseReference userRef =
+        FirebaseDatabase.instance.ref().child('delivery/$userId/');
+
+    final snapshot = await userRef.get();
+
+    if (snapshot.exists) {
+      snapshot.children.forEach((element) {
+        print(element);
+        deliveries.add(DeliveryModel(
+          createdAt: element.child('created_at').value.toString(),
+          deliveryId: element.key,
+          destinationAddress:
+              element.child('destination_address').value.toString(),
+          destinationLocation: AddressModel(
+            latitude: double.parse(element
+                .child('destination_location/latitude')
+                .value
+                .toString()),
+            longitude: double.parse(element
+                .child('destination_location/longitude')
+                .value
+                .toString()),
+          ),
+          driverId: element.child('driver_id').value.toString(),
+          originAddress: element.child('origin_address').value.toString(),
+          originLocation: AddressModel(
+            latitude: double.parse(
+                element.child('origin_location/latitude').value.toString()),
+            longitude: double.parse(
+                element.child('origin_location/longitude').value.toString()),
+          ),
+          userId: element.child('request_user_id').value.toString(),
+          userName: element.child('request_user_name').value.toString(),
+          valueOfRun: int.parse(element.child('value_of_run').value.toString()),
+          phoneNumber: element.child('request_phone_number').value.toString(),
+        ));
+      });
+    }
+
+    print(deliveries.toString());
+    return deliveries;
   }
 }
