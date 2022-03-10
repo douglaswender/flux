@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flux_client/app/shared/modules/delivery/data/models/delivery_model.dart';
 import '../../../../../core/core.dart';
 import '../../../../../shared/preferences/config.dart';
+import 'package:flux_client/app/shared/shared.dart';
 
 class OrderItemWidget extends StatefulWidget {
   final DeliveryModel delivery;
@@ -12,8 +13,21 @@ class OrderItemWidget extends StatefulWidget {
 }
 
 class _OrderItemWidgetState extends State<OrderItemWidget> {
+  String? driverName;
+  String? status;
   @override
   Widget build(BuildContext context) {
+    if (widget.delivery.driverId == 'waiting') {
+      driverName = 'A definir';
+
+      //status possíveis
+      //postado
+      //a caminho
+      //enviado
+      //entregue
+
+      status = 'Postado';
+    }
     return Container(
       height: AppSizes.s128,
       decoration: BoxDecoration(
@@ -49,7 +63,10 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "encomenda nº 0002".toUpperCase(),
+                      "CÓD.: " +
+                          "${widget.delivery.deliveryId}"
+                              .toUpperCase()
+                              .simplifyCodeId(),
                       style: AppTextStyles.title,
                     ),
                     SizedBox(
@@ -65,7 +82,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       height: AppSizes.s8,
                     ),
                     Text(
-                      "Motorista: Mathias",
+                      "Motorista: $driverName",
                       overflow: TextOverflow.clip,
                       style: AppTextStyles.body,
                     ),
@@ -78,7 +95,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          "enviado".toUpperCase(),
+                          "$status".toUpperCase(),
                           overflow: TextOverflow.clip,
                           style: AppTextStyles.body,
                         ),
