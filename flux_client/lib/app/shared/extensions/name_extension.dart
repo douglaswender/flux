@@ -3,5 +3,5 @@ extension NameExtension on String? {
 
   String secondName() => this!.split(" ")[0] + " " + this!.split(" ")[1];
 
-  String simplifyCodeId() => this!.substring(this!.length - 5);
+  String simplifyCodeId() => this!.substring(this!.length - 8);
 }

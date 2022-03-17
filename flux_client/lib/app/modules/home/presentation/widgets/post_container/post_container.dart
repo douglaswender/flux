@@ -169,6 +169,9 @@ class _PostContainerState extends State<PostContainer> {
                   ],
                 ),
               InputWidget(
+                onChange: (value) {
+                  homeStore.deliveryDescription = value;
+                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor informe uma descrição da encomenda';
@@ -184,12 +187,15 @@ class _PostContainerState extends State<PostContainer> {
               InputWidget(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor informe um destinatário da encomenda';
+                    return 'Por favor informe um nome do destinatário da encomenda';
                   }
                   return null;
                 },
-                label: "Destinatário",
+                label: "Nome do destinatário",
                 textInputAction: TextInputAction.next,
+                onChange: (value) {
+                  homeStore.deliveryReceiver = value;
+                },
               ),
               SizedBox(
                 height: AppSizes.s16,
@@ -203,6 +209,9 @@ class _PostContainerState extends State<PostContainer> {
                 },
                 label: "CPF ou RG do destinatário",
                 textInputAction: TextInputAction.next,
+                onChange: (value) {
+                  homeStore.deliveryDocument = value;
+                },
               ),
               SizedBox(
                 height: AppSizes.s16,
@@ -220,6 +229,9 @@ class _PostContainerState extends State<PostContainer> {
                             userName: authRepository.userModel!.name!,
                             userId: authRepository.userModel!.id!,
                             valueOfRun: homeStore.valueOfRun!,
+                            deliveryDescription: homeStore.deliveryDescription!,
+                            deliveryDocument: homeStore.deliveryDocument!,
+                            deliveryReceiver: homeStore.deliveryReceiver!,
                           );
                         }
                       },

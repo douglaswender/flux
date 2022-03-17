@@ -60,6 +60,15 @@ abstract class HomeStoreBase with Store {
   @observable
   bool mapInitialized = false;
 
+  @observable
+  String? deliveryDescription;
+
+  @observable
+  String? deliveryDocument;
+
+  @observable
+  String? deliveryReceiver;
+
   @action
   void updatePickupAddress(AddressModel pickup) {
     loading = true;
@@ -334,6 +343,9 @@ abstract class HomeStoreBase with Store {
     required String userName,
     required String userId,
     required int valueOfRun,
+    required String deliveryReceiver,
+    required String deliveryDocument,
+    required String deliveryDescription,
   }) async {
     loading = true;
 
@@ -346,6 +358,9 @@ abstract class HomeStoreBase with Store {
       userName: userName,
       userId: userId,
       valueOfRun: valueOfRun,
+      deliveryReceiver: deliveryReceiver,
+      deliveryDocument: deliveryDocument,
+      deliveryDescription: deliveryDescription,
     );
 
     loading = false;

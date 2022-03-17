@@ -192,6 +192,52 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  final _$deliveryDescriptionAtom =
+      Atom(name: 'HomeStoreBase.deliveryDescription');
+
+  @override
+  String? get deliveryDescription {
+    _$deliveryDescriptionAtom.reportRead();
+    return super.deliveryDescription;
+  }
+
+  @override
+  set deliveryDescription(String? value) {
+    _$deliveryDescriptionAtom.reportWrite(value, super.deliveryDescription, () {
+      super.deliveryDescription = value;
+    });
+  }
+
+  final _$deliveryDocumentAtom = Atom(name: 'HomeStoreBase.deliveryDocument');
+
+  @override
+  String? get deliveryDocument {
+    _$deliveryDocumentAtom.reportRead();
+    return super.deliveryDocument;
+  }
+
+  @override
+  set deliveryDocument(String? value) {
+    _$deliveryDocumentAtom.reportWrite(value, super.deliveryDocument, () {
+      super.deliveryDocument = value;
+    });
+  }
+
+  final _$deliveryReceiverAtom = Atom(name: 'HomeStoreBase.deliveryReceiver');
+
+  @override
+  String? get deliveryReceiver {
+    _$deliveryReceiverAtom.reportRead();
+    return super.deliveryReceiver;
+  }
+
+  @override
+  set deliveryReceiver(String? value) {
+    _$deliveryReceiverAtom.reportWrite(value, super.deliveryReceiver, () {
+      super.deliveryReceiver = value;
+    });
+  }
+
   final _$destinationPlacesAtom = Atom(name: 'HomeStoreBase.destinationPlaces');
 
   @override
@@ -285,12 +331,18 @@ mixin _$HomeStore on HomeStoreBase, Store {
       {required String phoneNumber,
       required String userName,
       required String userId,
-      required int valueOfRun}) {
+      required int valueOfRun,
+      required String deliveryReceiver,
+      required String deliveryDocument,
+      required String deliveryDescription}) {
     return _$publishDeliveryAsyncAction.run(() => super.publishDelivery(
         phoneNumber: phoneNumber,
         userName: userName,
         userId: userId,
-        valueOfRun: valueOfRun));
+        valueOfRun: valueOfRun,
+        deliveryReceiver: deliveryReceiver,
+        deliveryDocument: deliveryDocument,
+        deliveryDescription: deliveryDescription));
   }
 
   final _$HomeStoreBaseActionController =
@@ -344,6 +396,9 @@ circles: ${circles},
 postContainerHeight: ${postContainerHeight},
 valueOfRun: ${valueOfRun},
 mapInitialized: ${mapInitialized},
+deliveryDescription: ${deliveryDescription},
+deliveryDocument: ${deliveryDocument},
+deliveryReceiver: ${deliveryReceiver},
 destinationPlaces: ${destinationPlaces},
 polylines: ${polylines},
 mapController: ${mapController}

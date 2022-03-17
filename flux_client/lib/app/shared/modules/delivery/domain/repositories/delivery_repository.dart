@@ -11,6 +11,9 @@ abstract class DeliveryRepository {
     required String userName,
     required String userId,
     required int valueOfRun,
+    required String deliveryReceiver,
+    required String deliveryDocument,
+    required String deliveryDescription,
   });
   Future<Either<Failure, DeliveryModel>> getDelivery({
     required String deliveryId,

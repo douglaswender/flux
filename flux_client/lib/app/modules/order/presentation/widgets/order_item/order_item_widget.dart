@@ -28,85 +28,90 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
 
       status = 'Postado';
     }
-    return Container(
-      height: AppSizes.s128,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 2),
-        borderRadius: BorderRadius.all(Radius.circular(6)),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              height: AppSizes.s128,
-              width: AppSizes.s128,
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(color: Colors.black, width: 2),
+    return GestureDetector(
+      onTap: () {
+        print(widget.delivery.deliveryId);
+      },
+      child: Container(
+        height: AppSizes.s128,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 2),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: AppSizes.s128,
+                width: AppSizes.s128,
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(color: Colors.black, width: 2),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(AppSizes.s8),
+                  child: Image.network(
+                    Config.urlImagePackage,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
+            ),
+            Expanded(
+              flex: 2,
               child: Padding(
                 padding: EdgeInsets.all(AppSizes.s8),
-                child: Image.network(
-                  Config.urlImagePackage,
-                  fit: BoxFit.cover,
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "CÓD.: " +
+                            "${widget.delivery.deliveryId}"
+                                .toUpperCase()
+                                .simplifyCodeId(),
+                        style: AppTextStyles.title,
+                      ),
+                      SizedBox(
+                        height: AppSizes.s8,
+                      ),
+                      Text(
+                        "${widget.delivery.deliveryDescription!.toLowerCase()}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.body,
+                      ),
+                      SizedBox(
+                        height: AppSizes.s8,
+                      ),
+                      Text(
+                        "Motorista: ${driverName!.toUpperCase()}",
+                        overflow: TextOverflow.clip,
+                        style: AppTextStyles.body,
+                      ),
+                      Text(
+                        "Destinatário: ${widget.delivery.deliveryReceiver!.toUpperCase()}",
+                        overflow: TextOverflow.clip,
+                        style: AppTextStyles.body,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "$status".toUpperCase(),
+                            overflow: TextOverflow.clip,
+                            style: AppTextStyles.body,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: EdgeInsets.all(AppSizes.s8),
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "CÓD.: " +
-                          "${widget.delivery.deliveryId}"
-                              .toUpperCase()
-                              .simplifyCodeId(),
-                      style: AppTextStyles.title,
-                    ),
-                    SizedBox(
-                      height: AppSizes.s8,
-                    ),
-                    Text(
-                      "Objeto de porte pequeno com destino a Ji-Paraná.",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppTextStyles.body,
-                    ),
-                    SizedBox(
-                      height: AppSizes.s8,
-                    ),
-                    Text(
-                      "Motorista: $driverName",
-                      overflow: TextOverflow.clip,
-                      style: AppTextStyles.body,
-                    ),
-                    Text(
-                      "Destinatário: Neide",
-                      overflow: TextOverflow.clip,
-                      style: AppTextStyles.body,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          "$status".toUpperCase(),
-                          overflow: TextOverflow.clip,
-                          style: AppTextStyles.body,
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

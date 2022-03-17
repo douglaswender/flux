@@ -24,6 +24,9 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
     required String userName,
     required String userId,
     required int valueOfRun,
+    required String deliveryReceiver,
+    required String deliveryDocument,
+    required String deliveryDescription,
   }) async {
     if (await networkInfo.isConnected != ConnectivityResult.none) {
       try {
@@ -34,6 +37,9 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
           userName: userName,
           userId: userId,
           valueOfRun: valueOfRun,
+          deliveryDescription: deliveryDescription,
+          deliveryDocument: deliveryDocument,
+          deliveryReceiver: deliveryReceiver,
         );
 
         return Right(result);

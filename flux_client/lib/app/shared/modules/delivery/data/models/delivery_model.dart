@@ -15,6 +15,9 @@ class DeliveryModel extends Delivery {
   final int? valueOfRun;
   final AddressModel? originLocation;
   final AddressModel? destinationLocation;
+  final String? deliveryDocument;
+  final String? deliveryReceiver;
+  final String? deliveryDescription;
 
   DeliveryModel({
     this.deliveryId,
@@ -28,6 +31,9 @@ class DeliveryModel extends Delivery {
     this.valueOfRun,
     this.originLocation,
     this.destinationLocation,
+    this.deliveryDocument,
+    this.deliveryReceiver,
+    this.deliveryDescription,
   });
 
   DeliveryModel copyWith({
@@ -42,6 +48,9 @@ class DeliveryModel extends Delivery {
     int? valueOfRun,
     AddressModel? originLocation,
     AddressModel? destinationLocation,
+    String? deliveryDocument,
+    String? deliveryReceiver,
+    String? deliveryDescription,
   }) {
     return DeliveryModel(
       deliveryId: deliveryId ?? this.deliveryId,
@@ -55,6 +64,9 @@ class DeliveryModel extends Delivery {
       valueOfRun: valueOfRun ?? this.valueOfRun,
       originLocation: originLocation ?? this.originLocation,
       destinationLocation: destinationLocation ?? this.destinationLocation,
+      deliveryDocument: deliveryDocument ?? this.deliveryDocument,
+      deliveryReceiver: deliveryReceiver ?? this.deliveryReceiver,
+      deliveryDescription: deliveryDescription ?? this.deliveryDescription,
     );
   }
 
@@ -71,6 +83,9 @@ class DeliveryModel extends Delivery {
       'valueOfRun': valueOfRun,
       'originLocation': originLocation?.toMap(),
       'destinationLocation': destinationLocation?.toMap(),
+      'deliveryDocument': deliveryDocument,
+      'deliveryReceiver': deliveryReceiver,
+      'deliveryDescription': deliveryDescription,
     };
   }
 
@@ -91,6 +106,9 @@ class DeliveryModel extends Delivery {
       destinationLocation: map['destinationLocation'] != null
           ? AddressModel.fromMap(map['destinationLocation'])
           : null,
+      deliveryDocument: map['deliveryDocument'],
+      deliveryReceiver: map['deliveryReceiver'],
+      deliveryDescription: map['deliveryDescription'],
     );
   }
 
@@ -101,7 +119,7 @@ class DeliveryModel extends Delivery {
 
   @override
   String toString() {
-    return 'DeliveryModel(deliveryId: $deliveryId, createdAt: $createdAt, originAddress: $originAddress, destinationAddress: $destinationAddress, driverId: $driverId, phoneNumber: $phoneNumber, userId: $userId, userName: $userName, valueOfRun: $valueOfRun, originLocation: $originLocation, destinationLocation: $destinationLocation)';
+    return 'DeliveryModel(deliveryId: $deliveryId, createdAt: $createdAt, originAddress: $originAddress, destinationAddress: $destinationAddress, driverId: $driverId, phoneNumber: $phoneNumber, userId: $userId, userName: $userName, valueOfRun: $valueOfRun, originLocation: $originLocation, destinationLocation: $destinationLocation, deliveryDocument: $deliveryDocument, deliveryReceiver: $deliveryReceiver, deliveryDescription: $deliveryDescription)';
   }
 
   @override
@@ -119,7 +137,10 @@ class DeliveryModel extends Delivery {
         other.userName == userName &&
         other.valueOfRun == valueOfRun &&
         other.originLocation == originLocation &&
-        other.destinationLocation == destinationLocation;
+        other.destinationLocation == destinationLocation &&
+        other.deliveryDocument == deliveryDocument &&
+        other.deliveryReceiver == deliveryReceiver &&
+        other.deliveryDescription == deliveryDescription;
   }
 
   @override
@@ -134,6 +155,9 @@ class DeliveryModel extends Delivery {
         userName.hashCode ^
         valueOfRun.hashCode ^
         originLocation.hashCode ^
-        destinationLocation.hashCode;
+        destinationLocation.hashCode ^
+        deliveryDocument.hashCode ^
+        deliveryReceiver.hashCode ^
+        deliveryDescription.hashCode;
   }
 }

@@ -1,8 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/modules/home/data/models/address_model.dart';
 import 'package:flux_client/app/modules/home/domain/entities/address.dart';
-import 'package:flux_client/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
+
 import 'package:flux_client/app/shared/modules/delivery/data/models/delivery_model.dart';
 
 abstract class DeliveryDatasource {
@@ -13,6 +12,9 @@ abstract class DeliveryDatasource {
     required String userId,
     required String userName,
     required int valueOfRun,
+    required String deliveryReceiver,
+    required String deliveryDocument,
+    required String deliveryDescription,
   });
   Future<DeliveryModel> getDelivery({
     required String deliveryId,
@@ -33,6 +35,9 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
     required String userId,
     required String userName,
     required int valueOfRun,
+    required String deliveryReceiver,
+    required String deliveryDocument,
+    required String deliveryDescription,
   }) async {
     try {
       final ref = _database.ref().child('delivery/$userId/').push();
@@ -55,6 +60,9 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
         'driver_id': 'waiting',
         'request_user_id': userId,
         'value_of_run': valueOfRun,
+        'delivery_receiver': deliveryReceiver,
+        'delivery_document': deliveryDocument,
+        'delivery_description': deliveryDescription,
       };
 
       ref.set(deliveryMap);
@@ -102,6 +110,10 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
         userName: snapshot.child('request_user_name').value.toString(),
         valueOfRun: int.parse(snapshot.child('value_of_run').value.toString()),
         phoneNumber: snapshot.child('request_phone_number').value.toString(),
+        deliveryDescription:
+            snapshot.child('delivery_description').value.toString(),
+        deliveryDocument: snapshot.child('delivery_document').value.toString(),
+        deliveryReceiver: snapshot.child('delivery_receiver').value.toString(),
       );
     }
 
@@ -147,11 +159,15 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
           userName: element.child('request_user_name').value.toString(),
           valueOfRun: int.parse(element.child('value_of_run').value.toString()),
           phoneNumber: element.child('request_phone_number').value.toString(),
+          deliveryDescription:
+              element.child('delivery_description').value.toString(),
+          deliveryDocument: element.child('delivery_document').value.toString(),
+          deliveryReceiver: element.child('delivery_receiver').value.toString(),
         ));
       });
     }
 
     print(deliveries.toString());
-    return deliveries;
+    return deliveries.reversed.toList();
   }
 }

@@ -15,6 +15,9 @@ class PublishDelivery {
     required String userName,
     required String userId,
     required int valueOfRun,
+    required String deliveryReceiver,
+    required String deliveryDocument,
+    required String deliveryDescription,
   }) async {
     return await repository.publishDelivery(
       originAddreess: originAddreess,
@@ -23,6 +26,9 @@ class PublishDelivery {
       userName: userName,
       userId: userId,
       valueOfRun: valueOfRun,
+      deliveryDescription: deliveryDescription,
+      deliveryDocument: deliveryDocument,
+      deliveryReceiver: deliveryReceiver,
     );
   }
 }
