@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/shared/modules/delivery/data/models/delivery_model.dart';
 import '../../../../../core/core.dart';
 import '../../../../../shared/preferences/config.dart';
@@ -31,6 +32,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
     return GestureDetector(
       onTap: () {
         print(widget.delivery.deliveryId);
+        Modular.to.pushNamed('/orders/order',
+            arguments: {"order_id": widget.delivery.deliveryId});
       },
       child: Container(
         height: AppSizes.s128,
