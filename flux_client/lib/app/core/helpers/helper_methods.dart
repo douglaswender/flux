@@ -43,7 +43,7 @@ class HelperMethods {
     }
 
     String url =
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=${Config.globalMapKey}";
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=${Config.mapKey}";
 
     var response = await RequestHelper.getRequest(url);
 
