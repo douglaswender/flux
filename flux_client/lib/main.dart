@@ -32,14 +32,14 @@ class _AppFirebaseState extends State<AppFirebase> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      // Initialize FlutterFire:
+      //! Initialize FlutterFire:
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Material(
             child: Center(
               child: Text(
-                "Não foi possível inicializar o Firebase",
+                "Não foi possível inicializar o app",
                 textDirection: TextDirection.ltr,
               ),
             ),
