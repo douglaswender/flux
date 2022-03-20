@@ -221,21 +221,24 @@ class _PostContainerState extends State<PostContainer> {
               //   height: AppSizes.s16,
               // ),
               Container(
-                  child: SecondaryButtonWidget(
-                      onPress: () {
-                        if (_formKey.currentState!.validate()) {
-                          homeStore.publishDelivery(
-                            phoneNumber: authRepository.userModel!.phoneNumber!,
-                            userName: authRepository.userModel!.name!,
-                            userId: authRepository.userModel!.id!,
-                            valueOfRun: homeStore.valueOfRun!,
-                            deliveryDescription: homeStore.deliveryDescription!,
-                            deliveryDocument: homeStore.deliveryDocument!,
-                            deliveryReceiver: homeStore.deliveryReceiver!,
-                          );
-                        }
-                      },
-                      text: "Publicar"))
+                child: SecondaryButtonWidget(
+                  width: MediaQuery.of(context).size.width,
+                  onPress: () {
+                    if (_formKey.currentState!.validate()) {
+                      homeStore.publishDelivery(
+                        phoneNumber: authRepository.userModel!.phoneNumber!,
+                        userName: authRepository.userModel!.name!,
+                        userId: authRepository.userModel!.id!,
+                        valueOfRun: homeStore.valueOfRun!,
+                        deliveryDescription: homeStore.deliveryDescription!,
+                        deliveryDocument: homeStore.deliveryDocument!,
+                        deliveryReceiver: homeStore.deliveryReceiver!,
+                      );
+                    }
+                  },
+                  text: "Publicar",
+                ),
+              )
             ],
           ),
         ),

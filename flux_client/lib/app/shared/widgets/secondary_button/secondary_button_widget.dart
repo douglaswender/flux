@@ -13,7 +13,7 @@ class SecondaryButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      width: width ?? double.maxFinite,
+      width: width ?? MediaQuery.of(context).size.width / 2 - AppSizes.s32,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             primary: AppColors.lightWhite,

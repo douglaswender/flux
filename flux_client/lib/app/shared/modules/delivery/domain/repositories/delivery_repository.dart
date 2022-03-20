@@ -23,4 +23,9 @@ abstract class DeliveryRepository {
   Future<Either<Failure, List<DeliveryModel>>> getDeliveries({
     required String userId,
   });
+
+  Future<Either<Failure, bool>> deleteDelivery({
+    required String deliveryId,
+    required String userId,
+  });
 }

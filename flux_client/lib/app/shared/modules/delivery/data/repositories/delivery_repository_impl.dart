@@ -89,4 +89,24 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
       return Left(ConnectionFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> deleteDelivery(
+      {required String deliveryId, required String userId}) async {
+    if (await networkInfo.isConnected != ConnectivityResult.none) {
+      try {
+        final result = await datasource.deleteDelivery(
+          deliveryId: deliveryId,
+          userId: userId,
+        );
+
+        return Right(true);
+      } catch (e) {
+        print(e);
+        return Left(ServerFailure(e.toString()));
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
 }

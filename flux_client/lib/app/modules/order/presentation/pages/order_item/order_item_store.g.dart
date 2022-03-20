@@ -47,6 +47,15 @@ mixin _$OrderItemStore on _OrderItemStoreBase, Store {
         .run(() => super.getInfos(deliveryId: deliveryId, userId: userId));
   }
 
+  final _$removeDeliveryAsyncAction =
+      AsyncAction('_OrderItemStoreBase.removeDelivery');
+
+  @override
+  Future removeDelivery({required String deliveryId, required String userId}) {
+    return _$removeDeliveryAsyncAction.run(
+        () => super.removeDelivery(deliveryId: deliveryId, userId: userId));
+  }
+
   @override
   String toString() {
     return '''

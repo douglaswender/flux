@@ -5,6 +5,8 @@ import '../../../../../core/core.dart';
 import '../../../../../shared/preferences/config.dart';
 import 'package:flux_client/app/shared/shared.dart';
 
+import '../../order_store.dart';
+
 class OrderItemWidget extends StatefulWidget {
   final DeliveryModel delivery;
   const OrderItemWidget({Key? key, required this.delivery}) : super(key: key);
@@ -14,6 +16,7 @@ class OrderItemWidget extends StatefulWidget {
 }
 
 class _OrderItemWidgetState extends State<OrderItemWidget> {
+  final orderStore = Modular.get<OrderStore>();
   String? driverName;
   String? status;
   @override
@@ -32,8 +35,9 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
     return GestureDetector(
       onTap: () {
         print(widget.delivery.deliveryId);
-        Modular.to.pushNamed('/orders/order',
-            arguments: {"order_id": widget.delivery.deliveryId});
+        Modular.to.pushNamed('/orders/order', arguments: {
+          "order_id": widget.delivery.deliveryId
+        }).then((value) => orderStore.getUserDeliveries());
       },
       child: Container(
         height: AppSizes.s128,

@@ -20,6 +20,10 @@ abstract class DeliveryDatasource {
     required String deliveryId,
     required String userId,
   });
+  Future<bool> deleteDelivery({
+    required String deliveryId,
+    required String userId,
+  });
   Future<List<DeliveryModel>> getDeliveries({
     required String userId,
   });
@@ -169,5 +173,23 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
 
     print(deliveries.toString());
     return deliveries.reversed.toList();
+  }
+
+  @override
+  Future<bool> deleteDelivery(
+      {required String deliveryId, required String userId}) async {
+    DatabaseReference deliveryRef =
+        FirebaseDatabase.instance.ref().child('delivery/$userId/$deliveryId');
+
+    try {
+      print(deliveryRef);
+      deliveryRef
+          .remove()
+          .then((value) => print('removed'))
+          .catchError((e) => print(e));
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }
