@@ -172,6 +172,9 @@ class _PostContainerState extends State<PostContainer> {
                 onChange: (value) {
                   homeStore.deliveryDescription = value;
                 },
+                controller: TextEditingController(
+                  text: homeStore.deliveryDescription ?? "",
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor informe uma descrição da encomenda';
@@ -196,6 +199,9 @@ class _PostContainerState extends State<PostContainer> {
                 onChange: (value) {
                   homeStore.deliveryReceiver = value;
                 },
+                controller: TextEditingController(
+                  text: homeStore.deliveryReceiver ?? "",
+                ),
               ),
               SizedBox(
                 height: AppSizes.s16,
@@ -212,6 +218,9 @@ class _PostContainerState extends State<PostContainer> {
                 onChange: (value) {
                   homeStore.deliveryDocument = value;
                 },
+                controller: TextEditingController(
+                  text: homeStore.deliveryDocument ?? "",
+                ),
               ),
               SizedBox(
                 height: AppSizes.s16,
@@ -223,9 +232,9 @@ class _PostContainerState extends State<PostContainer> {
               Container(
                 child: SecondaryButtonWidget(
                   width: MediaQuery.of(context).size.width,
-                  onPress: () {
+                  onPress: () async {
                     if (_formKey.currentState!.validate()) {
-                      homeStore.publishDelivery(
+                      await homeStore.publishDelivery(
                         phoneNumber: authRepository.userModel!.phoneNumber!,
                         userName: authRepository.userModel!.name!,
                         userId: authRepository.userModel!.id!,
@@ -234,6 +243,8 @@ class _PostContainerState extends State<PostContainer> {
                         deliveryDocument: homeStore.deliveryDocument!,
                         deliveryReceiver: homeStore.deliveryReceiver!,
                       );
+
+                      setState(() {});
                     }
                   },
                   text: "Publicar",

@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "396328810611-qf47n1vpvrh42jik1nqlr3dm3tcvlk85.apps.googleusercontent.com",
+          "client_id": "396328810611-ifschfbds4l4mtdm3qfe47uanq87gr09.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "br.dev.douglaswender.flux_client",
@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAvE2HpMTWBmsImwO33L-e7yudiTlzLJLg"
+          "current_key": "AIzaSyCnhl-khynNnKwAh9UJ-sLYZn8xcIhNL-g"
         }
       ],
       "services": {

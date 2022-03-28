@@ -69,6 +69,9 @@ abstract class HomeStoreBase with Store {
   @observable
   String? deliveryReceiver;
 
+  // ignore: unused_field
+  Timer? _debounce;
+
   @action
   void updatePickupAddress(AddressModel pickup) {
     loading = true;
@@ -111,19 +114,24 @@ abstract class HomeStoreBase with Store {
     if (placeName.length > 2) {
       //TODO: Jogar método pra dentro do helper methods retornando o address model
 
-      var response = await RequestHelper.getRequest(Config.placeUrl(placeName));
+      _debounce = Timer(const Duration(seconds: 3), () async {
+        loading = true;
+        var response =
+            await RequestHelper.getRequest(Config.placeUrl(placeName));
 
-      if (response == "failed") {
-        return;
-      }
+        if (response == "failed") {
+          return;
+        }
 
-      if (response['status'] == 'OK') {
-        List<PlaceModel> list = (response['predictions'] as List)
-            .map((e) => PlaceModel.fromJson(e))
-            .toList();
+        if (response['status'] == 'OK') {
+          List<PlaceModel> list = (response['predictions'] as List)
+              .map((e) => PlaceModel.fromJson(e))
+              .toList();
 
-        updateDestinationPlaces(list);
-      }
+          updateDestinationPlaces(list);
+          loading = false;
+        }
+      });
     }
   }
 
@@ -365,9 +373,20 @@ abstract class HomeStoreBase with Store {
 
     loading = false;
 
-    orderId.fold(
-        (l) => null,
-        (r) =>
-            Modular.to.pushNamed('/orders/order', arguments: {"order_id": r}));
+    orderId.fold((l) => null, (r) {
+      clear();
+      Modular.to.pushNamed('/orders/order', arguments: {"order_id": r});
+    });
+  }
+
+  clear() {
+    destinationAddress = AddressModel();
+    polylineCoordinates = [];
+    markers = {};
+    circles = {};
+    valueOfRun = null;
+    deliveryDescription = null;
+    deliveryDocument = null;
+    deliveryReceiver = null;
   }
 }

@@ -37,6 +37,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         name: infos.name!,
       );
     } on FirebaseException catch (exception) {
+      print(exception);
       throw ServerException(exception.message!);
     } catch (_) {
       throw SignInException();
