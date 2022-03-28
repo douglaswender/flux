@@ -384,6 +384,7 @@ abstract class HomeStoreBase with Store {
     polylineCoordinates = [];
     markers = {};
     circles = {};
+    polylines = {};
     valueOfRun = null;
     deliveryDescription = null;
     deliveryDocument = null;
