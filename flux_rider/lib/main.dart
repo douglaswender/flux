@@ -1,24 +1,58 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flux_rider/screens/main_page.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'app/app_module.dart';
+import 'app/app_widget.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //! Carregar variaveis de ambiente
+  await dotenv.load(fileName: ".env");
+
+  runApp(
+    ModularApp(
+      module: AppModule(),
+      child: AppFirebase(),
+    ),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class AppFirebase extends StatefulWidget {
+  const AppFirebase({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  _AppFirebaseState createState() => _AppFirebaseState();
+}
+
+class _AppFirebaseState extends State<AppFirebase> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flux',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: 'main',
-      routes: {
-        'main': (context) => const MainPage(),
+    return FutureBuilder(
+      //! Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Material(
+            child: Center(
+              child: Text(
+                "Não foi possível inicializar o app",
+                textDirection: TextDirection.ltr,
+              ),
+            ),
+          );
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          return AppWidget();
+        } else {
+          return Material(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
       },
     );
   }
