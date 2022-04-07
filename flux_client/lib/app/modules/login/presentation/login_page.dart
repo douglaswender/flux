@@ -33,6 +33,7 @@ class LoginPageState extends State<LoginPage> {
     verifyUserLogged();
   }
 
+  //TODO: Jogar essa função para o controller/store
   verifyUserLogged() async {
     // Obtain shared preferences.
     final prefs = await SharedPreferences.getInstance();
