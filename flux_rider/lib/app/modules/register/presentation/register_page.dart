@@ -56,7 +56,6 @@ class RegisterPageState extends State<RegisterPage> {
                           textInputAction: TextInputAction.next,
                           onChange: (email) {
                             store.email = email;
-                            print(store.email);
                           },
                           type: AppKeyboards.email,
                         ),
@@ -69,7 +68,42 @@ class RegisterPageState extends State<RegisterPage> {
                           textInputAction: TextInputAction.next,
                           onChange: (name) {
                             store.name = name;
-                            print(store.name);
+                          },
+                          type: AppKeyboards.normal,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          isCapitalization: true,
+                          label: "Modelo do carro",
+                          textInputAction: TextInputAction.next,
+                          onChange: (model) {
+                            store.carModel = model;
+                          },
+                          type: AppKeyboards.normal,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          isCapitalization: true,
+                          label: "Cor do carro",
+                          textInputAction: TextInputAction.next,
+                          onChange: (carColor) {
+                            store.carColor = carColor;
+                          },
+                          type: AppKeyboards.normal,
+                        ),
+                        SizedBox(
+                          height: AppSizes.s16,
+                        ),
+                        InputWidget(
+                          isCapitalization: true,
+                          label: "Placa do carro",
+                          textInputAction: TextInputAction.next,
+                          onChange: (carId) {
+                            store.carId = carId;
                           },
                           type: AppKeyboards.normal,
                         ),
@@ -98,6 +132,8 @@ class RegisterPageState extends State<RegisterPage> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Por favor, informe a senha!';
+                            } else if (value.length < 6) {
+                              return 'Por favor, informe uma senha com no mínimo 6 caracteres';
                             }
                             return null;
                           },

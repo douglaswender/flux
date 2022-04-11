@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/shared/modules/delivery/data/models/delivery_model.dart';
-import '../../../../../core/core.dart';
-import '../../../../../shared/preferences/config.dart';
 
-import '../../order_store.dart';
+import '../../../../../core/core.dart';
+import '../../../../../shared/modules/delivery/data/models/delivery_model.dart';
+import '../../../../../shared/preferences/config.dart';
+import '../../home_store.dart';
 
 class OrderItemWidget extends StatefulWidget {
   final DeliveryModel delivery;
@@ -15,7 +15,7 @@ class OrderItemWidget extends StatefulWidget {
 }
 
 class _OrderItemWidgetState extends State<OrderItemWidget> {
-  final orderStore = Modular.get<OrderStore>();
+  final homeStore = Modular.get<HomeStore>();
   String? driverName;
   String? status;
   @override
@@ -34,9 +34,9 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
     return GestureDetector(
       onTap: () {
         print(widget.delivery.deliveryId);
-        Modular.to.pushNamed('/orders/order', arguments: {
-          "order_id": widget.delivery.deliveryId
-        }).then((value) => orderStore.getUserDeliveries());
+        Modular.to.pushNamed('/orders/order',
+            arguments: {"order_id": widget.delivery.deliveryId});
+        //.then((value) => homeStore.getUserDeliveries())
       },
       child: Container(
         height: AppSizes.s128,

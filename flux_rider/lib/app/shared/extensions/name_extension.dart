@@ -1,7 +1,16 @@
 extension NameExtension on String? {
   String firstName() => this!.split(" ").first;
 
-  String secondName() => this!.split(" ")[0] + " " + this!.split(" ")[1];
+  String secondName() {
+    try {
+      return this!.split(" ")[0] + " " + this!.split(" ")[1];
+    } catch (e) {
+      try {
+        return this!.split(" ")[0];
+      } catch (e) {}
+      return "";
+    }
+  }
 
   String simplifyCodeId() => this!.substring(this!.length - 8);
 

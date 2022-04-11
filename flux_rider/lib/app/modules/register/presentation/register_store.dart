@@ -35,6 +35,15 @@ abstract class _RegisterStoreBase with Store {
   @observable
   bool passwordNotMatch = false;
 
+  @observable
+  String carModel = "";
+
+  @observable
+  String carColor = "";
+
+  @observable
+  String carId = "";
+
   @computed
   bool get fieldsNotNull =>
       email.isNotEmpty &&
@@ -46,8 +55,14 @@ abstract class _RegisterStoreBase with Store {
   Future<void> register() async {
     loading = true;
     RegisterUser register = Modular.get<RegisterUser>();
-    UserModel user =
-        UserModel(email: email, name: name, phoneNumber: phoneNumber);
+    UserModel user = UserModel(
+      email: email,
+      name: name,
+      phoneNumber: phoneNumber,
+      carColor: carColor,
+      carId: carId,
+      carModel: carModel,
+    );
     if (password != confirmPassword) {
       print('please complete');
       passwordNotMatch = true;

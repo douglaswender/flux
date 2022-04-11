@@ -6,6 +6,9 @@ class UserModel extends User {
   final String? name;
   final String? photoUrl;
   final String? phoneNumber;
+  final String? carModel;
+  final String? carColor;
+  final String? carId;
 
   UserModel({
     this.name,
@@ -13,6 +16,9 @@ class UserModel extends User {
     this.email,
     this.id,
     this.phoneNumber,
+    this.carModel,
+    this.carColor,
+    this.carId,
   }) : super(email: email ?? "", id: id);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +28,9 @@ class UserModel extends User {
       name: json['name'],
       photoUrl: json['photoUrl'],
       phoneNumber: json['phoneNumber'],
+      carModel: json['carModel'],
+      carColor: json['carColor'],
+      carId: json['carId'],
     );
   }
 
@@ -32,6 +41,9 @@ class UserModel extends User {
       'name': name,
       'photoUrl': photoUrl,
       'phoneNumber': phoneNumber,
+      'carModel': carModel,
+      'carColor': carColor,
+      'carId': carId,
     };
   }
 }

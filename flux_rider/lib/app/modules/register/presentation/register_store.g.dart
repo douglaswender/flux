@@ -124,6 +124,51 @@ mixin _$RegisterStore on _RegisterStoreBase, Store {
     });
   }
 
+  final _$carModelAtom = Atom(name: '_RegisterStoreBase.carModel');
+
+  @override
+  String get carModel {
+    _$carModelAtom.reportRead();
+    return super.carModel;
+  }
+
+  @override
+  set carModel(String value) {
+    _$carModelAtom.reportWrite(value, super.carModel, () {
+      super.carModel = value;
+    });
+  }
+
+  final _$carColorAtom = Atom(name: '_RegisterStoreBase.carColor');
+
+  @override
+  String get carColor {
+    _$carColorAtom.reportRead();
+    return super.carColor;
+  }
+
+  @override
+  set carColor(String value) {
+    _$carColorAtom.reportWrite(value, super.carColor, () {
+      super.carColor = value;
+    });
+  }
+
+  final _$carIdAtom = Atom(name: '_RegisterStoreBase.carId');
+
+  @override
+  String get carId {
+    _$carIdAtom.reportRead();
+    return super.carId;
+  }
+
+  @override
+  set carId(String value) {
+    _$carIdAtom.reportWrite(value, super.carId, () {
+      super.carId = value;
+    });
+  }
+
   final _$registerAsyncAction = AsyncAction('_RegisterStoreBase.register');
 
   @override
@@ -141,6 +186,9 @@ phoneNumber: ${phoneNumber},
 password: ${password},
 confirmPassword: ${confirmPassword},
 passwordNotMatch: ${passwordNotMatch},
+carModel: ${carModel},
+carColor: ${carColor},
+carId: ${carId},
 fieldsNotNull: ${fieldsNotNull}
     ''';
   }

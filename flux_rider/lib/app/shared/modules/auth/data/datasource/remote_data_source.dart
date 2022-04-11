@@ -73,7 +73,12 @@ class RemoteDataSourceImpl implements RemoteDataSource {
         Map userMap = {
           'name': user.name,
           'email': user.email,
-          'phoneNumber': user.phoneNumber
+          'phoneNumber': user.phoneNumber,
+          'car': {
+            'car_model': user.carModel,
+            'car_color': user.carColor,
+            'car_id': user.carId,
+          }
         };
 
         newUser.set(userMap);

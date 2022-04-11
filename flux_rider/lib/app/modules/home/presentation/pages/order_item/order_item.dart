@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flux_client/app/core/core.dart';
-import 'package:flux_client/app/modules/order/presentation/pages/order_item/order_item_store.dart';
-import 'package:flux_client/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
-import 'package:flux_client/app/shared/preferences/config.dart';
-import 'package:flux_client/app/shared/widgets/app_bar/app_bar_widget.dart';
-import 'package:flux_client/app/shared/widgets/primary_button/primary_button_widget.dart';
-import 'package:flux_client/app/shared/widgets/secondary_button/secondary_button_widget.dart';
+import 'package:flux_rider/app/core/core.dart';
+
+import '../../../../../shared/modules/auth/data/repositories/auth_repository_impl.dart';
+import '../../../../../shared/preferences/config.dart';
+import '../../../../../shared/widgets/app_bar/app_bar_widget.dart';
+import '../../../../../shared/widgets/primary_button/primary_button_widget.dart';
+import '../../../../../shared/widgets/secondary_button/secondary_button_widget.dart';
+import 'order_item_store.dart';
 
 class OrderItem extends StatefulWidget {
   final String orderId;
