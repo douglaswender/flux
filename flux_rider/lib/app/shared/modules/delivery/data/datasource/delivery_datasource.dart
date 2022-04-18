@@ -25,7 +25,7 @@ abstract class DeliveryDatasource {
     required String userId,
   });
   Future<List<DeliveryModel>> getDeliveries({
-    required String? userId,
+    String? userId,
   });
 }
 
@@ -126,51 +126,63 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
   }
 
   @override
-  Future<List<DeliveryModel>> getDeliveries({required String? userId}) async {
-    bool allDeliveries = userId != null ? true : false;
+  Future<List<DeliveryModel>> getDeliveries({String? userId}) async {
+    bool itsAllDeliveries = userId != null ? false : true;
     List<DeliveryModel> deliveries = [];
 
-    DatabaseReference userRef = allDeliveries
-        ? FirebaseDatabase.instance.ref().child('delivery/$userId/')
-        : FirebaseDatabase.instance.ref().child('delivery/');
+    DatabaseReference userRef = itsAllDeliveries
+        ? FirebaseDatabase.instance.ref().child('delivery/')
+        : FirebaseDatabase.instance.ref().child('delivery/$userId/');
 
     final snapshot = await userRef.get();
 
     if (snapshot.exists) {
-      snapshot.children.forEach((element) {
-        print(element);
-        deliveries.add(DeliveryModel(
-          createdAt: element.child('created_at').value.toString(),
-          deliveryId: element.key,
-          destinationAddress:
-              element.child('destination_address').value.toString(),
-          destinationLocation: AddressModel(
-            latitude: double.parse(element
-                .child('destination_location/latitude')
-                .value
-                .toString()),
-            longitude: double.parse(element
-                .child('destination_location/longitude')
-                .value
-                .toString()),
-          ),
-          driverId: element.child('driver_id').value.toString(),
-          originAddress: element.child('origin_address').value.toString(),
-          originLocation: AddressModel(
-            latitude: double.parse(
-                element.child('origin_location/latitude').value.toString()),
-            longitude: double.parse(
-                element.child('origin_location/longitude').value.toString()),
-          ),
-          userId: element.child('request_user_id').value.toString(),
-          userName: element.child('request_user_name').value.toString(),
-          valueOfRun: int.parse(element.child('value_of_run').value.toString()),
-          phoneNumber: element.child('request_phone_number').value.toString(),
-          deliveryDescription:
-              element.child('delivery_description').value.toString(),
-          deliveryDocument: element.child('delivery_document').value.toString(),
-          deliveryReceiver: element.child('delivery_receiver').value.toString(),
-        ));
+      snapshot.children.forEach((allDeliveries) {
+        print(allDeliveries);
+        if (itsAllDeliveries) {
+          allDeliveries.children
+              .where((element) =>
+                  element.child("driver_id").value.toString() == "waiting")
+              .toList()
+              .forEach((userDeliveries) {
+            print(userDeliveries);
+            deliveries.add(setData(userDeliveries));
+          });
+        } else {
+          deliveries.add(setData(allDeliveries));
+        }
+        // deliveries.add(DeliveryModel(
+        //   createdAt: element.child('created_at').value.toString(),
+        //   deliveryId: element.key,
+        //   destinationAddress:
+        //       element.child('destination_address').value.toString(),
+        //   destinationLocation: AddressModel(
+        //     latitude: double.parse(element
+        //         .child('destination_location/latitude')
+        //         .value
+        //         .toString()),
+        //     longitude: double.parse(element
+        //         .child('destination_location/longitude')
+        //         .value
+        //         .toString()),
+        //   ),
+        //   driverId: element.child('driver_id').value.toString(),
+        //   originAddress: element.child('origin_address').value.toString(),
+        //   originLocation: AddressModel(
+        //     latitude: double.parse(
+        //         element.child('origin_location/latitude').value.toString()),
+        //     longitude: double.parse(
+        //         element.child('origin_location/longitude').value.toString()),
+        //   ),
+        //   userId: element.child('request_user_id').value.toString(),
+        //   userName: element.child('request_user_name').value.toString(),
+        //   valueOfRun: int.parse(element.child('value_of_run').value.toString()),
+        //   phoneNumber: element.child('request_phone_number').value.toString(),
+        //   deliveryDescription:
+        //       element.child('delivery_description').value.toString(),
+        //   deliveryDocument: element.child('delivery_document').value.toString(),
+        //   deliveryReceiver: element.child('delivery_receiver').value.toString(),
+        // ));
       });
     }
 
@@ -194,5 +206,34 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
     } catch (e) {
       return false;
     }
+  }
+
+  DeliveryModel setData(DataSnapshot data) {
+    return DeliveryModel(
+      createdAt: data.child('created_at').value.toString(),
+      deliveryId: data.key,
+      destinationAddress: data.child('destination_address').value.toString(),
+      destinationLocation: AddressModel(
+        latitude: double.parse(
+            data.child('destination_location/latitude').value.toString()),
+        longitude: double.parse(
+            data.child('destination_location/longitude').value.toString()),
+      ),
+      driverId: data.child('driver_id').value.toString(),
+      originAddress: data.child('origin_address').value.toString(),
+      originLocation: AddressModel(
+        latitude: double.parse(
+            data.child('origin_location/latitude').value.toString()),
+        longitude: double.parse(
+            data.child('origin_location/longitude').value.toString()),
+      ),
+      userId: data.child('request_user_id').value.toString(),
+      userName: data.child('request_user_name').value.toString(),
+      valueOfRun: int.parse(data.child('value_of_run').value.toString()),
+      phoneNumber: data.child('request_phone_number').value.toString(),
+      deliveryDescription: data.child('delivery_description').value.toString(),
+      deliveryDocument: data.child('delivery_document').value.toString(),
+      deliveryReceiver: data.child('delivery_receiver').value.toString(),
+    );
   }
 }

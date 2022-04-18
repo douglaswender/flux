@@ -77,9 +77,7 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
       {required String userId}) async {
     if (await networkInfo.isConnected != ConnectivityResult.none) {
       try {
-        final result = await datasource.getDeliveries(
-          userId: userId,
-        );
+        final result = await datasource.getDeliveries();
 
         return Right(result);
       } catch (e) {

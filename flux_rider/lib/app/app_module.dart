@@ -5,6 +5,8 @@ import 'package:flux_rider/app/modules/register/register_module.dart';
 import 'package:flux_rider/app/shared/modules/auth/data/datasource/remote_data_source.dart';
 import 'package:flux_rider/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
 import 'package:flux_rider/app/shared/modules/auth/domain/usecases/logout.dart';
+import 'package:flux_rider/app/shared/modules/delivery/data/datasource/delivery_datasource.dart';
+import 'package:flux_rider/app/shared/modules/delivery/data/repositories/delivery_repository_impl.dart';
 
 import 'core/network/network_info.dart';
 import 'modules/home/home_module.dart';
@@ -21,12 +23,15 @@ class AppModule extends Module {
 
     //! DataSource
     Bind((i) => RemoteDataSourceImpl()),
+    Bind((i) => DeliveryDatasourceImpl()),
 
     //* Repository
     Bind((i) => AuthRepositoryImpl(
           networkInfo: i(),
           remoteDataSource: i(),
         )),
+    Bind((i) => DeliveryRepositoryImpl(
+        datasource: i<DeliveryDatasource>(), networkInfo: i<NetworkInfo>())),
     //? UseCases
     Bind((i) => LogoutUser(repository: i())),
   ];
