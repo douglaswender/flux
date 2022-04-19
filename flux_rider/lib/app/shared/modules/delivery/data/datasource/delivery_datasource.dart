@@ -151,38 +151,6 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
         } else {
           deliveries.add(setData(allDeliveries));
         }
-        // deliveries.add(DeliveryModel(
-        //   createdAt: element.child('created_at').value.toString(),
-        //   deliveryId: element.key,
-        //   destinationAddress:
-        //       element.child('destination_address').value.toString(),
-        //   destinationLocation: AddressModel(
-        //     latitude: double.parse(element
-        //         .child('destination_location/latitude')
-        //         .value
-        //         .toString()),
-        //     longitude: double.parse(element
-        //         .child('destination_location/longitude')
-        //         .value
-        //         .toString()),
-        //   ),
-        //   driverId: element.child('driver_id').value.toString(),
-        //   originAddress: element.child('origin_address').value.toString(),
-        //   originLocation: AddressModel(
-        //     latitude: double.parse(
-        //         element.child('origin_location/latitude').value.toString()),
-        //     longitude: double.parse(
-        //         element.child('origin_location/longitude').value.toString()),
-        //   ),
-        //   userId: element.child('request_user_id').value.toString(),
-        //   userName: element.child('request_user_name').value.toString(),
-        //   valueOfRun: int.parse(element.child('value_of_run').value.toString()),
-        //   phoneNumber: element.child('request_phone_number').value.toString(),
-        //   deliveryDescription:
-        //       element.child('delivery_description').value.toString(),
-        //   deliveryDocument: element.child('delivery_document').value.toString(),
-        //   deliveryReceiver: element.child('delivery_receiver').value.toString(),
-        // ));
       });
     }
 

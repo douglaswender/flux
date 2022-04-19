@@ -11,6 +11,7 @@ import 'package:flux_rider/app/shared/modules/delivery/data/repositories/deliver
 import 'core/network/network_info.dart';
 import 'modules/home/home_module.dart';
 import 'modules/menu/presentation/menu_page.dart';
+import 'modules/order/presentation/order_module.dart';
 
 class AppModule extends Module {
   @override
@@ -42,5 +43,6 @@ class AppModule extends Module {
     ModuleRoute('/register', module: RegisterModule()),
     ModuleRoute('/home', module: HomeModule()),
     ChildRoute('/menu', child: (context, args) => MenuPage()),
+    ModuleRoute('/order/', module: OrderModule()),
   ];
 }

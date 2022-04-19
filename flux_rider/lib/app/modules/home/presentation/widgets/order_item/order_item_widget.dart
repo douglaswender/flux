@@ -34,8 +34,10 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
     return GestureDetector(
       onTap: () {
         print(widget.delivery.deliveryId);
-        Modular.to.pushNamed('/orders/order',
-            arguments: {"order_id": widget.delivery.deliveryId});
+        Modular.to.pushNamed('/order', arguments: {
+          "order_id": widget.delivery.deliveryId,
+          "user_id": widget.delivery.userId,
+        });
         //.then((value) => homeStore.getUserDeliveries())
       },
       child: Container(

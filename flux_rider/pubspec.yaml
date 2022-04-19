@@ -56,7 +56,8 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   dartz: ^0.10.1
   dio: ^4.0.6
-
+  map_launcher: ^2.2.1+2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
