@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flux_client/app/core/helpers/fire_helper.dart';
+import 'package:flux_client/app/modules/home/data/models/nearby_driver.dart';
 import 'package:flux_client/app/shared/modules/delivery/domain/usecases/publish_delivery.dart';
 import '../../../core/helpers/helper_methods.dart';
 import '../../../core/helpers/request_helper.dart';
@@ -336,6 +338,7 @@ abstract class HomeStoreBase with Store {
     if (originAddress.placeName == null) {
       AddressModel address = await HelperMethods.findCordinateAddress(position);
       updatePickupAddress(address);
+      startGeofireListener();
     }
     loading = false;
   }
@@ -376,6 +379,51 @@ abstract class HomeStoreBase with Store {
     orderId.fold((l) => null, (r) {
       clear();
       Modular.to.pushNamed('/orders/order', arguments: {"order_id": r});
+    });
+  }
+
+  void startGeofireListener() {
+    Geofire.initialize('drivers_working');
+    Geofire.queryAtLocation(
+            originLatLng!.latitude, originLatLng!.longitude, 15)!
+        .listen((map) {
+      print(map);
+      if (map != null) {
+        var callBack = map['callBack'];
+
+        //latitude will be retrieved from map['latitude']
+        //longitude will be retrieved from map['longitude']
+
+        switch (callBack) {
+          case Geofire.onKeyEntered:
+            NearbyDriver nearbyDriver = NearbyDriver();
+            nearbyDriver.key = map['key'];
+            nearbyDriver.latitude = map['latitude'];
+            nearbyDriver.longitude = map['longitude'];
+
+            FireHelper.nearByDriverList.add(nearbyDriver);
+            break;
+
+          case Geofire.onKeyExited:
+            FireHelper.removeFromList(map['key']);
+            break;
+
+          case Geofire.onKeyMoved:
+            NearbyDriver nearbyDriver = NearbyDriver();
+            nearbyDriver.key = map['key'];
+            nearbyDriver.latitude = map['latitude'];
+            nearbyDriver.longitude = map['longitude'];
+
+            FireHelper.updateNearbyLocation(nearbyDriver);
+            break;
+
+          case Geofire.onGeoQueryReady:
+            // All Intial Data is loaded
+            print('firehelper lenght: ${FireHelper.nearByDriverList.length}');
+
+            break;
+        }
+      }
     });
   }
 

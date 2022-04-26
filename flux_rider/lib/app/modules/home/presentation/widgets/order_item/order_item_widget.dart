@@ -18,8 +18,9 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
   final homeStore = Modular.get<HomeStore>();
   String? driverName;
   String? status;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     if (widget.delivery.driverId == 'waiting') {
       driverName = 'A definir';
 
@@ -30,15 +31,26 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
       //entregue
 
       status = 'Postado';
+    } else {
+      driverName = widget.delivery.driverName;
+      if (widget.delivery.status == 'finished') {
+        status = 'Entregue';
+      } else {
+        status = 'Você é responsável!';
+      }
     }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         print(widget.delivery.deliveryId);
-        Modular.to.pushNamed('/order', arguments: {
+        await Modular.to.pushNamed('/order', arguments: {
           "order_id": widget.delivery.deliveryId,
           "user_id": widget.delivery.userId,
-        });
-        //.then((value) => homeStore.getUserDeliveries())
+        }).then((value) => homeStore.getAllDeliveries());
       },
       child: Container(
         height: AppSizes.s128,
@@ -93,11 +105,12 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       SizedBox(
                         height: AppSizes.s8,
                       ),
-                      Text(
-                        "Motorista: ${driverName!.toUpperCase()}",
-                        overflow: TextOverflow.clip,
-                        style: AppTextStyles.body,
-                      ),
+                      if (widget.delivery.driverId != 'waiting')
+                        Text(
+                          "Motorista: ${driverName!.toUpperCase()}",
+                          overflow: TextOverflow.clip,
+                          style: AppTextStyles.body,
+                        ),
                       Text(
                         "Destinatário: ${widget.delivery.deliveryReceiver!.toUpperCase()}",
                         overflow: TextOverflow.clip,

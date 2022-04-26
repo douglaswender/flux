@@ -77,7 +77,7 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
       {required String userId}) async {
     if (await networkInfo.isConnected != ConnectivityResult.none) {
       try {
-        final result = await datasource.getDeliveries();
+        final result = await datasource.getDeliveries(userId: userId);
 
         return Right(result);
       } catch (e) {
@@ -90,15 +90,36 @@ class DeliveryRepositoryImpl implements DeliveryRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> deleteDelivery(
+  Future<Either<Failure, bool>> getDeliveryForDriver(
       {required String deliveryId, required String userId}) async {
     if (await networkInfo.isConnected != ConnectivityResult.none) {
       try {
-        await datasource.deleteDelivery(
+        await datasource.getDeliveryForDriver(
           deliveryId: deliveryId,
           userId: userId,
         );
 
+        return Right(true);
+      } catch (e) {
+        print(e);
+        return Left(ServerFailure(e.toString()));
+      }
+    } else {
+      return Left(ConnectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> setDeliveryConcluded(
+      {required String deliveryId, required String userId}) async {
+    if (await networkInfo.isConnected != ConnectivityResult.none) {
+      try {
+        final res = await datasource.setDeliveryConcluded(
+          deliveryId: deliveryId,
+          userId: userId,
+        );
+        if (res != true)
+          throw Exception('errow when datasource call - setDeliveryConcluded');
         return Right(true);
       } catch (e) {
         print(e);

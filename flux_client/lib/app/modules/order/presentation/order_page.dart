@@ -62,26 +62,47 @@ class OrderPageState extends ModularState<OrderPage, OrderStore> {
                   height: AppSizes.s16,
                 ),
                 if (!controller.loading)
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        child: Column(
-                          children: [
-                            for (DeliveryModel item
-                                in controller.listOrderItens!)
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: AppSizes.s16,
-                                  ),
-                                  OrderItemWidget(delivery: item)
-                                ],
+                  controller.listOrderItens != null
+                      ? Expanded(
+                          child: RefreshIndicator(
+                              onRefresh: () async {
+                                print('refreshing');
+                                controller.getUserDeliveries();
+                              },
+                              child: Expanded(
+                                child: ListView.builder(
+                                    itemCount:
+                                        controller.listOrderItens!.length,
+                                    itemBuilder: (_, int index) {
+                                      return Column(
+                                        children: [
+                                          OrderItemWidget(
+                                              delivery: controller
+                                                  .listOrderItens![index]),
+                                          SizedBox(
+                                            height: AppSizes.s8,
+                                          )
+                                        ],
+                                      );
+                                    }),
                               )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                              // Column(
+                              //   children: [
+                              //     for (DeliveryModel item
+                              //         in controller.listOrderItens!)
+                              //       Column(
+                              //         children: [
+                              //           OrderItemWidget(delivery: item),
+                              //           SizedBox(
+                              //             height: AppSizes.s8,
+                              //           )
+                              //         ],
+                              //       ),
+                              //  ],
+                              //),
+                              ),
+                        )
+                      : Text("não há encomendas"),
               ],
             ),
           ),

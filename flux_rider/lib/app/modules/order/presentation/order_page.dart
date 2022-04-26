@@ -4,19 +4,21 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:flux_rider/app/core/core.dart';
 import 'package:flux_rider/app/modules/order/presentation/order_store.dart';
+import 'package:flux_rider/app/shared/modules/delivery/domain/usecases/set_delivery_concluded.dart';
 import 'package:map_launcher/map_launcher.dart';
 
 import '../../../shared/modules/auth/data/repositories/auth_repository_impl.dart';
 import '../../../shared/preferences/config.dart';
 import '../../../shared/widgets/app_bar/app_bar_widget.dart';
 import '../../../shared/widgets/primary_button/primary_button_widget.dart';
+import '../../../shared/widgets/secondary_button/secondary_button_widget.dart';
 
 class OrderPage extends StatefulWidget {
-  final String orderId;
+  final String deliveryId;
   final String userId;
   const OrderPage({
     Key? key,
-    required this.orderId,
+    required this.deliveryId,
     required this.userId,
   }) : super(key: key);
 
@@ -26,14 +28,15 @@ class OrderPage extends StatefulWidget {
 
 class _OrderItemState extends ModularState<OrderPage, OrderStore> {
   final auth = Modular.get<AuthRepositoryImpl>();
+  final setDeliveryConcluded = Modular.get<SetDeliveryConcluded>();
   @override
   void initState() {
     super.initState();
     controller.getInfos(
-      deliveryId: widget.orderId,
+      deliveryId: widget.deliveryId,
       userId: widget.userId,
     );
-    print(widget.orderId);
+    print(widget.deliveryId);
   }
 
   @override
@@ -61,7 +64,7 @@ class _OrderItemState extends ModularState<OrderPage, OrderStore> {
                             ),
                             Column(
                               children: [
-                                Text(widget.orderId
+                                Text(widget.deliveryId
                                     .simplifyCodeId()
                                     .toUpperCase()),
                                 Text(controller.delivery!.createdAt!
@@ -135,6 +138,11 @@ class _OrderItemState extends ModularState<OrderPage, OrderStore> {
                                   print(
                                       availableMaps); // [AvailableMap { mapName: Google Maps, mapType: google }, ...]
 
+                                  controller.getDeliveryForDriver(
+                                      deliveryId:
+                                          controller.delivery!.deliveryId!,
+                                      userId: widget.userId);
+
                                   await availableMaps.first.showMarker(
                                     coords: Coords(
                                       controller
@@ -147,17 +155,74 @@ class _OrderItemState extends ModularState<OrderPage, OrderStore> {
                                   );
                                 },
                                 text: "Buscar"),
-                            // SizedBox(
-                            //   width: AppSizes.s16,
-                            // ),
-                            // SecondaryButtonWidget(
-                            //     onPress: () {
-                            //       controller.removeDelivery(
-                            //           deliveryId:
-                            //               controller.delivery!.deliveryId!,
-                            //           userId: auth.userModel!.id!);
-                            //     },
-                            //     text: "Remover")
+                            SizedBox(
+                              width: AppSizes.s16,
+                            ),
+                            SecondaryButtonWidget(
+                                onPress: () async {
+                                  final availableMaps =
+                                      await MapLauncher.installedMaps;
+                                  print(availableMaps);
+
+                                  await availableMaps.first
+                                      .showMarker(
+                                        coords: Coords(
+                                          controller.delivery!
+                                              .destinationLocation!.latitude!,
+                                          controller.delivery!
+                                              .destinationLocation!.longitude!,
+                                        ),
+                                        title:
+                                            "Corrida de ${controller.delivery!.userName}",
+                                      )
+                                      .then((value) => showModalBottomSheet(
+                                          context: context,
+                                          builder: (_) => Container(
+                                                height: 200,
+                                                child: Expanded(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(
+                                                          "A corrida foi finalizada?"),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        children: [
+                                                          ElevatedButton(
+                                                              onPressed: () {
+                                                                Modular.to
+                                                                    .pop();
+                                                                setDeliveryConcluded(
+                                                                    deliveryId: controller
+                                                                        .delivery!
+                                                                        .deliveryId!,
+                                                                    userId: controller
+                                                                        .delivery!
+                                                                        .userId!);
+                                                                Modular.to
+                                                                    .pop();
+                                                              },
+                                                              child:
+                                                                  Text('Sim')),
+                                                          ElevatedButton(
+                                                              onPressed: () {
+                                                                Modular.to
+                                                                    .pop();
+                                                              },
+                                                              child:
+                                                                  Text('Não'))
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              )));
+                                },
+                                text: "Levar")
                           ],
                         ),
                       ],

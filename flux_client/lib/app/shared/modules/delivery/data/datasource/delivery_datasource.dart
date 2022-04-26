@@ -67,6 +67,7 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
         'delivery_receiver': deliveryReceiver,
         'delivery_document': deliveryDocument,
         'delivery_description': deliveryDescription,
+        'status': '',
       };
 
       ref.set(deliveryMap);
@@ -118,6 +119,7 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
             snapshot.child('delivery_description').value.toString(),
         deliveryDocument: snapshot.child('delivery_document').value.toString(),
         deliveryReceiver: snapshot.child('delivery_receiver').value.toString(),
+        status: snapshot.child('status').value.toString(),
       );
     }
 
@@ -152,6 +154,7 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
                 .toString()),
           ),
           driverId: element.child('driver_id').value.toString(),
+          driverName: element.child('driver_name').value.toString(),
           originAddress: element.child('origin_address').value.toString(),
           originLocation: AddressModel(
             latitude: double.parse(
@@ -167,6 +170,7 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
               element.child('delivery_description').value.toString(),
           deliveryDocument: element.child('delivery_document').value.toString(),
           deliveryReceiver: element.child('delivery_receiver').value.toString(),
+          status: element.child('status').value.toString(),
         ));
       });
     }

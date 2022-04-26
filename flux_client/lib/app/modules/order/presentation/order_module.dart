@@ -1,6 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flux_client/app/modules/order/presentation/pages/order_item/order_item.dart';
 import 'package:flux_client/app/modules/order/presentation/pages/order_item/order_item_store.dart';
+import 'package:flux_client/app/modules/order/presentation/pages/track_item/track_item.dart';
+import 'package:flux_client/app/modules/order/presentation/pages/track_item/track_item_store.dart';
 import 'package:flux_client/app/shared/modules/delivery/domain/repositories/delivery_repository.dart';
 import 'package:flux_client/app/shared/modules/delivery/domain/usecases/delete_delivery.dart';
 import 'package:flux_client/app/shared/modules/delivery/domain/usecases/get_deliveries.dart';
@@ -16,6 +18,7 @@ class OrderModule extends Module {
     Bind((i) => OrderStore()),
     Bind((i) => OrderItemStore()),
     Bind((i) => FilterButtonStore()),
+    Bind((i) => TrackItemStore()),
 
     //! Usecases
     Bind((i) => GetDelivery(repository: i<DeliveryRepository>())),
@@ -29,6 +32,10 @@ class OrderModule extends Module {
     ChildRoute('/order',
         child: (_, args) => OrderItem(
               orderId: args.data['order_id'],
+            )),
+    ChildRoute('/track',
+        child: (_, args) => TrackItem(
+              driverId: args.data['driver_id'],
             ))
   ];
 }

@@ -47,13 +47,14 @@ mixin _$OrderStore on _OrderStoreBase, Store {
         .run(() => super.getInfos(deliveryId: deliveryId, userId: userId));
   }
 
-  final _$removeDeliveryAsyncAction =
-      AsyncAction('_OrderStoreBase.removeDelivery');
+  final _$getDeliveryForDriverAsyncAction =
+      AsyncAction('_OrderStoreBase.getDeliveryForDriver');
 
   @override
-  Future removeDelivery({required String deliveryId, required String userId}) {
-    return _$removeDeliveryAsyncAction.run(
-        () => super.removeDelivery(deliveryId: deliveryId, userId: userId));
+  Future getDeliveryForDriver(
+      {required String deliveryId, required String userId}) {
+    return _$getDeliveryForDriverAsyncAction.run(() =>
+        super.getDeliveryForDriver(deliveryId: deliveryId, userId: userId));
   }
 
   @override

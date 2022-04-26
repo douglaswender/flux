@@ -1,10 +1,16 @@
-import 'package:firebase_database/firebase_database.dart';
+import 'dart:async';
 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_geofire/flutter_geofire.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_rider/app/shared/modules/auth/data/repositories/auth_repository_impl.dart';
+import 'package:geolocator/geolocator.dart';
 import '../../domain/entities/address.dart';
 import '../models/address_model.dart';
 import '../models/delivery_model.dart';
 
 abstract class DeliveryDatasource {
+  late StreamSubscription<Position> mapPositionStream;
   Future<String> publishDelivery({
     required Address originAddress,
     required Address destinationAddress,
@@ -20,13 +26,15 @@ abstract class DeliveryDatasource {
     required String deliveryId,
     required String userId,
   });
-  Future<bool> deleteDelivery({
+  Future<bool> getDeliveryForDriver({
     required String deliveryId,
     required String userId,
   });
   Future<List<DeliveryModel>> getDeliveries({
     String? userId,
   });
+  Future<bool> setDeliveryConcluded(
+      {required String deliveryId, required String userId});
 }
 
 class DeliveryDatasourceImpl implements DeliveryDatasource {
@@ -103,6 +111,7 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
               .toString()),
         ),
         driverId: snapshot.child('driver_id').value.toString(),
+        driverName: snapshot.child('driver_name').value.toString(),
         originAddress: snapshot.child('origin_address').value.toString(),
         originLocation: AddressModel(
           latitude: double.parse(
@@ -127,30 +136,26 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
 
   @override
   Future<List<DeliveryModel>> getDeliveries({String? userId}) async {
-    bool itsAllDeliveries = userId != null ? false : true;
     List<DeliveryModel> deliveries = [];
 
-    DatabaseReference userRef = itsAllDeliveries
-        ? FirebaseDatabase.instance.ref().child('delivery/')
-        : FirebaseDatabase.instance.ref().child('delivery/$userId/');
+    DatabaseReference userRef =
+        FirebaseDatabase.instance.ref().child('delivery/');
 
     final snapshot = await userRef.get();
 
     if (snapshot.exists) {
       snapshot.children.forEach((allDeliveries) {
         print(allDeliveries);
-        if (itsAllDeliveries) {
-          allDeliveries.children
-              .where((element) =>
-                  element.child("driver_id").value.toString() == "waiting")
-              .toList()
-              .forEach((userDeliveries) {
-            print(userDeliveries);
-            deliveries.add(setData(userDeliveries));
-          });
-        } else {
-          deliveries.add(setData(allDeliveries));
-        }
+
+        allDeliveries.children
+            .where((element) =>
+                element.child("driver_id").value.toString() == "waiting" ||
+                element.child("driver_id").value.toString() == userId)
+            .toList()
+            .forEach((userDeliveries) {
+          print(userDeliveries);
+          deliveries.add(setData(userDeliveries));
+        });
       });
     }
 
@@ -159,21 +164,68 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
   }
 
   @override
-  Future<bool> deleteDelivery(
+  Future<bool> getDeliveryForDriver(
       {required String deliveryId, required String userId}) async {
     DatabaseReference deliveryRef =
         FirebaseDatabase.instance.ref().child('delivery/$userId/$deliveryId');
 
     try {
+      final userInfo = Modular.get<AuthRepositoryImpl>();
+
       print(deliveryRef);
       deliveryRef
-          .remove()
-          .then((value) => print('removed'))
+          .update({
+            'driver_id': userInfo.userModel!.id,
+            'driver_name': userInfo.userModel!.name,
+          })
+          .then((value) => print('updated'))
           .catchError((e) => print(e));
+
+      getLocationUpdates();
+
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  @override
+  Future<bool> setDeliveryConcluded(
+      {required String deliveryId, required String userId}) async {
+    DatabaseReference deliveryRef =
+        FirebaseDatabase.instance.ref().child('delivery/$userId/$deliveryId');
+
+    try {
+      final userInfo = Modular.get<AuthRepositoryImpl>();
+
+      print(deliveryRef);
+      deliveryRef
+          .update({
+            'driver_id': userInfo.userModel!.id,
+            'driver_name': userInfo.userModel!.name,
+            'status': 'finished'
+          })
+          .then((value) => print('updated'))
+          .catchError((e) => print(e));
+
+      mapPositionStream.cancel();
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void getLocationUpdates() {
+    final currentUser = Modular.get<AuthRepositoryImpl>();
+    mapPositionStream = Geolocator.getPositionStream(
+      desiredAccuracy: LocationAccuracy.bestForNavigation,
+      distanceFilter: 4,
+    ).listen((Position position) {
+      Geofire.initialize('drivers_working');
+      Geofire.setLocation(
+          currentUser.userModel!.id!, position.latitude, position.longitude);
+    });
   }
 
   DeliveryModel setData(DataSnapshot data) {
@@ -188,6 +240,7 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
             data.child('destination_location/longitude').value.toString()),
       ),
       driverId: data.child('driver_id').value.toString(),
+      driverName: data.child('driver_name').value.toString(),
       originAddress: data.child('origin_address').value.toString(),
       originLocation: AddressModel(
         latitude: double.parse(
@@ -202,6 +255,10 @@ class DeliveryDatasourceImpl implements DeliveryDatasource {
       deliveryDescription: data.child('delivery_description').value.toString(),
       deliveryDocument: data.child('delivery_document').value.toString(),
       deliveryReceiver: data.child('delivery_receiver').value.toString(),
+      status: data.child('status').value.toString(),
     );
   }
+
+  @override
+  late StreamSubscription<Position> mapPositionStream;
 }

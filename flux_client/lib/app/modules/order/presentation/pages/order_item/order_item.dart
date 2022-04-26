@@ -121,19 +121,36 @@ class _OrderItemState extends ModularState<OrderItem, OrderItemStore> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            PrimaryButtonWidget(
-                                onPress: () {}, text: "Rastrear"),
+                            if (controller.delivery!.status! != 'finished')
+                              PrimaryButtonWidget(
+                                  onPress: controller.delivery!.driverId !=
+                                              'waiting' &&
+                                          controller.delivery!.status! !=
+                                              'finished'
+                                      ? () {
+                                          Modular.to.pushNamed('/orders/track',
+                                              arguments: {
+                                                'driver_id': controller
+                                                    .delivery!.driverId
+                                              });
+                                        }
+                                      : null,
+                                  text: "Rastrear"),
                             SizedBox(
                               width: AppSizes.s16,
                             ),
-                            SecondaryButtonWidget(
-                                onPress: () {
-                                  controller.removeDelivery(
-                                      deliveryId:
-                                          controller.delivery!.deliveryId!,
-                                      userId: auth.userModel!.id!);
-                                },
-                                text: "Remover")
+                            if (controller.delivery!.status! != 'finished')
+                              SecondaryButtonWidget(
+                                  onPress:
+                                      controller.delivery!.driverName != null
+                                          ? () {
+                                              controller.removeDelivery(
+                                                  deliveryId: controller
+                                                      .delivery!.deliveryId!,
+                                                  userId: auth.userModel!.id!);
+                                            }
+                                          : null,
+                                  text: "Remover")
                           ],
                         ),
                       ],

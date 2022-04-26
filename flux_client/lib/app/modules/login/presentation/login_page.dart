@@ -3,8 +3,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/core.dart';
-import '../../../core/styles/app_images.dart';
-import '../../../core/styles/app_sizes.dart';
 import '../../../shared/widgets/default_circular_progress_indicator/default_circular_progress_indicator.dart';
 import '../../../shared/widgets/input/input_widget.dart';
 import '../../../shared/widgets/primary_button/primary_button_widget.dart';

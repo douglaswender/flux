@@ -30,6 +30,13 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
       //entregue
 
       status = 'Postado';
+    } else {
+      driverName = widget.delivery.driverName;
+      if (widget.delivery.status == 'finished') {
+        status = 'Entregue';
+      } else {
+        status = 'A caminho';
+      }
     }
     return GestureDetector(
       onTap: () {
@@ -91,11 +98,12 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                       SizedBox(
                         height: AppSizes.s8,
                       ),
-                      Text(
-                        "Motorista: ${driverName!.toUpperCase()}",
-                        overflow: TextOverflow.clip,
-                        style: AppTextStyles.body,
-                      ),
+                      if (driverName != null)
+                        Text(
+                          "Motorista: ${driverName!.toUpperCase()}",
+                          overflow: TextOverflow.clip,
+                          style: AppTextStyles.body,
+                        ),
                       Text(
                         "Destinatário: ${widget.delivery.deliveryReceiver!.toUpperCase()}",
                         overflow: TextOverflow.clip,

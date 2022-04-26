@@ -3,7 +3,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../shared/modules/delivery/data/models/delivery_model.dart';
-import '../../../shared/modules/delivery/domain/usecases/delete_delivery.dart';
+import '../../../shared/modules/delivery/domain/usecases/get_delivery_for_driver.dart';
 import '../../../shared/modules/delivery/domain/usecases/get_delivery.dart';
 
 part 'order_store.g.dart';
@@ -31,19 +31,18 @@ abstract class _OrderStoreBase with Store {
   }
 
   @action
-  removeDelivery({required String deliveryId, required String userId}) async {
+  getDeliveryForDriver(
+      {required String deliveryId, required String userId}) async {
     loading = true;
 
-    final removeDelivery = Modular.get<DeleteDelivery>();
+    final getDeliveryForDriver = Modular.get<GetDeliveryForDriver>();
 
-    await removeDelivery(
+    await getDeliveryForDriver(
       deliveryId: deliveryId,
       userId: userId,
     );
 
     await Future.delayed(Duration(seconds: 2));
-
-    Modular.to.pop();
 
     loading = false;
   }

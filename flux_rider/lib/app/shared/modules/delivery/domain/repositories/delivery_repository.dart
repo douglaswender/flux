@@ -25,7 +25,12 @@ abstract class DeliveryRepository {
     required String userId,
   });
 
-  Future<Either<Failure, bool>> deleteDelivery({
+  Future<Either<Failure, bool>> getDeliveryForDriver({
+    required String deliveryId,
+    required String userId,
+  });
+
+  Future<Either<Failure, bool>> setDeliveryConcluded({
     required String deliveryId,
     required String userId,
   });

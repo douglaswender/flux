@@ -9,6 +9,7 @@ class DeliveryModel extends Delivery {
   final String? originAddress;
   final String? destinationAddress;
   final String? driverId;
+  final String? driverName;
   final String? phoneNumber;
   final String? userId;
   final String? userName;
@@ -18,6 +19,7 @@ class DeliveryModel extends Delivery {
   final String? deliveryDocument;
   final String? deliveryReceiver;
   final String? deliveryDescription;
+  final String? status;
 
   DeliveryModel({
     this.deliveryId,
@@ -25,6 +27,7 @@ class DeliveryModel extends Delivery {
     this.originAddress,
     this.destinationAddress,
     this.driverId,
+    this.driverName,
     this.phoneNumber,
     this.userId,
     this.userName,
@@ -34,6 +37,7 @@ class DeliveryModel extends Delivery {
     this.deliveryDocument,
     this.deliveryReceiver,
     this.deliveryDescription,
+    this.status,
   });
 
   DeliveryModel copyWith({
@@ -42,6 +46,7 @@ class DeliveryModel extends Delivery {
     String? originAddress,
     String? destinationAddress,
     String? driverId,
+    String? driverName,
     String? phoneNumber,
     String? userId,
     String? userName,
@@ -51,6 +56,7 @@ class DeliveryModel extends Delivery {
     String? deliveryDocument,
     String? deliveryReceiver,
     String? deliveryDescription,
+    String? status,
   }) {
     return DeliveryModel(
       deliveryId: deliveryId ?? this.deliveryId,
@@ -58,6 +64,7 @@ class DeliveryModel extends Delivery {
       originAddress: originAddress ?? this.originAddress,
       destinationAddress: destinationAddress ?? this.destinationAddress,
       driverId: driverId ?? this.driverId,
+      driverName: driverName ?? this.driverName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       userId: userId ?? this.userId,
       userName: userName ?? this.userName,
@@ -67,6 +74,7 @@ class DeliveryModel extends Delivery {
       deliveryDocument: deliveryDocument ?? this.deliveryDocument,
       deliveryReceiver: deliveryReceiver ?? this.deliveryReceiver,
       deliveryDescription: deliveryDescription ?? this.deliveryDescription,
+      status: status ?? this.status,
     );
   }
 
@@ -77,6 +85,7 @@ class DeliveryModel extends Delivery {
       'originAddress': originAddress,
       'destinationAddress': destinationAddress,
       'driverId': driverId,
+      'driverName': driverName,
       'phoneNumber': phoneNumber,
       'userId': userId,
       'userName': userName,
@@ -86,6 +95,7 @@ class DeliveryModel extends Delivery {
       'deliveryDocument': deliveryDocument,
       'deliveryReceiver': deliveryReceiver,
       'deliveryDescription': deliveryDescription,
+      'status': status,
     };
   }
 
@@ -96,6 +106,7 @@ class DeliveryModel extends Delivery {
       originAddress: map['originAddress'],
       destinationAddress: map['destinationAddress'],
       driverId: map['driverId'],
+      driverName: map['driverName'],
       phoneNumber: map['phoneNumber'],
       userId: map['userId'],
       userName: map['userName'],
@@ -109,6 +120,7 @@ class DeliveryModel extends Delivery {
       deliveryDocument: map['deliveryDocument'],
       deliveryReceiver: map['deliveryReceiver'],
       deliveryDescription: map['deliveryDescription'],
+      status: map['status'],
     );
   }
 
@@ -119,7 +131,7 @@ class DeliveryModel extends Delivery {
 
   @override
   String toString() {
-    return 'DeliveryModel(deliveryId: $deliveryId, createdAt: $createdAt, originAddress: $originAddress, destinationAddress: $destinationAddress, driverId: $driverId, phoneNumber: $phoneNumber, userId: $userId, userName: $userName, valueOfRun: $valueOfRun, originLocation: $originLocation, destinationLocation: $destinationLocation, deliveryDocument: $deliveryDocument, deliveryReceiver: $deliveryReceiver, deliveryDescription: $deliveryDescription)';
+    return 'DeliveryModel(deliveryId: $deliveryId, createdAt: $createdAt, originAddress: $originAddress, destinationAddress: $destinationAddress, driverId: $driverId, driverName: $driverName, phoneNumber: $phoneNumber, userId: $userId, userName: $userName, valueOfRun: $valueOfRun, originLocation: $originLocation, destinationLocation: $destinationLocation, deliveryDocument: $deliveryDocument, deliveryReceiver: $deliveryReceiver, deliveryDescription: $deliveryDescription, status: $status)';
   }
 
   @override
@@ -132,6 +144,7 @@ class DeliveryModel extends Delivery {
         other.originAddress == originAddress &&
         other.destinationAddress == destinationAddress &&
         other.driverId == driverId &&
+        other.driverName == driverName &&
         other.phoneNumber == phoneNumber &&
         other.userId == userId &&
         other.userName == userName &&
@@ -140,7 +153,8 @@ class DeliveryModel extends Delivery {
         other.destinationLocation == destinationLocation &&
         other.deliveryDocument == deliveryDocument &&
         other.deliveryReceiver == deliveryReceiver &&
-        other.deliveryDescription == deliveryDescription;
+        other.deliveryDescription == deliveryDescription &&
+        other.status == status;
   }
 
   @override
@@ -150,6 +164,7 @@ class DeliveryModel extends Delivery {
         originAddress.hashCode ^
         destinationAddress.hashCode ^
         driverId.hashCode ^
+        driverName.hashCode ^
         phoneNumber.hashCode ^
         userId.hashCode ^
         userName.hashCode ^
@@ -158,6 +173,7 @@ class DeliveryModel extends Delivery {
         destinationLocation.hashCode ^
         deliveryDocument.hashCode ^
         deliveryReceiver.hashCode ^
-        deliveryDescription.hashCode;
+        deliveryDescription.hashCode ^
+        status.hashCode;
   }
 }
