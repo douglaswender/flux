@@ -54,22 +54,26 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
                 ),
                 if (!controller.loading)
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        child: Column(
-                          children: [
-                            for (DeliveryModel item
-                                in controller.listOrderItens!)
-                              Column(
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        print('refreshing');
+                        controller.getAllDeliveries();
+                      },
+                      child: Expanded(
+                        child: ListView.builder(
+                            itemCount: controller.listOrderItens!.length,
+                            itemBuilder: (_, int index) {
+                              return Column(
                                 children: [
                                   SizedBox(
                                     height: AppSizes.s16,
                                   ),
-                                  OrderItemWidget(delivery: item)
+                                  OrderItemWidget(
+                                      delivery:
+                                          controller.listOrderItens![index])
                                 ],
-                              )
-                          ],
-                        ),
+                              );
+                            }),
                       ),
                     ),
                   ),
