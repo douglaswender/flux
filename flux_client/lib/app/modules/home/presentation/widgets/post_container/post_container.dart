@@ -20,11 +20,26 @@ class _PostContainerState extends State<PostContainer> {
   HomeStore homeStore = Modular.get<HomeStore>();
   AuthRepositoryImpl authRepository = Modular.get<AuthRepositoryImpl>();
 
+  TextEditingController? deliveryDescriptionController,
+      deliveryReceiverController,
+      deliveryDocumentController;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     print(authRepository);
+    deliveryDescriptionController = TextEditingController(
+      text: homeStore.deliveryDescription ?? "",
+    );
+
+    deliveryReceiverController = TextEditingController(
+      text: homeStore.deliveryReceiver ?? "",
+    );
+
+    deliveryDocumentController = TextEditingController(
+      text: homeStore.deliveryDocument ?? "",
+    );
     super.initState();
   }
 
@@ -172,9 +187,7 @@ class _PostContainerState extends State<PostContainer> {
                 onChange: (value) {
                   homeStore.deliveryDescription = value;
                 },
-                controller: TextEditingController(
-                  text: homeStore.deliveryDescription ?? "",
-                ),
+                controller: deliveryDescriptionController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor informe uma descrição da encomenda';
@@ -199,9 +212,7 @@ class _PostContainerState extends State<PostContainer> {
                 onChange: (value) {
                   homeStore.deliveryReceiver = value;
                 },
-                controller: TextEditingController(
-                  text: homeStore.deliveryReceiver ?? "",
-                ),
+                controller: deliveryReceiverController,
               ),
               SizedBox(
                 height: AppSizes.s16,
@@ -218,9 +229,7 @@ class _PostContainerState extends State<PostContainer> {
                 onChange: (value) {
                   homeStore.deliveryDocument = value;
                 },
-                controller: TextEditingController(
-                  text: homeStore.deliveryDocument ?? "",
-                ),
+                controller: deliveryDocumentController,
               ),
               SizedBox(
                 height: AppSizes.s16,
