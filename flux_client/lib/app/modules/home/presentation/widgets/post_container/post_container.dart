@@ -6,7 +6,6 @@ import '../../../../../core/core.dart';
 import '../../home_store.dart';
 import '../../../../../shared/widgets/input/input_widget.dart';
 import '../../../../../shared/widgets/secondary_button/secondary_button_widget.dart';
-import '../../../../../shared/shared.dart';
 
 class PostContainer extends StatefulWidget {
   final ScrollController? scrollController;

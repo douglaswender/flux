@@ -46,7 +46,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
         }).then((value) => orderStore.getUserDeliveries());
       },
       child: Container(
-        height: AppSizes.s128,
+        //height: AppSizes.s128,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 2),
           borderRadius: BorderRadius.all(Radius.circular(6)),

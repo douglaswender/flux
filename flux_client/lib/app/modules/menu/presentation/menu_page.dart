@@ -69,16 +69,6 @@ class _MenuPageState extends State<MenuPage> {
                     Row(
                       children: [
                         Expanded(
-                            child: SecondaryButtonWidget(
-                                onPress: () {}, text: "Meu Perfil")),
-                      ],
-                    ),
-                    SizedBox(
-                      height: AppSizes.s8,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
                           child: SecondaryButtonWidget(
                               onPress: () => Modular.to.pushNamed('/orders/'),
                               text: "Minhas Encomendas"),

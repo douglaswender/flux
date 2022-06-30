@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flux_rider/app/modules/login/presentation/login_store.dart';
+import 'package:flux_rider/app/shared/widgets/primary_button/primary_button_widget.dart';
 import '../../../core/core.dart';
 import '../../../shared/modules/auth/data/models/user_model.dart';
 import '../../../shared/modules/auth/data/repositories/auth_repository_impl.dart';
@@ -61,47 +63,12 @@ class _MenuPageState extends State<MenuPage> {
               SizedBox(
                 height: AppSizes.s24,
               ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.6,
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                            child: SecondaryButtonWidget(
-                                onPress: () {}, text: "Meu Perfil")),
-                      ],
-                    ),
-                    SizedBox(
-                      height: AppSizes.s8,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SecondaryButtonWidget(
-                              onPress: () => Modular.to.pushNamed('/orders/'),
-                              text: "Minhas Encomendas"),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: AppSizes.s8,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: SecondaryButtonWidget(
-                              onPress: () => Modular.to.pushNamed('/config'),
-                              text: "Configurações"),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: AppSizes.s8,
-                    ),
-                  ],
-                ),
-              ),
+              PrimaryButtonWidget(
+                  onPress: () {
+                    authRepository.logout();
+                    Modular.to.navigate('/');
+                  },
+                  text: "Sair")
             ],
           ),
         ),
